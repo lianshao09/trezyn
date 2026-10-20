@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Free Image Converter: PNG, JPG and WebP · Trezyn</title>
+<meta name="description" content="Convert images between PNG, JPG and WebP and resize them at the same time. Free, no sign-up, and your files never leave your device.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/convert.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="Free Image Converter: PNG, JPG and WebP · Trezyn">
+<meta property="og:description" content="Convert images between PNG, JPG and WebP and resize them at the same time. Free, no sign-up, and your files never leave your device.">
+<meta property="og:url" content="https://trezyn.site/convert.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Image Converter: PNG, JPG and WebP · Trezyn">
+<meta name="twitter:description" content="Convert images between PNG, JPG and WebP and resize them at the same time. Free, no sign-up, and your files never leave your device.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Free Image Converter: PNG, JPG and WebP", "url": "https://trezyn.site/convert.html", "description": "Convert images between PNG, JPG and WebP and resize them at the same time. Free, no sign-up, and your files never leave your device.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261020a">
+<script src="assets/theme.js?v=20261020a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.webp" alt="" width="444" height="412"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" aria-label="Main menu">
+      <a href="qr.html">QR code</a>
+      <a href="compress.html">Compress</a>
+      <a href="convert.html" aria-current="page">Convert</a>
+      <a href="remove-metadata.html">Metadata</a>
+      <a href="images-pdf.html">Images & PDF</a>
+      <a href="pdf-tools.html">PDF tools</a>
+      <a href="encrypt.html">Encrypt</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html">Privacy check</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Image converter</h1>
+    <p class="lede">Change the format of any image to PNG, JPG or WebP. Everything happens on your device and images are never uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="drop" for="files">
+        <strong>Choose images or drag them here</strong>
+        <span>JPG, PNG, WebP, AVIF, GIF or BMP, as many as you like</span>
+        <input type="file" id="files" accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/bmp" multiple>
+      </label>
+
+      <form id="settings" class="panel" aria-label="Conversion settings" novalidate>
+        <div class="settings">
+          <div class="field">
+            <label for="format">Convert to</label>
+            <select id="format">
+              <option value="image/png">PNG (lossless, keeps transparency)</option>
+              <option value="image/jpeg" selected>JPG (small, no transparency)</option>
+              <option value="image/webp">WebP (small, keeps transparency)</option>
+            </select>
+            <p class="hint" id="format-hint"></p>
+          </div>
+          <div class="field">
+            <label for="maxw">Maximum width</label>
+            <select id="maxw">
+              <option value="0" selected>As original</option>
+              <option value="3840">3840 px</option>
+              <option value="2560">2560 px</option>
+              <option value="1920">1920 px</option>
+              <option value="1280">1280 px</option>
+              <option value="800">800 px</option>
+            </select>
+            <p class="hint">Images are never enlarged, only shrunk.</p>
+          </div>
+          <div class="field" id="q-field">
+            <div class="label-row">
+              <label for="quality">Quality</label>
+              <output id="quality-out" for="quality">90%</output>
+            </div>
+            <input type="range" id="quality" min="30" max="100" step="1" value="90">
+            <p class="hint">Applies to JPG and WebP.</p>
+          </div>
+          <div class="field" id="bg-field">
+            <label for="bg-hex">Background for transparent areas</label>
+            <div class="colorfield">
+              <input type="color" id="bg" value="#ffffff" aria-label="Background color picker">
+              <input type="text" id="bg-hex" class="mono" value="#ffffff" maxlength="7" autocomplete="off" spellcheck="false">
+            </div>
+            <p class="hint">JPG cannot be transparent, so these areas are filled.</p>
+          </div>
+        </div>
+      </form>
+
+      <div class="panel" aria-live="polite">
+        <p class="summary" id="summary">No images selected yet.</p>
+        <div>
+          <button type="button" class="btn ghost small" id="dl-all" disabled>Download all</button>
+          <button type="button" class="btn ghost small" id="clear" disabled>Clear</button>
+        </div>
+        <p class="hint" id="dl-hint" hidden>Your browser may ask whether to allow multiple downloads.</p>
+      </div>
+
+      <ul class="list" id="list"></ul>
+    </div>
+<!--about-->
+    <section class="about">
+      <h2>About the image converter</h2>
+      <p>Choose PNG, JPG or WebP as the output format and drop in your images. You can set a maximum width and, for JPG, the quality. Pictures with transparency get a background color of your choice when saved as JPG, because JPG cannot store transparency.</p>
+      <p>PNG is best for graphics and screenshots, JPG for photos, and WebP for smaller files on websites.</p>
+      <p>Everything is converted in your browser, so nothing is uploaded.</p>
+      <p class="rel">Guides: <a href="guide-compress-images-without-losing-quality.html">How to Compress Images Without Visible Loss</a>.</p>
+    </section>
+    <!--/about-->
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  var EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
+  var LABEL = { 'image/jpeg': 'JPG', 'image/png': 'PNG', 'image/webp': 'WebP' };
+  function baseName(name) {
+    var i = name.lastIndexOf('.');
+    return i > 0 ? name.slice(0, i) : name;
+  }
+  function targetSize(w, h, maxW) {
+    if (!maxW || w <= maxW) return { w: w, h: h };
+    return { w: maxW, h: Math.max(1, Math.round(h * maxW / w)) };
+  }
+  function normHex(v) {
+    v = String(v).trim();
+    if (v.charAt(0) !== '#') v = '#' + v;
+    if (/^#[0-9a-f]{3}$/i.test(v)) v = '#' + v[1] + v[1] + v[2] + v[2] + v[3] + v[3];
+    return /^#[0-9a-f]{6}$/i.test(v) ? v.toLowerCase() : null;
+  }
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById(id); };
+  var input = $('files'), drop = $('drop'), list = $('list');
+  var fmt = $('format'), maxw = $('maxw'), q = $('quality'), qOut = $('quality-out');
+  var bg = $('bg'), bgHex = $('bg-hex'), bgField = $('bg-field'), qField = $('q-field');
+  var summary = $('summary'), dlAll = $('dl-all'), clear = $('clear'), dlHint = $('dl-hint'), fmtHint = $('format-hint');
+
+  var items = [];
+  var run = 0, timer = null;
+  var bgColor = '#ffffff';
+
+  function hints() {
+    qOut.textContent = q.value + '%';
+    var png = fmt.value === 'image/png';
+    qField.hidden = png;
+    bgField.hidden = fmt.value !== 'image/jpeg';
+    fmtHint.textContent = png
+      ? 'PNG files are often larger than JPG for photos.'
+      : fmt.value === 'image/jpeg' ? 'Best for photos. Works everywhere.' : 'Smallest files. Opens in all modern browsers.';
+  }
+
+  function decode(file) {
+    if (window.createImageBitmap) return createImageBitmap(file).catch(function () { return viaImage(file); });
+    return viaImage(file);
+  }
+  function viaImage(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file);
+      var im = new Image();
+      im.onload = function () { URL.revokeObjectURL(url); resolve(im); };
+      im.onerror = function () { URL.revokeObjectURL(url); reject(new Error('decode')); };
+      im.src = url;
+    });
+  }
+  function toBlob(canvas, type, quality) {
+    return new Promise(function (resolve) { canvas.toBlob(resolve, type, quality); });
+  }
+
+  async function convertOne(file, type, maxW, quality, fill) {
+    var src = await decode(file);
+    var ow = src.naturalWidth || src.width, oh = src.naturalHeight || src.height;
+    var t = targetSize(ow, oh, maxW);
+    var c = document.createElement('canvas');
+    c.width = t.w; c.height = t.h;
+    var ctx = c.getContext('2d');
+    if (type === 'image/jpeg') { ctx.fillStyle = fill; ctx.fillRect(0, 0, t.w, t.h); }
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(src, 0, 0, t.w, t.h);
+    if (src.close) src.close();
+    var blob = await toBlob(c, type, quality / 100);
+    return { blob: blob, ow: ow, oh: oh, w: t.w, h: t.h, asked: type };
+  }
+
+  function cell(node, cls, text) {
+    var el = document.createElement('div');
+    el.className = cls;
+    el.textContent = text;
+    node.appendChild(el);
+    return el;
+  }
+
+  function render(it, res, err) {
+    var li = it.node;
+    li.textContent = '';
+    var img = document.createElement('img');
+    img.alt = '';
+    img.src = it.thumb;
+    li.appendChild(img);
+    cell(li, 'name', it.file.name);
+
+    var sizes = document.createElement('div');
+    sizes.className = 'sizes';
+    li.appendChild(sizes);
+    var act = document.createElement('div');
+    act.className = 'act';
+    li.appendChild(act);
+
+    if (err || !res.blob) {
+      sizes.textContent = 'Your browser cannot read this image.';
+      it.result = null;
+      return;
+    }
+    var type = res.blob.type || res.asked;
+    var note = '';
+    if (type !== res.asked) note = ' · This browser cannot create ' + LABEL[res.asked] + ', so it made ' + (LABEL[type] || type) + ' instead.';
+    var name = baseName(it.file.name) + '.' + (EXT[type] || 'png');
+    it.result = { blob: res.blob, name: name };
+    sizes.textContent = formatBytes(it.file.size) + ' → ' + formatBytes(res.blob.size) + ' · ' + res.ow + '×' + res.oh + (res.w !== res.ow ? ' → ' + res.w + '×' + res.h : '') + note;
+
+    if (it.dlUrl) URL.revokeObjectURL(it.dlUrl);
+    it.dlUrl = URL.createObjectURL(res.blob);
+    var a = document.createElement('a');
+    a.className = 'btn small';
+    a.href = it.dlUrl;
+    a.download = name;
+    a.textContent = 'Download';
+    a.setAttribute('aria-label', 'Download ' + name);
+    act.appendChild(a);
+    it.link = a;
+  }
+
+  function updateSummary() {
+    var done = items.filter(function (i) { return i.result; });
+    var n = items.length;
+    clear.disabled = n === 0;
+    dlAll.disabled = done.length < 1;
+    dlHint.hidden = done.length < 2;
+    if (!n) { summary.textContent = 'No images selected yet.'; return; }
+    if (done.length < n && items.some(function (i) { return !i.settled; })) { summary.textContent = 'Converting ' + done.length + ' of ' + n + '…'; return; }
+    summary.textContent = done.length + ' of ' + n + (n === 1 ? ' image' : ' images') + ' converted to ' + LABEL[fmt.value] + '.';
+  }
+
+  async function recompute() {
+    var my = ++run;
+    var type = fmt.value, maxW = parseInt(maxw.value, 10), quality = parseInt(q.value, 10), fill = bgColor;
+    items.forEach(function (it) { it.result = null; it.link = null; it.settled = false; });
+    updateSummary();
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      if (my !== run) return;
+      var res = null, err = false;
+      try { res = await convertOne(it.file, type, maxW, quality, fill); } catch (e) { err = true; }
+      if (my !== run || items.indexOf(it) < 0) return;
+      render(it, res, err);
+      it.settled = true;
+      updateSummary();
+    }
+  }
+  function later() { clearTimeout(timer); timer = setTimeout(recompute, 200); }
+
+  function add(fileList) {
+    var accepted = Array.prototype.filter.call(fileList, function (f) { return /^image\/(jpeg|png|webp|avif|gif|bmp)$/.test(f.type); });
+    accepted.forEach(function (f) {
+      var li = document.createElement('li');
+      li.className = 'item';
+      var it = { file: f, node: li, thumb: URL.createObjectURL(f), result: null, dlUrl: null, settled: false };
+      items.push(it);
+      list.appendChild(li);
+      li.textContent = f.name + ' …';
+    });
+    if (fileList.length && !accepted.length) summary.textContent = 'This file type is not supported. Choose JPG, PNG, WebP, AVIF, GIF or BMP.';
+    else if (accepted.length) recompute();
+  }
+
+  input.addEventListener('change', function () { add(input.files); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); });
+  });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer) add(e.dataTransfer.files); });
+
+  [fmt, maxw].forEach(function (el) { el.addEventListener('change', function () { hints(); later(); }); });
+  q.addEventListener('input', function () { hints(); later(); });
+  bg.addEventListener('input', function () { bgColor = bg.value.toLowerCase(); bgHex.value = bgColor; bgHex.removeAttribute('aria-invalid'); later(); });
+  bgHex.addEventListener('input', function () {
+    var n = normHex(bgHex.value);
+    if (n) { bgColor = n; bg.value = n; bgHex.removeAttribute('aria-invalid'); later(); }
+    else bgHex.setAttribute('aria-invalid', 'true');
+  });
+  bgHex.addEventListener('blur', function () { var n = normHex(bgHex.value); if (n) bgHex.value = n; });
+  $('settings').addEventListener('submit', function (e) { e.preventDefault(); });
+
+  clear.addEventListener('click', function () {
+    run++;
+    items.forEach(function (it) { URL.revokeObjectURL(it.thumb); if (it.dlUrl) URL.revokeObjectURL(it.dlUrl); });
+    items = [];
+    list.textContent = '';
+    updateSummary();
+  });
+  dlAll.addEventListener('click', function () {
+    var links = items.filter(function (i) { return i.link; }).map(function (i) { return i.link; });
+    links.forEach(function (a, n) { setTimeout(function () { a.click(); }, n * 350); });
+  });
+
+  hints();
+  updateSummary();
+})();
+</script>
+</body>
+</html>

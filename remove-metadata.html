@@ -1,0 +1,1088 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Remove Metadata from Photos, PDF and Word Files · Trezyn</title>
+<meta name="description" content="See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. In your browser.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/remove-metadata.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="Remove Metadata from Photos, PDF and Word Files · Trezyn">
+<meta property="og:description" content="See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. In your browser.">
+<meta property="og:url" content="https://trezyn.site/remove-metadata.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Remove Metadata from Photos, PDF and Word Files · Trezyn">
+<meta name="twitter:description" content="See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. In your browser.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Remove Metadata from Photos, PDF and Word Files", "url": "https://trezyn.site/remove-metadata.html", "description": "See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. In your browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261020a">
+<script src="assets/theme.js?v=20261020a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.webp" alt="" width="444" height="412"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main menu">
+      <a href="qr.html">QR code</a>
+      <a href="compress.html">Compress</a>
+      <a href="convert.html">Convert</a>
+      <a href="remove-metadata.html" aria-current="page">Metadata</a>
+      <a href="images-pdf.html">Images & PDF</a>
+      <a href="pdf-tools.html">PDF tools</a>
+      <a href="encrypt.html">Encrypt</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html">Privacy check</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Remove metadata</h1>
+    <div class="tabs" role="tablist" aria-label="Remove metadata">
+      <button type="button" role="tab" class="tab" id="tab-photos" aria-controls="panel-photos" aria-selected="true" tabindex="0">Photos</button>
+      <button type="button" role="tab" class="tab" id="tab-pdf" aria-controls="panel-pdf" aria-selected="false" tabindex="-1">PDF</button>
+      <button type="button" role="tab" class="tab" id="tab-office" aria-controls="panel-office" aria-selected="false" tabindex="-1">Office</button>
+    </div>
+    <section role="tabpanel" id="panel-photos" aria-labelledby="tab-photos">
+    <p class="lede">Photos often carry hidden details: where they were taken, which phone took them, and when. See what is inside and choose what to remove. Nothing is uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="photos-drop" for="photos-files">
+        <strong>Choose photos or drag them here</strong>
+        <span>JPG, PNG and WebP, as many as you like</span>
+        <input type="file" id="photos-files" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple>
+      </label>
+
+      <div class="panel">
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="photos-keep" checked> Keep the photo upright (preserve the rotation flag only)</label>
+        </div>
+        <p class="hint">Turn this off if you want every tag gone. Some photos taken in portrait mode may then appear sideways.</p>
+        <ul class="notes">
+          <li><strong>How it works:</strong> after you add a photo, every kind of hidden data found in it is listed with a tick box. Everything is ticked, meaning it will be removed. Untick what you want to keep.</li>
+          <li><strong>Untouched:</strong> the picture itself. Pixels are not re-compressed, so quality stays identical. Colour profiles are kept. Maker notes and embedded thumbnails are always removed.</li>
+        </ul>
+      </div>
+
+      <div class="panel" id="photos-results" hidden aria-live="polite">
+        <p class="summary" id="photos-summary"></p>
+        <div>
+          <button type="button" class="btn small" id="photos-zip" hidden>Download all as ZIP</button>
+          <button type="button" class="btn ghost small" id="photos-all">Remove everything</button>
+          <button type="button" class="btn ghost small" id="photos-none">Keep everything</button>
+          <button type="button" class="btn ghost small" id="photos-clear">Clear</button>
+        </div>
+      </div>
+      <p class="status" id="photos-status" role="status" data-tone="info"></p>
+      <ul class="list" id="photos-list"></ul>
+    </div>
+  </section>
+    <section role="tabpanel" id="panel-pdf" aria-labelledby="tab-pdf" hidden>
+    <p class="lede">A PDF can quietly store the author's name, the software used, dates and more. See what is inside yours and choose what to remove. Your file is never uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="pdf-drop" for="pdf-file">
+        <strong>Choose a PDF or drag it here</strong>
+        <span>One file at a time</span>
+        <input type="file" id="pdf-file" accept="application/pdf,.pdf">
+      </label>
+      <p class="summary" id="pdf-fileinfo" aria-live="polite" hidden></p>
+      <p class="status" id="pdf-status" role="status" data-tone="info"></p>
+
+      <div class="panel" id="pdf-work" hidden>
+        <fieldset class="field">
+          <legend>Found in this PDF. Ticked items will be removed.</legend>
+          <div class="checks" id="pdf-found"></div>
+        </fieldset>
+        <div class="btnrow">
+          <button type="button" class="btn ghost small" id="pdf-all">Remove everything</button>
+          <button type="button" class="btn ghost small" id="pdf-none">Keep everything</button>
+        </div>
+        <div>
+          <button type="button" class="btn" id="pdf-save">Save clean PDF</button>
+        </div>
+        <div id="pdf-result" hidden>
+          <a class="btn" id="pdf-dl" href="#" download="">Download</a>
+        </div>
+        <p class="hint">Saving rewrites the whole file, so old edit history stored inside it is dropped too. The pages themselves, including their text and images, are not changed. Metadata inside embedded photos is not touched. Use Remove EXIF for photos first.</p>
+      </div>
+    </div>
+  </section>
+    <section role="tabpanel" id="panel-office" aria-labelledby="tab-office" hidden>
+    <p class="lede">Word, Excel and PowerPoint files record who wrote them, who saved them last, the company and the dates. See what is inside yours and choose what to remove. Your file is never uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="office-drop" for="office-file">
+        <strong>Choose a Word, Excel or PowerPoint file or drag it here</strong>
+        <span>.docx, .xlsx or .pptx, one file at a time</span>
+        <input type="file" id="office-file" accept=".docx,.xlsx,.pptx,.docm,.xlsm,.pptm">
+      </label>
+      <p class="summary" id="office-fileinfo" aria-live="polite" hidden></p>
+      <p class="status" id="office-status" role="status" data-tone="info"></p>
+
+      <div class="panel" id="office-work" hidden>
+        <fieldset class="field">
+          <legend>Found in this file. Ticked items will be removed.</legend>
+          <div class="checks" id="office-found"></div>
+        </fieldset>
+        <div class="btnrow">
+          <button type="button" class="btn ghost small" id="office-all">Remove everything</button>
+          <button type="button" class="btn ghost small" id="office-none">Keep everything</button>
+        </div>
+        <div id="office-warns" class="hint" hidden></div>
+        <div>
+          <button type="button" class="btn" id="office-save">Save clean file</button>
+        </div>
+        <div id="office-result" hidden>
+          <a class="btn" id="office-dl" href="#" download="">Download</a>
+        </div>
+        <p class="hint">The text, tables and pictures in your file are not changed. Comments, tracked changes and hidden sheets inside the document are not removed by this tool: check them in Word, Excel or PowerPoint with File, Info, Check for Issues, Inspect Document.</p>
+      </div>
+    </div>
+  </section>
+<!--about-->
+    <section class="about">
+      <h2>About metadata and privacy</h2>
+      <p>Photos from phones and cameras often carry hidden metadata called EXIF. It can include the exact GPS location where the photo was taken, the device model, the date and time, and the software used. If you share the original file, others can read it.</p>
+      <p>This tool lists what each photo contains and lets you pick what to remove. The picture itself is not re-compressed, so quality does not change. A small rotation flag can be kept so portrait photos are not shown sideways.</p>
+      <p>Many social networks remove metadata when you upload, but not all of them, and not when you send a file directly. Removing it yourself is the safe option.</p>
+      <p>The PDF tab shows the title, author, software and dates stored in a PDF. The Office tab does the same for .docx, .xlsx and .pptx files, including the last person who saved the file and the company name. Comments and tracked changes are reported but not removed.</p>
+      <p>Your files are processed in your browser and are never uploaded.</p>
+      <p class="rel">Guides: <a href="guide-remove-location-from-photo.html">How to Remove the Location from a Photo</a>, <a href="guide-remove-metadata-from-pdf.html">How to Remove Metadata from a PDF</a>, <a href="guide-remove-metadata-from-word-excel-powerpoint.html">How to Remove Metadata from Word, Excel and PowerPoint Files</a>.</p>
+    </section>
+    <!--/about-->
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+
+<script src="assets/pdf-lib.min.js"></script>
+<script src="assets/jszip.min.js"></script>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function show(t, focus) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) t.focus();
+    try { history.replaceState(null, '', '#' + t.id.slice(4)); } catch (e) {}
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(t, false); });
+    t.addEventListener('keydown', function (e) {
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+      if (j < 0) return;
+      e.preventDefault(); show(tabs[(j + tabs.length) % tabs.length], true);
+    });
+  });
+  var want = location.hash.slice(1), hit = tabs.filter(function (t) { return t.id === 'tab-' + want; })[0];
+  if (hit) show(hit, false);
+})();
+</script>
+<script>
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('[id$="fileinfo"]'), function (el) {
+    var drop = el.parentNode.querySelector('.drop');
+    if (!drop) return;
+    var strong = drop.querySelector('strong'), sub = drop.querySelector('span');
+    var o1 = strong.textContent, o2 = sub ? sub.textContent : '';
+    function sync() {
+      var on = !el.hidden && el.textContent;
+      drop.classList.toggle('has-file', !!on);
+      strong.textContent = on ? '\u2713 ' + el.textContent : o1;
+      if (sub) sub.textContent = on ? 'Click to choose a different file' : o2;
+    }
+    new MutationObserver(sync).observe(el, { attributes: true, childList: true, characterData: true, subtree: true });
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function splitName(name) {
+    var i = name.lastIndexOf('.');
+    return (i > 0 ? name.slice(0, i) : name).replace(/[\\/:*?"<>|\u0000-\u001f]/g, '').trim() || 'photo';
+  }
+  function ascii(u8, start, end) {
+    var s = '';
+    for (var i = start; i < end && i < u8.length; i++) s += String.fromCharCode(u8[i]);
+    return s;
+  }
+  function startsWith(u8, at, text) { return ascii(u8, at, at + text.length) === text; }
+
+  var crcTable = null;
+  function crc32(u8) {
+    if (!crcTable) {
+      crcTable = new Uint32Array(256);
+      for (var n = 0; n < 256; n++) {
+        var c = n;
+        for (var k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+        crcTable[n] = c >>> 0;
+      }
+    }
+    var crc = 0xFFFFFFFF;
+    for (var i = 0; i < u8.length; i++) crc = crcTable[(crc ^ u8[i]) & 0xFF] ^ (crc >>> 8);
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  }
+  function concat(parts) {
+    var total = 0, i;
+    for (i = 0; i < parts.length; i++) total += parts[i].length;
+    var out = new Uint8Array(total), pos = 0;
+    for (i = 0; i < parts.length; i++) { out.set(parts[i], pos); pos += parts[i].length; }
+    return out;
+  }
+
+  /* ---------- EXIF reading ---------- */
+  var SIZES = { 1: 1, 2: 1, 3: 2, 4: 4, 5: 8, 6: 1, 7: 1, 8: 2, 9: 4, 10: 8, 11: 4, 12: 8 };
+
+  function readEntries(u8, start, le, off) {
+    var dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength), out = [], p = start + off;
+    if (off < 8 || p + 2 > u8.length) return out;
+    var n = dv.getUint16(p, le); p += 2;
+    for (var i = 0; i < n && p + 12 <= u8.length; i++, p += 12) {
+      var tag = dv.getUint16(p, le), type = dv.getUint16(p + 2, le), count = dv.getUint32(p + 4, le);
+      var size = (SIZES[type] || 1) * count;
+      if (size > u8.length) continue;
+      var at = size <= 4 ? p + 8 : start + dv.getUint32(p + 8, le);
+      if (at + size > u8.length) continue;
+      out.push({ tag: tag, type: type, count: count, raw: u8.slice(at, at + size) });
+    }
+    return out;
+  }
+
+  function parseExif(u8, start) {
+    var res = { le: true, ifd0: [], exif: [], gps: [], ok: false };
+    try {
+      var sig = ascii(u8, start, start + 2), le;
+      if (sig === 'II') le = true; else if (sig === 'MM') le = false; else return res;
+      var dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+      if (dv.getUint16(start + 2, le) !== 42) return res;
+      res.le = le;
+      var all = readEntries(u8, start, le, dv.getUint32(start + 4, le));
+      var ptr = function (tag) {
+        for (var i = 0; i < all.length; i++) {
+          if (all[i].tag === tag && all[i].raw.length >= 4) return new DataView(all[i].raw.buffer).getUint32(0, le);
+        }
+        return -1;
+      };
+      res.ifd0 = all.filter(function (e) { return e.tag !== 0x8769 && e.tag !== 0x8825; });
+      var eo = ptr(0x8769), go = ptr(0x8825);
+      if (eo > 0) res.exif = readEntries(u8, start, le, eo).filter(function (e) { return e.tag !== 0xA005; });
+      if (go > 0) res.gps = readEntries(u8, start, le, go);
+      res.ok = true;
+    } catch (e) { /* unreadable EXIF is still removed */ }
+    return res;
+  }
+
+  var CAM0 = { 0x010F: 1, 0x0110: 1 }, CAMX = { 0xA431: 1, 0xA432: 1, 0xA433: 1, 0xA434: 1, 0xA435: 1 };
+  var DATEX = { 0x9003: 1, 0x9004: 1, 0x9010: 1, 0x9011: 1, 0x9012: 1, 0x9290: 1, 0x9291: 1, 0x9292: 1 };
+  var AUTH0 = { 0x010E: 1, 0x013B: 1, 0x8298: 1 };
+  var BASIC0 = { 0x011A: 1, 0x011B: 1, 0x0128: 1, 0x0213: 1 };
+  var BASICX = { 0x9000: 1, 0x9101: 1, 0xA000: 1, 0xA001: 1, 0xA002: 1, 0xA003: 1 };
+
+  function catOf(where, tag) {
+    if (where === 'gps') return 'gps';
+    if (where === 'ifd0') {
+      if (tag === 0x0112) return 'orient';
+      if (CAM0[tag]) return 'camera';
+      if (tag === 0x0132) return 'date';
+      if (tag === 0x0131) return 'software';
+      if (AUTH0[tag]) return 'author';
+      if (BASIC0[tag]) return 'basic';
+      return 'settings';
+    }
+    if (CAMX[tag]) return 'camera';
+    if (DATEX[tag]) return 'date';
+    if (tag === 0x9286) return 'author';
+    if (tag === 0x927C) return 'maker';
+    if (BASICX[tag]) return 'basic';
+    return 'settings';
+  }
+
+  function dvOf(raw) { return new DataView(raw.buffer, raw.byteOffset, raw.byteLength); }
+  function findEntry(list, tag) { for (var i = 0; i < list.length; i++) if (list[i].tag === tag) return list[i]; return null; }
+  function strOf(list, tag) {
+    var e = findEntry(list, tag);
+    return e && e.type === 2 ? ascii(e.raw, 0, e.raw.length).replace(/\u0000+$/, '').trim() : '';
+  }
+  function orientationOf(res) {
+    var e = findEntry(res.ifd0, 0x0112);
+    if (e && e.type === 3 && e.raw.length >= 2) {
+      var v = dvOf(e.raw).getUint16(0, res.le);
+      if (v >= 1 && v <= 8) return v;
+    }
+    return 1;
+  }
+  function gpsText(res) {
+    var la = findEntry(res.gps, 2), lo = findEntry(res.gps, 4);
+    if (la && lo && la.type === 5 && lo.type === 5 && la.count >= 3 && lo.count >= 3) {
+      var conv = function (e) {
+        var d = dvOf(e.raw), v = 0, div = 1;
+        for (var i = 0; i < 3; i++) { var den = d.getUint32(i * 8 + 4, res.le); v += den ? d.getUint32(i * 8, res.le) / den / div : 0; div *= 60; }
+        return v;
+      };
+      var lat = conv(la), lon = conv(lo);
+      if (strOf(res.gps, 1).charAt(0) === 'S') lat = -lat;
+      if (strOf(res.gps, 3).charAt(0) === 'W') lon = -lon;
+      if (isFinite(lat) && isFinite(lon) && (lat !== 0 || lon !== 0)) return 'GPS location (' + lat.toFixed(5) + ', ' + lon.toFixed(5) + ')';
+    }
+    return 'GPS location';
+  }
+
+  function emptyInfo() { return { cats: {}, orientation: 1, xmpGps: false }; }
+
+  /* Fill info.cats with a short description for each kind of data found in an EXIF block. */
+  function describeExif(info, res) {
+    info.orientation = Math.max(info.orientation, orientationOf(res));
+    var counts = {};
+    [['ifd0', res.ifd0], ['exif', res.exif], ['gps', res.gps]].forEach(function (g) {
+      g[1].forEach(function (e) { var c = catOf(g[0], e.tag); counts[c] = (counts[c] || 0) + 1; });
+    });
+    if (counts.gps) info.cats.gps = gpsText(res);
+    if (counts.camera) {
+      var cam = (strOf(res.ifd0, 0x010F) + ' ' + strOf(res.ifd0, 0x0110)).trim();
+      info.cats.camera = cam ? 'Camera: ' + cam : 'Lens or camera serial details';
+    }
+    if (counts.date) {
+      var d = strOf(res.exif, 0x9003) || strOf(res.ifd0, 0x0132) || strOf(res.exif, 0x9004);
+      info.cats.date = d ? 'Date taken: ' + d : 'Date and time details';
+    }
+    if (counts.software) info.cats.software = 'Software: ' + (strOf(res.ifd0, 0x0131) || 'unknown');
+    if (counts.author) info.cats.author = 'Author, description or copyright';
+    if (counts.settings) info.cats.settings = 'Camera settings (' + plural(counts.settings, 'tag', 'tags') + ': exposure, ISO, flash and similar)';
+  }
+
+  /* The entries that survive for a given selection (sel[key] === true means remove that kind). */
+  function keptEntries(res, opts) {
+    var sel = opts.sel || {}, out = { ifd0: [], exif: [], gps: [] }, basics = [], any = false;
+    [['ifd0', res.ifd0], ['exif', res.exif], ['gps', res.gps]].forEach(function (g) {
+      g[1].forEach(function (e) {
+        var c = catOf(g[0], e.tag);
+        if (c === 'orient' || c === 'maker') return;
+        if (c === 'basic') { basics.push([g[0], e]); return; }
+        if (!sel[c]) { out[g[0]].push(e); any = true; }
+      });
+    });
+    if (any) basics.forEach(function (b) { out[b[0]].push(b[1]); });
+    var o = orientationOf(res);
+    if (opts.keepOrient && o > 1) {
+      out.ifd0.push({ tag: 0x0112, type: 3, count: 1, raw: new Uint8Array(res.le ? [o, 0] : [0, o]) });
+    }
+    return out;
+  }
+
+  /* Build a fresh TIFF block from entries, copying value bytes as they are. */
+  function buildTiff(le, parts) {
+    var e0 = parts.ifd0.slice(), ex = parts.exif.slice(), gp = parts.gps.slice();
+    var ptrE = { tag: 0x8769, type: 4, count: 1, raw: new Uint8Array(4), ptr: true };
+    var ptrG = { tag: 0x8825, type: 4, count: 1, raw: new Uint8Array(4), ptr: true };
+    if (ex.length) e0.push(ptrE);
+    if (gp.length) e0.push(ptrG);
+    if (!e0.length) return null;
+    var byTag = function (a, b) { return a.tag - b.tag; };
+    e0.sort(byTag); ex.sort(byTag); gp.sort(byTag);
+    var ifdSize = function (n) { return 2 + 12 * n + 4; };
+    var even = function (n) { return n + (n & 1); };
+    var offE = 8 + ifdSize(e0.length);
+    var offG = offE + (ex.length ? ifdSize(ex.length) : 0);
+    var dataStart = offG + (gp.length ? ifdSize(gp.length) : 0);
+    var total = dataStart;
+    [e0, ex, gp].forEach(function (l) { l.forEach(function (e) { if (!e.ptr && e.raw.length > 4) total += even(e.raw.length); }); });
+    var buf = new Uint8Array(total), dv = new DataView(buf.buffer), cursor = dataStart;
+    buf.set(le ? [0x49, 0x49, 0x2A, 0x00] : [0x4D, 0x4D, 0x00, 0x2A], 0);
+    dv.setUint32(4, 8, le);
+    var put = function (list, off) {
+      dv.setUint16(off, list.length, le);
+      list.forEach(function (e, i) {
+        var p = off + 2 + 12 * i;
+        dv.setUint16(p, e.tag, le); dv.setUint16(p + 2, e.type, le); dv.setUint32(p + 4, e.count, le);
+        if (e === ptrE) dv.setUint32(p + 8, offE, le);
+        else if (e === ptrG) dv.setUint32(p + 8, offG, le);
+        else if (e.raw.length <= 4) buf.set(e.raw, p + 8);
+        else { dv.setUint32(p + 8, cursor, le); buf.set(e.raw, cursor); cursor += even(e.raw.length); }
+      });
+    };
+    put(e0, 8);
+    if (ex.length) put(ex, offE);
+    if (gp.length) put(gp, offG);
+    return buf;
+  }
+  function tiffFor(res, opts) { return buildTiff(res.le, keptEntries(res, opts)); }
+
+  function xmpHasGps(u8, start, end) {
+    return /GPSLatitude|GPSLongitude/.test(ascii(u8, start, Math.min(end, start + 200000)));
+  }
+  function xmpNote(info, hasGps) {
+    info.cats.xmp = hasGps ? 'XMP data (includes a location)' : 'XMP data (editing and descriptive tags)';
+    if (hasGps) info.xmpGps = true;
+  }
+  function keepXmp(info, sel) { return !sel.xmp && !(sel.gps && info.xmpGps); }
+
+  /* ---------- JPEG ---------- */
+  function stripJpeg(u8, opts) {
+    if (u8.length < 4 || u8[0] !== 0xFF || u8[1] !== 0xD8) throw new Error('not a JPEG');
+    var sel = opts.sel || {}, info = emptyInfo(), segs = [u8.subarray(0, 2)], i = 2, sawEOI = false, exifDone = false;
+    while (i + 1 < u8.length) {
+      if (u8[i] !== 0xFF) throw new Error('damaged JPEG');
+      var m = u8[i + 1];
+      if (m === 0xFF) { i++; continue; }
+      if (m === 0xD9) { segs.push(u8.subarray(i, i + 2)); sawEOI = true; break; }
+      if (m === 0x01 || (m >= 0xD0 && m <= 0xD8)) { segs.push(u8.subarray(i, i + 2)); i += 2; continue; }
+      if (i + 4 > u8.length) throw new Error('damaged JPEG');
+      var len = (u8[i + 2] << 8) | u8[i + 3];
+      var end = i + 2 + len;
+      if (len < 2 || end > u8.length) throw new Error('damaged JPEG');
+      if (m === 0xDA) {
+        var j = end;
+        while (j < u8.length) {
+          if (u8[j] === 0xFF) {
+            var n = u8[j + 1];
+            if (n === 0x00 || (n >= 0xD0 && n <= 0xD7)) { j += 2; continue; }
+            if (n === 0xFF) { j++; continue; }
+            break;
+          }
+          j++;
+        }
+        segs.push(u8.subarray(i, j)); i = j; continue;
+      }
+      var seg = u8.subarray(i, end);
+      if (m === 0xE0) {
+        if (startsWith(u8, i + 4, 'JFIF\u0000')) {
+          if (seg.length > 18) {
+            var cut = new Uint8Array(seg.subarray(0, 18));
+            cut[2] = 0; cut[3] = 16; cut[16] = 0; cut[17] = 0;
+            seg = cut;
+          }
+          segs.push(seg);
+        }
+      } else if (m === 0xE1) {
+        if (startsWith(u8, i + 4, 'Exif\u0000')) {
+          if (!exifDone) {
+            exifDone = true;
+            var res = parseExif(u8, i + 10);
+            describeExif(info, res);
+            var tiff = tiffFor(res, opts);
+            if (tiff) {
+              var l = 8 + tiff.length;
+              segs.push(concat([new Uint8Array([0xFF, 0xE1, l >> 8, l & 255, 0x45, 0x78, 0x69, 0x66, 0x00, 0x00]), tiff]));
+            }
+          }
+        } else if (startsWith(u8, i + 4, 'http://ns.adobe.com/xap/1.0/')) {
+          xmpNote(info, xmpHasGps(u8, i + 4, end));
+          if (keepXmp(info, sel)) segs.push(seg);
+        }
+      } else if (m === 0xE2) {
+        if (startsWith(u8, i + 4, 'ICC_PROFILE\u0000')) segs.push(seg);
+      } else if (m === 0xEE) {
+        if (startsWith(u8, i + 4, 'Adobe')) segs.push(seg);
+      } else if (m === 0xED) {
+        info.cats.iptc = 'IPTC data (captions, keywords, credits)';
+        if (!sel.iptc) segs.push(seg);
+      } else if (m === 0xFE) {
+        info.cats.other = 'Comments and other tags';
+        if (!sel.other) segs.push(seg);
+      } else if ((m >= 0xE3 && m <= 0xEF)) {
+        /* maker notes, previews and other vendor blocks are always dropped */
+      } else {
+        segs.push(seg);
+      }
+      i = end;
+    }
+    if (!sawEOI) segs.push(new Uint8Array([0xFF, 0xD9]));
+    return { bytes: concat(segs), info: info };
+  }
+
+  /* ---------- PNG ---------- */
+  var PNG_KEEP = { IHDR: 1, PLTE: 1, IDAT: 1, IEND: 1, tRNS: 1, cHRM: 1, gAMA: 1, sRGB: 1, iCCP: 1, sBIT: 1, bKGD: 1, hIST: 1, pHYs: 1, sPLT: 1, acTL: 1, fcTL: 1, fdAT: 1, cICP: 1, mDCV: 1, cLLI: 1 };
+  function pngChunk(type, data) {
+    var chunk = new Uint8Array(12 + data.length), cdv = new DataView(chunk.buffer);
+    cdv.setUint32(0, data.length);
+    for (var k = 0; k < 4; k++) chunk[4 + k] = type.charCodeAt(k);
+    chunk.set(data, 8);
+    cdv.setUint32(8 + data.length, crc32(chunk.subarray(4, 8 + data.length)));
+    return chunk;
+  }
+  function stripPng(u8, opts) {
+    var sig = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
+    for (var s = 0; s < 8; s++) if (u8[s] !== sig[s]) throw new Error('not a PNG');
+    var sel = opts.sel || {}, info = emptyInfo(), parts = [u8.subarray(0, 8)], i = 8, sawIdat = false;
+    var dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+    while (i + 12 <= u8.length) {
+      var len = dv.getUint32(i), type = ascii(u8, i + 4, i + 8), end = i + 12 + len;
+      if (end > u8.length) throw new Error('damaged PNG');
+      var chunk = u8.subarray(i, end);
+      if (PNG_KEEP[type]) {
+        if (type === 'IDAT') sawIdat = true;
+        parts.push(chunk);
+      } else if (type === 'eXIf') {
+        var res = parseExif(u8, i + 8);
+        describeExif(info, res);
+        var tiff = tiffFor(res, opts);
+        if (tiff) parts.push(pngChunk('eXIf', tiff));
+      } else if (type === 'iTXt' || type === 'tEXt' || type === 'zTXt') {
+        var kw = ascii(u8, i + 8, i + 8 + Math.min(len, 40));
+        if (/^XML:com\.adobe\.xmp/.test(kw)) {
+          xmpNote(info, xmpHasGps(u8, i + 8, end));
+          if (keepXmp(info, sel)) parts.push(chunk);
+        } else {
+          info.cats.other = /^Raw profile type/.test(kw) ? 'Text notes (may hold embedded EXIF) and other tags' : 'Text notes and other tags';
+          if (!sel.other) parts.push(chunk);
+        }
+      } else if (type.charAt(0) < 'a') {
+        parts.push(chunk);       /* unknown critical chunk: must stay */
+      } else {
+        info.cats.other = info.cats.other || 'Text notes and other tags';
+        if (!sel.other) parts.push(chunk);
+      }
+      i = end;
+    }
+    if (!sawIdat) throw new Error('damaged PNG');
+    return { bytes: concat(parts), info: info };
+  }
+
+  /* ---------- WebP ---------- */
+  function stripWebp(u8, opts) {
+    if (!(startsWith(u8, 0, 'RIFF') && startsWith(u8, 8, 'WEBP'))) throw new Error('not a WebP');
+    var sel = opts.sel || {}, info = emptyInfo(), chunks = [], i = 12, vp8x = -1, hasExif = false, hasXmp = false;
+    var dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+    while (i + 8 <= u8.length) {
+      var type = ascii(u8, i, i + 4), len = dv.getUint32(i + 4, true), dataEnd = i + 8 + len, padded = dataEnd + (len & 1);
+      if (dataEnd > u8.length) throw new Error('damaged WebP');
+      var piece = u8.subarray(i, Math.min(padded, u8.length));
+      if (type === 'EXIF') {
+        var res = parseExif(u8, startsWith(u8, i + 8, 'Exif\u0000\u0000') ? i + 14 : i + 8);
+        describeExif(info, res);
+        var tiff = tiffFor(res, opts);
+        if (tiff) {
+          var hdr = new Uint8Array(8);
+          hdr.set([0x45, 0x58, 0x49, 0x46], 0);
+          new DataView(hdr.buffer).setUint32(4, tiff.length, true);
+          chunks.push(concat([hdr, tiff, new Uint8Array(tiff.length & 1)]));
+          hasExif = true;
+        }
+      } else if (type === 'XMP ') {
+        xmpNote(info, xmpHasGps(u8, i + 8, dataEnd));
+        if (keepXmp(info, sel)) { chunks.push(piece); hasXmp = true; }
+      } else {
+        if (type === 'VP8X') { vp8x = chunks.length; piece = new Uint8Array(piece); }
+        chunks.push(piece);
+      }
+      i = padded;
+    }
+    if (vp8x >= 0) {
+      var flags = chunks[vp8x][8] & ~0x0C;
+      if (hasExif) flags |= 0x08;
+      if (hasXmp) flags |= 0x04;
+      chunks[vp8x][8] = flags;
+    }
+    var body = concat(chunks), out = new Uint8Array(12 + body.length);
+    out.set(u8.subarray(0, 12), 0);
+    out.set(body, 12);
+    new DataView(out.buffer).setUint32(4, out.length - 8, true);
+    return { bytes: out, info: info };
+  }
+
+  function sniff(u8) {
+    if (u8[0] === 0xFF && u8[1] === 0xD8) return 'jpeg';
+    if (u8[0] === 0x89 && u8[1] === 0x50 && u8[2] === 0x4E && u8[3] === 0x47) return 'png';
+    if (startsWith(u8, 0, 'RIFF') && startsWith(u8, 8, 'WEBP')) return 'webp';
+    return null;
+  }
+  var KINDS = { jpeg: { mime: 'image/jpeg', ext: 'jpg', run: stripJpeg }, png: { mime: 'image/png', ext: 'png', run: stripPng }, webp: { mime: 'image/webp', ext: 'webp', run: stripWebp } };
+  var ORDER = ['gps', 'camera', 'date', 'software', 'author', 'settings', 'xmp', 'iptc', 'other'];
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById('photos-' + id); };
+  var input = $('files'), drop = $('drop'), keep = $('keep'), list = $('list'), statusEl = $('status');
+  var results = $('results'), summary = $('summary'), zipBtn = $('zip'), clearBtn = $('clear'), allBtn = $('all'), noneBtn = $('none');
+
+  var items = [];   /* { src, kind, bytes, info, sel, outName, blob, url, ui } */
+  var used = {};
+
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+
+  function regenerate(it) {
+    var k = KINDS[it.kind];
+    var res = k.run(it.bytes, { keepOrient: keep.checked, sel: it.sel });
+    if (it.url) URL.revokeObjectURL(it.url);
+    it.blob = new Blob([res.bytes], { type: k.mime });
+    it.url = URL.createObjectURL(it.blob);
+    it.ui.img.src = it.url;
+    it.ui.a.href = it.url;
+    it.ui.size.textContent = formatBytes(it.bytes.length) + ' → ' + formatBytes(it.blob.size);
+  }
+
+  function addRow(it) {
+    var li = document.createElement('li');
+    li.className = 'item';
+    var img = document.createElement('img'); img.alt = ''; li.appendChild(img);
+    var nm = document.createElement('div'); nm.className = 'name'; nm.textContent = it.src; li.appendChild(nm);
+    var found = document.createElement('div'); found.className = 'found';
+    found.setAttribute('role', 'group'); found.setAttribute('aria-label', 'Hidden data found in ' + it.src);
+    var keys = ORDER.filter(function (k) { return it.info.cats[k]; });
+    it.ui = { img: img, inputs: {} };
+    if (!keys.length) {
+      var none = document.createElement('div'); none.className = 'lbl'; none.textContent = 'No hidden metadata found'; found.appendChild(none);
+    } else {
+      var lead = document.createElement('div'); lead.className = 'lbl'; lead.textContent = 'Found in this photo. Ticked items will be removed:'; found.appendChild(lead);
+      keys.forEach(function (k) {
+        var lab = document.createElement('label'); lab.className = 'check';
+        var cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!it.sel[k];
+        cb.addEventListener('change', function () { it.sel[k] = cb.checked; regenerate(it); });
+        lab.appendChild(cb);
+        lab.appendChild(document.createTextNode(it.info.cats[k]));
+        found.appendChild(lab);
+        it.ui.inputs[k] = cb;
+      });
+    }
+    var size = document.createElement('div'); size.className = 'sizes'; found.appendChild(size);
+    it.ui.size = size;
+    li.appendChild(found);
+    var act = document.createElement('div'); act.className = 'act';
+    var a = document.createElement('a');
+    a.className = 'btn small'; a.textContent = 'Download'; a.download = it.outName;
+    a.setAttribute('aria-label', 'Download cleaned ' + it.src);
+    act.appendChild(a); li.appendChild(act);
+    it.ui.a = a;
+    list.appendChild(li);
+    regenerate(it);
+  }
+
+  function updateSummary() {
+    results.hidden = items.length === 0;
+    zipBtn.hidden = items.length < 2;
+    var withData = items.filter(function (it) { return Object.keys(it.info.cats).length; }).length;
+    var withGps = items.filter(function (it) { return it.info.cats.gps; }).length;
+    summary.textContent = plural(items.length, 'photo', 'photos') + ' · ' + withData + ' with hidden data · ' + withGps + ' with GPS location';
+  }
+
+  async function add(fileList) {
+    var files = Array.prototype.slice.call(fileList || []), skipped = [];
+    if (!files.length) return;
+    setStatus('Reading…', 'info');
+    for (var i = 0; i < files.length; i++) {
+      var bytes;
+      try { bytes = new Uint8Array(await files[i].arrayBuffer()); } catch (e) { skipped.push(files[i].name); continue; }
+      var kind = sniff(bytes), res;
+      if (!kind) { skipped.push(files[i].name); continue; }
+      try { res = KINDS[kind].run(bytes, { keepOrient: keep.checked, sel: {} }); } catch (e) { skipped.push(files[i].name); continue; }
+      var k = KINDS[kind], base = splitName(files[i].name) + '-clean', name = base + '.' + k.ext, n = 2;
+      while (used[name]) name = base + '-' + (n++) + '.' + k.ext;
+      used[name] = 1;
+      var sel = {};
+      Object.keys(res.info.cats).forEach(function (c) { sel[c] = true; });
+      var it = { src: files[i].name, kind: kind, bytes: bytes, info: res.info, sel: sel, outName: name, blob: null, url: null, ui: null };
+      items.push(it); addRow(it);
+    }
+    updateSummary();
+    if (skipped.length) setStatus('Skipped ' + skipped.length + ': ' + skipped.join(', ') + '. Only valid JPG, PNG and WebP photos are supported. For other formats, convert them first with Convert.', 'warn');
+    else setStatus('', 'info');
+  }
+
+  function setAll(value) {
+    items.forEach(function (it) {
+      Object.keys(it.ui.inputs).forEach(function (k) { it.sel[k] = value; it.ui.inputs[k].checked = value; });
+      regenerate(it);
+    });
+  }
+
+  input.addEventListener('change', function () { add(input.files); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer) add(e.dataTransfer.files); });
+  keep.addEventListener('change', function () { items.forEach(regenerate); });
+  allBtn.addEventListener('click', function () { setAll(true); });
+  noneBtn.addEventListener('click', function () { setAll(false); });
+  clearBtn.addEventListener('click', function () {
+    items.forEach(function (it) { if (it.url) URL.revokeObjectURL(it.url); });
+    items = []; used = {}; list.textContent = ''; results.hidden = true; setStatus('', 'info');
+  });
+
+  zipBtn.addEventListener('click', async function () {
+    if (!items.length) return;
+    zipBtn.disabled = true;
+    var zip = new JSZip();
+    items.forEach(function (it) { zip.file(it.outName, it.blob); });
+    var blob = await zip.generateAsync({ type: 'blob', compression: 'STORE' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'clean-photos.zip';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+    zipBtn.disabled = false;
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function baseName(name) {
+    var i = name.lastIndexOf('.');
+    return (i > 0 ? name.slice(0, i) : name).replace(/[\\/:*?"<>|\u0000-\u001f]/g, '').trim() || 'document';
+  }
+  /* "D:20240501120000+03'00'" -> "2024-05-01 12:00" */
+  function prettyDate(s) {
+    var m = /^D:(\d{4})(\d{2})?(\d{2})?(\d{2})?(\d{2})?/.exec(s);
+    if (!m) return s;
+    return m[1] + '-' + (m[2] || '01') + '-' + (m[3] || '01') + (m[4] ? ' ' + m[4] + ':' + (m[5] || '00') : '');
+  }
+  function clip(s) { s = String(s).replace(/\s+/g, ' ').trim(); return s.length > 90 ? s.slice(0, 87) + '…' : s; }
+  var GROUPS = [
+    { key: 'title', label: 'Title', names: ['Title'] },
+    { key: 'author', label: 'Author', names: ['Author'] },
+    { key: 'subject', label: 'Subject', names: ['Subject'] },
+    { key: 'keywords', label: 'Keywords', names: ['Keywords'] },
+    { key: 'software', label: 'Software', names: ['Creator', 'Producer'] },
+    { key: 'dates', label: 'Dates', names: ['CreationDate', 'ModDate'] }
+  ];
+  /* values: { Name: text }  ->  [{ key, label, detail, names }] */
+  function summarize(values, hasXmp) {
+    var out = [], known = {};
+    GROUPS.forEach(function (g) {
+      var parts = [];
+      g.names.forEach(function (n) {
+        known[n] = true;
+        if (values[n] !== undefined && String(values[n]).trim() !== '') {
+          var v = /Date$/.test(n) ? prettyDate(values[n]) : clip(values[n]);
+          parts.push(g.names.length > 1 ? n + ': ' + v : v);
+        }
+      });
+      if (parts.length) out.push({ key: g.key, label: g.label, detail: parts.join(' · '), names: g.names });
+    });
+    var other = Object.keys(values).filter(function (n) { return !known[n]; });
+    if (other.length) out.push({ key: 'custom', label: 'Other fields', detail: other.join(', '), names: other });
+    if (hasXmp) out.push({ key: 'xmp', label: 'XMP metadata block', detail: 'extended data, often repeats the title, author and dates', names: [] });
+    return out;
+  }
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById('pdf-' + id); };
+  var input = $('file'), drop = $('drop'), info = $('fileinfo'), statusEl = $('status'), work = $('work');
+  var found = $('found'), save = $('save'), result = $('result'), dl = $('dl');
+
+  var doc = null;       /* { name, bytes, size } */
+  var items = [];       /* summarize() result */
+  var dlUrl = null, busy = false;
+
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+  function clearResult() { result.hidden = true; if (dlUrl) { URL.revokeObjectURL(dlUrl); dlUrl = null; } }
+
+  function infoDict(pdf) {
+    try {
+      var ref = pdf.context.trailerInfo.Info;
+      if (!ref) return null;
+      var d = pdf.context.lookup(ref);
+      return d && typeof d.entries === 'function' ? d : null;
+    } catch (e) { return null; }
+  }
+  function textOf(pdf, obj) {
+    var v = pdf.context.lookup(obj);
+    if (v && typeof v.decodeText === 'function') return v.decodeText();
+    if (v && typeof v.asString === 'function') return v.asString();
+    return v ? String(v) : '';
+  }
+  function nameOf(k) { return k.asString().replace(/^\//, ''); }
+
+  async function inspect(bytes) {
+    var pdf = await PDFLib.PDFDocument.load(bytes, { updateMetadata: false });
+    var d = infoDict(pdf), values = {};
+    if (d) d.entries().forEach(function (e) { values[nameOf(e[0])] = textOf(pdf, e[1]); });
+    var hasXmp = !!pdf.catalog.get(PDFLib.PDFName.of('Metadata'));
+    return summarize(values, hasXmp);
+  }
+
+  function renderItems() {
+    found.textContent = '';
+    if (!items.length) {
+      var p = document.createElement('p'); p.className = 'hint'; p.textContent = 'No metadata found in this PDF.';
+      found.appendChild(p);
+    }
+    items.forEach(function (it) {
+      var label = document.createElement('label'); label.className = 'check';
+      var cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = true; cb.setAttribute('data-key', it.key);
+      cb.addEventListener('change', clearResult);
+      var span = document.createElement('span');
+      var st = document.createElement('strong'); st.textContent = it.label + ': ';
+      span.appendChild(st); span.appendChild(document.createTextNode(it.detail));
+      label.appendChild(cb); label.appendChild(span);
+      found.appendChild(label);
+    });
+  }
+  function setAll(on) { Array.prototype.forEach.call(found.querySelectorAll('input'), function (c) { c.checked = on; }); clearResult(); }
+
+  async function load(file) {
+    clearResult(); setStatus('', 'info'); work.hidden = true; info.hidden = true; doc = null; items = [];
+    if (!file) return;
+    if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) { setStatus('Only PDF files can be used here.', 'err'); return; }
+    try {
+      var bytes = await file.arrayBuffer();
+      items = await inspect(bytes);
+      doc = { name: file.name, bytes: bytes, size: file.size };
+      info.textContent = file.name + ' · ' + formatBytes(file.size);
+      info.hidden = false; work.hidden = false;
+      renderItems();
+    } catch (e) {
+      var msg = String(e && e.message || e);
+      setStatus(/encrypt/i.test(msg) ? 'This PDF is password-protected. Remove the password first.' : 'This file could not be read as a PDF.', 'err');
+    }
+  }
+
+  input.addEventListener('change', function () { load(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) load(e.dataTransfer.files[0]); });
+  $('all').addEventListener('click', function () { setAll(true); });
+  $('none').addEventListener('click', function () { setAll(false); });
+
+  save.addEventListener('click', async function () {
+    if (!doc || busy) return;
+    busy = true; save.disabled = true; clearResult(); setStatus('Working…', 'info');
+    try {
+      var chosen = {};
+      Array.prototype.forEach.call(found.querySelectorAll('input'), function (c) { if (c.checked) chosen[c.getAttribute('data-key')] = true; });
+      var pdf = await PDFLib.PDFDocument.load(doc.bytes, { updateMetadata: false });
+      var d = infoDict(pdf);
+      items.forEach(function (it) {
+        if (!chosen[it.key]) return;
+        if (it.key === 'xmp') pdf.catalog.delete(PDFLib.PDFName.of('Metadata'));
+        else if (d) it.names.forEach(function (n) { d.delete(PDFLib.PDFName.of(n)); });
+      });
+      var blob = new Blob([await pdf.save()], { type: 'application/pdf' });
+      var name = baseName(doc.name) + '-clean.pdf';
+      dlUrl = URL.createObjectURL(blob);
+      dl.href = dlUrl; dl.setAttribute('download', name);
+      dl.textContent = 'Download ' + name + ' (' + formatBytes(blob.size) + ')';
+      result.hidden = false; setStatus('Done.', 'ok');
+    } catch (e) {
+      setStatus('Saving failed. The PDF may be damaged.', 'err');
+    }
+    busy = false; save.disabled = false;
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  function baseName(name) {
+    var i = name.lastIndexOf('.');
+    return (i > 0 ? name.slice(0, i) : name).replace(/[\\/:*?"<>|\u0000-\u001f]/g, '').trim() || 'document';
+  }
+  function extOf(name) { var m = /\.([a-z0-9]+)$/i.exec(name); return m ? m[1].toLowerCase() : ''; }
+  function clip(s) { s = String(s).replace(/\s+/g, ' ').trim(); return s.length > 90 ? s.slice(0, 87) + '…' : s; }
+  function prettyDate(s) {
+    var m = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(s);
+    return m ? m[1] + ' ' + m[2] : s;
+  }
+  /* part -> groups of qualified element names */
+  var CORE = [
+    { key: 'author', label: 'Author', names: ['dc:creator'] },
+    { key: 'modby', label: 'Last saved by', names: ['cp:lastModifiedBy'] },
+    { key: 'dates', label: 'Dates', names: ['dcterms:created', 'dcterms:modified', 'cp:lastPrinted'] },
+    { key: 'title', label: 'Title, subject and keywords', names: ['dc:title', 'dc:subject', 'cp:keywords', 'dc:description', 'cp:category', 'cp:contentStatus'] }
+  ];
+  var APP = [
+    { key: 'company', label: 'Company and manager', names: ['Company', 'Manager'] },
+    { key: 'software', label: 'Software', names: ['Application', 'AppVersion', 'Template', 'HyperlinkBase'] },
+    { key: 'titles', label: 'Sheet or slide names list', names: ['HeadingPairs', 'TitlesOfParts'] }
+  ];
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById('office-' + id); };
+  var input = $('file'), drop = $('drop'), info = $('fileinfo'), statusEl = $('status'), work = $('work');
+  var found = $('found'), warns = $('warns'), save = $('save'), result = $('result'), dl = $('dl');
+
+  var doc = null;      /* { name, bytes, size } */
+  var items = [];      /* [{ key, label, detail }] */
+  var dlUrl = null, busy = false;
+
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+  function clearResult() { result.hidden = true; if (dlUrl) { URL.revokeObjectURL(dlUrl); dlUrl = null; } }
+
+  async function readXml(zip, path) {
+    var f = zip.file(path);
+    if (!f) return null;
+    var text = await f.async('string');
+    var decl = (/^\s*<\?xml[^>]*\?>\s*/.exec(text) || [''])[0];
+    var dom = new DOMParser().parseFromString(text, 'application/xml');
+    if (dom.getElementsByTagName('parsererror').length) return null;
+    return { text: text, decl: decl, dom: dom };
+  }
+  function firstText(dom, qname) {
+    var el = dom.getElementsByTagName(qname)[0];
+    return el ? (el.textContent || '').trim() : '';
+  }
+  function describe(dom, g, isDate) {
+    var parts = [];
+    g.names.forEach(function (n) {
+      var v = firstText(dom, n);
+      if (v) parts.push((g.names.length > 1 ? n.replace(/^[a-z]+:/, '') + ': ' : '') + (/created|modified|lastPrinted/.test(n) ? prettyDate(v) : clip(v)));
+    });
+    return parts.join(' · ');
+  }
+
+  async function inspect(zip, ext) {
+    var out = [], notes = [];
+    var core = await readXml(zip, 'docProps/core.xml');
+    if (core) CORE.forEach(function (g) { var d = describe(core.dom, g); if (d) out.push({ key: g.key, label: g.label, detail: d }); });
+    var app = await readXml(zip, 'docProps/app.xml');
+    if (app) APP.forEach(function (g) {
+      var present = g.names.some(function (n) { return app.dom.getElementsByTagName(n).length; });
+      var d = g.key === 'titles' ? '' : describe(app.dom, g);
+      if (g.key === 'titles' ? present : d) out.push({ key: g.key, label: g.label, detail: g.key === 'titles' ? 'names of sheets, slides or headings' : d });
+    });
+    var custom = await readXml(zip, 'docProps/custom.xml');
+    if (custom) {
+      var props = custom.dom.getElementsByTagName('property');
+      if (props.length) {
+        var names = []; for (var i = 0; i < props.length; i++) names.push(props[i].getAttribute('name'));
+        out.push({ key: 'custom', label: 'Custom properties', detail: clip(names.join(', ')) });
+      }
+    }
+    if (Object.keys(zip.files).some(function (p) { return /^docProps\/thumbnail\./i.test(p); })) out.push({ key: 'thumb', label: 'Preview thumbnail', detail: 'a small picture of the first page or sheet' });
+    if (ext.charAt(0) === 'x') {
+      var wb = zip.file('xl/workbook.xml') ? await zip.file('xl/workbook.xml').async('string') : '';
+      var m = /absPath[^>]*url="([^"]*)"/.exec(wb);
+      if (m) out.push({ key: 'path', label: 'Original file location', detail: clip(m[1]) });
+    }
+    var names = Object.keys(zip.files);
+    if (names.some(function (p) { return /(^|\/)comments\d*\.xml$|commentAuthors\.xml$/.test(p); })) notes.push('This file contains comments.');
+    if (zip.file('word/document.xml')) {
+      var body = await zip.file('word/document.xml').async('string');
+      if (/<w:(ins|del)\s/.test(body)) notes.push('This file contains tracked changes.');
+    }
+    if (zip.file('word/_rels/settings.xml.rels') && /attachedTemplate/.test(await zip.file('word/_rels/settings.xml.rels').async('string'))) notes.push('This file points to a template file on the author\'s computer.');
+    return { items: out, notes: notes };
+  }
+
+  function renderItems(notes) {
+    found.textContent = '';
+    if (!items.length) { var p = document.createElement('p'); p.className = 'hint'; p.textContent = 'No removable metadata found in this file.'; found.appendChild(p); }
+    items.forEach(function (it) {
+      var label = document.createElement('label'); label.className = 'check';
+      var cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = true; cb.setAttribute('data-key', it.key);
+      cb.addEventListener('change', clearResult);
+      var span = document.createElement('span');
+      var st = document.createElement('strong'); st.textContent = it.label + ': ';
+      span.appendChild(st); span.appendChild(document.createTextNode(it.detail));
+      label.appendChild(cb); label.appendChild(span); found.appendChild(label);
+    });
+    warns.hidden = !notes.length;
+    warns.textContent = notes.join(' ');
+  }
+  function setAll(on) { Array.prototype.forEach.call(found.querySelectorAll('input'), function (c) { c.checked = on; }); clearResult(); }
+
+  async function load(file) {
+    clearResult(); setStatus('', 'info'); work.hidden = true; info.hidden = true; doc = null; items = [];
+    if (!file) return;
+    var ext = extOf(file.name);
+    if (ext === 'doc' || ext === 'xls' || ext === 'ppt') { setStatus('Old Office formats (.doc, .xls, .ppt) cannot be cleaned here. Open the file and use Save As to make a .docx, .xlsx or .pptx first.', 'err'); return; }
+    if (!/^(docx|xlsx|pptx|docm|xlsm|pptm)$/.test(ext)) { setStatus('Only .docx, .xlsx and .pptx files can be used here.', 'err'); return; }
+    try {
+      var bytes = await file.arrayBuffer();
+      var zip = await JSZip.loadAsync(bytes);
+      if (!zip.file('[Content_Types].xml')) throw new Error('not office');
+      var res = await inspect(zip, ext);
+      items = res.items;
+      doc = { name: file.name, bytes: bytes, size: file.size, ext: ext };
+      info.textContent = file.name + ' · ' + formatBytes(file.size);
+      info.hidden = false; work.hidden = false;
+      renderItems(res.notes);
+    } catch (e) {
+      setStatus('This file could not be read. It may be damaged or password-protected.', 'err');
+    }
+  }
+
+  input.addEventListener('change', function () { load(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) load(e.dataTransfer.files[0]); });
+  $('all').addEventListener('click', function () { setAll(true); });
+  $('none').addEventListener('click', function () { setAll(false); });
+
+  function removeNames(x, names) {
+    names.forEach(function (n) {
+      var list = x.dom.getElementsByTagName(n);
+      for (var i = list.length - 1; i >= 0; i--) list[i].parentNode.removeChild(list[i]);
+    });
+  }
+  function writeXml(zip, path, x) {
+    zip.file(path, x.decl + new XMLSerializer().serializeToString(x.dom).replace(/^\s*<\?xml[^>]*\?>\s*/, ''));
+  }
+
+  save.addEventListener('click', async function () {
+    if (!doc || busy) return;
+    busy = true; save.disabled = true; clearResult(); setStatus('Working…', 'info');
+    try {
+      var chosen = {};
+      Array.prototype.forEach.call(found.querySelectorAll('input'), function (c) { if (c.checked) chosen[c.getAttribute('data-key')] = true; });
+      var zip = await JSZip.loadAsync(doc.bytes);
+      var core = await readXml(zip, 'docProps/core.xml');
+      if (core) { CORE.forEach(function (g) { if (chosen[g.key]) removeNames(core, g.names); }); writeXml(zip, 'docProps/core.xml', core); }
+      var app = await readXml(zip, 'docProps/app.xml');
+      if (app) { APP.forEach(function (g) { if (chosen[g.key]) removeNames(app, g.names); }); writeXml(zip, 'docProps/app.xml', app); }
+      if (chosen.custom) {
+        var custom = await readXml(zip, 'docProps/custom.xml');
+        if (custom) { removeNames(custom, ['property']); writeXml(zip, 'docProps/custom.xml', custom); }
+      }
+      if (chosen.thumb) {
+        Object.keys(zip.files).forEach(function (p) { if (/^docProps\/thumbnail\./i.test(p)) zip.remove(p); });
+        var rels = zip.file('_rels/.rels') ? await zip.file('_rels/.rels').async('string') : '';
+        if (rels) zip.file('_rels/.rels', rels.replace(/<Relationship\b[^>]*\/metadata\/thumbnail"[^>]*\/>/g, '').replace(/<Relationship\b[^>]*Target="docProps\/thumbnail[^"]*"[^>]*\/>/g, ''));
+      }
+      if (chosen.path && zip.file('xl/workbook.xml')) {
+        var wb = await zip.file('xl/workbook.xml').async('string');
+        wb = wb.replace(/<mc:AlternateContent\b[^>]*>(?:(?!<\/mc:AlternateContent>)[\s\S])*?absPath(?:(?!<\/mc:AlternateContent>)[\s\S])*?<\/mc:AlternateContent>/g, '').replace(/<x15ac:absPath\b[^>]*\/>/g, '');
+        zip.file('xl/workbook.xml', wb);
+      }
+      var blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', mimeType: 'application/vnd.openxmlformats-officedocument' });
+      var name = baseName(doc.name) + '-clean.' + doc.ext;
+      dlUrl = URL.createObjectURL(blob);
+      dl.href = dlUrl; dl.setAttribute('download', name);
+      dl.textContent = 'Download ' + name + ' (' + formatBytes(blob.size) + ')';
+      result.hidden = false; setStatus('Done.', 'ok');
+    } catch (e) {
+      setStatus('Saving failed. The file may be damaged.', 'err');
+    }
+    busy = false; save.disabled = false;
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Browser Privacy Check: What Websites Can See About You · Trezyn</title>
+<meta name="description" content="See what any website can learn about you from your browser: user agent, screen, time zone, fingerprint codes and optional IP and WebRTC leak test.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/privacy-check.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="Browser Privacy Check: What Websites Can See About You · Trezyn">
+<meta property="og:description" content="See what any website can learn about you from your browser: user agent, screen, time zone, fingerprint codes and optional IP and WebRTC leak test.">
+<meta property="og:url" content="https://trezyn.site/privacy-check.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Browser Privacy Check: What Websites Can See About You · Trezyn">
+<meta name="twitter:description" content="See what any website can learn about you from your browser: user agent, screen, time zone, fingerprint codes and optional IP and WebRTC leak test.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Browser Privacy Check: What Websites Can See About You", "url": "https://trezyn.site/privacy-check.html", "description": "See what any website can learn about you from your browser: user agent, screen, time zone, fingerprint codes and optional IP and WebRTC leak test.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261020a">
+<script src="assets/theme.js?v=20261020a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.webp" alt="" width="444" height="412"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" aria-label="Main menu">
+      <a href="qr.html">QR code</a>
+      <a href="compress.html">Compress</a>
+      <a href="convert.html">Convert</a>
+      <a href="remove-metadata.html">Metadata</a>
+      <a href="images-pdf.html">Images & PDF</a>
+      <a href="pdf-tools.html">PDF tools</a>
+      <a href="encrypt.html">Encrypt</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html" aria-current="page">Privacy check</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Browser privacy check</h1>
+    <p class="lede">This is what any website can read from your browser without asking. Nothing here is sent anywhere unless you press the button at the bottom.</p>
+
+    <div class="controls" id="groups" aria-live="polite"></div>
+
+    <div class="panel">
+      <h2 class="h2">Network check (optional)</h2>
+      <p class="hint">This contacts two outside services: api.ipify.org to read your public IP address, and a Google STUN server to see whether your browser leaks an IP through WebRTC. They will see your IP address. Skip it if you do not want that.</p>
+      <div><button type="button" class="btn" id="net">Run network check</button></div>
+      <div class="checks" id="netout" aria-live="polite"></div>
+    </div>
+<!--about-->
+    <section class="about">
+      <h2>About the browser privacy check</h2>
+      <p>Every website you visit can read many details from your browser without asking: the browser and system version, language, screen size, time zone and graphics hardware. Combined, they can recognise your device even without cookies. This is called browser fingerprinting.</p>
+      <p>This page shows those details so you can see what is exposed. The canvas code is a short hash of a hidden test picture. If it differs in another browser or a private window, sites see you as a different device.</p>
+      <p>The optional network check reads your public IP address and tests whether WebRTC reveals an address that a VPN should hide. It contacts api.ipify.org and a Google STUN server, and only runs when you press the button.</p>
+    </section>
+    <!--/about-->
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function yesNo(v) { return v === true ? 'Yes' : v === false ? 'No' : 'Not available'; }
+  function unique(list) { return list.filter(function (x, i) { return list.indexOf(x) === i; }); }
+  function privateIp(ip) {
+    return /^(10\.|192\.168\.|127\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(ip) || /^(fe80|fc|fd)/i.test(ip) || /\.local$/i.test(ip);
+  }
+  /* </pure> */
+
+  async function sha(text) {
+    if (!window.crypto || !crypto.subtle) return 'not available';
+    var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('').slice(0, 16);
+  }
+  function canvasData() {
+    try {
+      var c = document.createElement('canvas'); c.width = 240; c.height = 60;
+      var x = c.getContext('2d');
+      x.textBaseline = 'top'; x.font = '16px Arial'; x.fillStyle = '#f60'; x.fillRect(100, 5, 80, 30);
+      x.fillStyle = '#069'; x.fillText('Trezyn, canvas test éΩ✓', 4, 8);
+      x.fillStyle = 'rgba(102,204,0,0.6)'; x.fillText('Trezyn, canvas test éΩ✓', 6, 22);
+      return c.toDataURL();
+    } catch (e) { return ''; }
+  }
+  function webgl() {
+    try {
+      var c = document.createElement('canvas'), gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+      if (!gl) return { vendor: 'Not available', renderer: '' };
+      var ext = gl.getExtension('WEBGL_debug_renderer_info');
+      return ext ? { vendor: gl.getParameter(ext.UNMASKED_VENDOR_WEBGL), renderer: gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) } : { vendor: 'Hidden by the browser', renderer: '' };
+    } catch (e) { return { vendor: 'Not available', renderer: '' }; }
+  }
+
+  var groupsEl = document.getElementById('groups');
+  function group(title, intro, rows) {
+    var sec = document.createElement('section'); sec.className = 'panel';
+    var h = document.createElement('h2'); h.className = 'h2'; h.textContent = title; sec.appendChild(h);
+    if (intro) { var p = document.createElement('p'); p.className = 'hint'; p.textContent = intro; sec.appendChild(p); }
+    var dl = document.createElement('dl'); dl.className = 'kv';
+    rows.forEach(function (r) {
+      var dt = document.createElement('dt'); dt.textContent = r[0];
+      var dd = document.createElement('dd'); dd.textContent = r[1] === '' || r[1] == null ? 'Not available' : String(r[1]);
+      dl.appendChild(dt); dl.appendChild(dd);
+    });
+    sec.appendChild(dl); groupsEl.appendChild(sec);
+  }
+
+  async function run() {
+    var n = navigator, s = window.screen, tz = '';
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) {}
+    var off = -new Date().getTimezoneOffset();
+    var gpc = n.globalPrivacyControl, dnt = n.doNotTrack || window.doNotTrack || n.msDoNotTrack;
+    group('Browser', 'Sent to every site in each request, so sites can group visitors by it.', [
+      ['User agent', n.userAgent],
+      ['Platform', (n.userAgentData && n.userAgentData.platform) || n.platform],
+      ['Languages', (n.languages && n.languages.length ? n.languages : [n.language]).join(', ')],
+      ['Cookies allowed', yesNo(n.cookieEnabled)],
+      ['Global Privacy Control', gpc === undefined ? 'Not available' : (gpc ? 'On' : 'Off')],
+      ['Do Not Track', dnt === '1' || dnt === 'yes' ? 'On' : dnt === '0' || dnt === 'no' ? 'Off' : 'Not set']
+    ]);
+    group('Screen and device', 'Sites read these for layout. Together they help to recognise a device.', [
+      ['Screen size', s.width + ' × ' + s.height + ' px'],
+      ['Window size', window.innerWidth + ' × ' + window.innerHeight + ' px'],
+      ['Pixel ratio', window.devicePixelRatio],
+      ['Colour depth', s.colorDepth + ' bit'],
+      ['CPU threads', n.hardwareConcurrency],
+      ['Memory', n.deviceMemory ? '~' + n.deviceMemory + ' GB' : 'Hidden or not available'],
+      ['Touch points', n.maxTouchPoints],
+      ['Dark mode', window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'Yes' : 'No']
+    ]);
+    group('Time and place', 'Your time zone says roughly where you are, even without your IP address.', [
+      ['Time zone', tz],
+      ['UTC offset', 'UTC' + (off >= 0 ? '+' : '-') + Math.floor(Math.abs(off) / 60) + (Math.abs(off) % 60 ? ':' + ('0' + Math.abs(off) % 60).slice(-2) : '')],
+      ['Date format', new Date(2024, 11, 31, 23, 59).toLocaleString()]
+    ]);
+    var data = canvasData(), g = webgl();
+    group('Fingerprints', 'Sites can draw a hidden picture and read the result. Small differences in graphics hardware and software make the result unique to a device. Compare in another browser or a private window: a different code means a different identity.', [
+      ['Canvas code', data ? await sha(data) : 'Blocked or not available'],
+      ['Graphics vendor', g.vendor],
+      ['Graphics card', g.renderer || 'Hidden or not available']
+    ]);
+    var mics = '';
+    try { var dev = await navigator.mediaDevices.enumerateDevices(); mics = dev.filter(function (d) { return d.kind === 'audioinput'; }).length + ' microphones, ' + dev.filter(function (d) { return d.kind === 'videoinput'; }).length + ' cameras, ' + dev.filter(function (d) { return d.kind === 'audiooutput'; }).length + ' speakers'; } catch (e) {}
+    var plugins = n.plugins ? n.plugins.length : 0;
+    group('Other', null, [
+      ['Connected devices', mics || 'Not available'],
+      ['Browser plug-ins listed', plugins],
+      ['Secure page (https)', yesNo(window.isSecureContext)]
+    ]);
+  }
+  run();
+
+  /* Optional network check */
+  var net = document.getElementById('net'), out = document.getElementById('netout');
+  function line(label, value, tone) {
+    var p = document.createElement('p'); p.className = 'status'; p.setAttribute('data-tone', tone || 'info');
+    p.textContent = label + ': ' + value; out.appendChild(p);
+  }
+  function stunCandidates() {
+    return new Promise(function (resolve) {
+      var ips = [], pc;
+      try { pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] }); } catch (e) { resolve(null); return; }
+      var done = function () { try { pc.close(); } catch (e) {} resolve(ips); };
+      pc.createDataChannel('x');
+      pc.onicecandidate = function (e) {
+        if (!e.candidate) { done(); return; }
+        var m = /candidate:\S+ \d+ \S+ \d+ (\S+) \d+ typ (\S+)/.exec(e.candidate.candidate);
+        if (m) ips.push({ ip: m[1], type: m[2] });
+      };
+      pc.createOffer().then(function (o) { return pc.setLocalDescription(o); }).catch(done);
+      setTimeout(done, 4000);
+    });
+  }
+  net.addEventListener('click', async function () {
+    net.disabled = true; out.textContent = '';
+    var pub = '';
+    try {
+      var r = await fetch('https://api.ipify.org?format=json', { cache: 'no-store' });
+      pub = (await r.json()).ip;
+      line('Public IP address', pub, 'info');
+    } catch (e) { line('Public IP address', 'could not be read (blocked or offline)', 'warn'); }
+    var c = await stunCandidates();
+    if (c === null) line('WebRTC', 'not available in this browser', 'info');
+    else {
+      var pubSeen = unique(c.filter(function (x) { return !privateIp(x.ip); }).map(function (x) { return x.ip; }));
+      var localSeen = unique(c.filter(function (x) { return privateIp(x.ip); }).map(function (x) { return x.ip; }));
+      line('WebRTC local addresses', localSeen.length ? localSeen.join(', ') : 'none exposed', localSeen.some(function (x) { return !/\.local$/i.test(x); }) ? 'warn' : 'ok');
+      line('WebRTC public addresses', pubSeen.length ? pubSeen.join(', ') : 'none found', 'info');
+      if (pub && pubSeen.length && pubSeen.indexOf(pub) < 0) line('Possible VPN leak', 'WebRTC shows an address that differs from the one websites normally see', 'err');
+      else if (pub && pubSeen.length) line('VPN leak', 'no difference found', 'ok');
+    }
+    net.disabled = false;
+  });
+})();
+</script>
+</body>
+</html>

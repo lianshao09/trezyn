@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Free QR Code Generator and Reader · Trezyn</title>
+<meta name="description" content="Create a QR code with your colors and download a PNG, or read a QR code from a picture or camera and check the link before you open it. Free, in your browser.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/qr.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="Free QR Code Generator and Reader · Trezyn">
+<meta property="og:description" content="Create a QR code with your colors and download a PNG, or read a QR code from a picture or camera and check the link before you open it. Free, in your browser.">
+<meta property="og:url" content="https://trezyn.site/qr.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free QR Code Generator and Reader · Trezyn">
+<meta name="twitter:description" content="Create a QR code with your colors and download a PNG, or read a QR code from a picture or camera and check the link before you open it. Free, in your browser.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Free QR Code Generator and Reader", "url": "https://trezyn.site/qr.html", "description": "Create a QR code with your colors and download a PNG, or read a QR code from a picture or camera and check the link before you open it. Free, in your browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261020a">
+<script src="assets/theme.js?v=20261020a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.webp" alt="" width="444" height="412"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main menu">
+      <a href="qr.html" aria-current="page">QR code</a>
+      <a href="compress.html">Compress</a>
+      <a href="convert.html">Convert</a>
+      <a href="remove-metadata.html">Metadata</a>
+      <a href="images-pdf.html">Images & PDF</a>
+      <a href="pdf-tools.html">PDF tools</a>
+      <a href="encrypt.html">Encrypt</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html">Privacy check</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>QR code</h1>
+    <div class="tabs" role="tablist" aria-label="QR code">
+      <button type="button" role="tab" class="tab" id="tab-make" aria-controls="panel-make" aria-selected="true" tabindex="0">Generate</button>
+      <button type="button" role="tab" class="tab" id="tab-read" aria-controls="panel-read" aria-selected="false" tabindex="-1">Read</button>
+    </div>
+    <section role="tabpanel" id="panel-make" aria-labelledby="tab-make">
+    <p class="lede">Type a link or any text and the code updates as you type. Every code keeps a blank border 4 modules wide, which scanners need to find its edges.</p>
+
+    <div class="grid">
+      <form id="make-form" class="controls" aria-label="QR code settings" novalidate>
+        <div class="field">
+          <label for="make-content">URL or text</label>
+          <textarea id="make-content" rows="4" autocomplete="off" spellcheck="false" placeholder="https://example.com">https://example.com/menu</textarea>
+          <p class="hint">Start links with https:// so phones open them as links.</p>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="make-fg-hex">Foreground color</label>
+            <div class="colorfield">
+              <input type="color" id="make-fg" value="#14201d" aria-label="Foreground color picker">
+              <input type="text" id="make-fg-hex" class="mono" value="#14201d" maxlength="7" autocomplete="off" spellcheck="false" aria-describedby="make-status">
+            </div>
+          </div>
+          <div class="field">
+            <label for="make-bg-hex">Background color</label>
+            <div class="colorfield">
+              <input type="color" id="make-bg" value="#ffffff" aria-label="Background color picker">
+              <input type="text" id="make-bg-hex" class="mono" value="#ffffff" maxlength="7" autocomplete="off" spellcheck="false" aria-describedby="make-status">
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="label-row">
+            <label for="make-size">Size</label>
+            <output id="make-size-out" for="make-size">320 × 320 px</output>
+          </div>
+          <input type="range" id="make-size" min="128" max="1024" step="8" value="320">
+          <p class="hint">Sets the PNG dimensions, 128 to 1024 px. Pick a large size for print.</p>
+        </div>
+
+        <fieldset class="field" aria-describedby="make-ec-desc">
+          <legend>Error correction</legend>
+          <div class="seg">
+            <label class="opt"><input type="radio" name="ec" value="L"><span class="box"><span class="name">Low</span><span class="pct">7%</span></span></label>
+            <label class="opt"><input type="radio" name="ec" value="M" checked><span class="box"><span class="name">Medium</span><span class="pct">15%</span></span></label>
+            <label class="opt"><input type="radio" name="ec" value="Q"><span class="box"><span class="name">Quartile</span><span class="pct">25%</span></span></label>
+            <label class="opt"><input type="radio" name="ec" value="H"><span class="box"><span class="name">High</span><span class="pct">30%</span></span></label>
+          </div>
+          <p class="hint" id="make-ec-desc"></p>
+        </fieldset>
+      </form>
+
+      <section class="panel preview" aria-label="Preview">
+        <div class="stage">
+          <img id="make-qr" alt="" hidden>
+          <p class="empty" id="make-empty">Your code appears here.</p>
+        </div>
+        <p class="meta" id="make-meta"></p>
+        <p class="status" id="make-status" role="status" data-tone="info"></p>
+        <div>
+          <button type="button" class="btn block" id="make-dl" disabled>Download PNG</button>
+        </div>
+      </section>
+    </div>
+  </section>
+    <section role="tabpanel" id="panel-read" aria-labelledby="tab-read" hidden>
+    <p class="lede">Check where a QR code leads before you open it. Choose a picture, paste a screenshot or use your camera. Nothing is uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="read-drop" for="read-file">
+        <strong>Choose a picture with a QR code or drag it here</strong>
+        <span>You can also paste a screenshot with Ctrl+V</span>
+        <input type="file" id="read-file" accept="image/*">
+      </label>
+      <div class="btnrow">
+        <button type="button" class="btn ghost small" id="read-cam">Scan with camera</button>
+        <button type="button" class="btn ghost small" id="read-camstop" hidden>Stop camera</button>
+      </div>
+      <div id="read-camwrap" class="camwrap" hidden>
+        <video id="read-video" playsinline muted></video>
+      </div>
+      <p class="status" id="read-status" role="status" data-tone="info"></p>
+
+      <div class="panel" id="read-out" hidden aria-live="polite">
+        <div class="field">
+          <label for="read-text">What the code contains</label>
+          <textarea id="read-text" rows="3" readonly spellcheck="false"></textarea>
+        </div>
+        <p class="summary" id="read-kind"></p>
+        <ul class="notes" id="read-notes"></ul>
+        <div class="btnrow">
+          <button type="button" class="btn small" id="read-copy">Copy</button>
+          <a class="btn ghost small" id="read-open" href="#" target="_blank" rel="noopener noreferrer nofollow" hidden>Open the link in a new tab</a>
+        </div>
+      </div>
+    </div>
+  </section>
+<!--about-->
+    <section class="about">
+      <h2>About the QR code generator and reader</h2>
+      <p>Type a web address, Wi-Fi details or any text and the QR code updates as you type. You can change the foreground and background colors, the size from 128 to 1024 pixels, and the error correction level, then save the result as a PNG image.</p>
+      <p>Higher error correction levels (Q and H) keep the code readable even if part of it is covered or damaged, but they make the code denser. For printed codes, keep strong contrast between the two colors and leave a clear margin around the code.</p>
+      <p>The Read tab decodes a QR code from a picture, a pasted screenshot or the camera, and checks the link before you open it. It warns about link shorteners, look-alike letters, plain http, numeric addresses and a hidden username before an @ sign, which are common tricks in fake QR codes.</p>
+      <p>Everything happens inside your browser. The text you enter and the pictures you read are never sent anywhere.</p>
+      <p class="rel">Guides: <a href="guide-check-qr-code-is-safe.html">How to Check a QR Code Before You Open It</a>.</p>
+    </section>
+    <!--/about-->
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+
+<script src="assets/qrcode.js"></script>
+<script src="assets/jsqr.js"></script>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function show(t, focus) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) t.focus();
+    try { history.replaceState(null, '', '#' + t.id.slice(4)); } catch (e) {}
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(t, false); });
+    t.addEventListener('keydown', function (e) {
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+      if (j < 0) return;
+      e.preventDefault(); show(tabs[(j + tabs.length) % tabs.length], true);
+    });
+  });
+  var want = location.hash.slice(1), hit = tabs.filter(function (t) { return t.id === 'tab-' + want; })[0];
+  if (hit) show(hit, false);
+})();
+</script>
+<script>
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('[id$="fileinfo"]'), function (el) {
+    var drop = el.parentNode.querySelector('.drop');
+    if (!drop) return;
+    var strong = drop.querySelector('strong'), sub = drop.querySelector('span');
+    var o1 = strong.textContent, o2 = sub ? sub.textContent : '';
+    function sync() {
+      var on = !el.hidden && el.textContent;
+      drop.classList.toggle('has-file', !!on);
+      strong.textContent = on ? '\u2713 ' + el.textContent : o1;
+      if (sub) sub.textContent = on ? 'Click to choose a different file' : o2;
+    }
+    new MutationObserver(sync).observe(el, { attributes: true, childList: true, characterData: true, subtree: true });
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  var QUIET = 4;
+  var EC = {
+    L: { pct: 7, note: 'Smallest code. Best for clean, on-screen use.' },
+    M: { pct: 15, note: 'A good default for most links.' },
+    Q: { pct: 25, note: 'Holds up to scuffs. Good for print.' },
+    H: { pct: 30, note: 'Survives heavy damage or a logo on top. Largest code.' }
+  };
+
+  function normHex(v) {
+    v = String(v).trim();
+    if (v.charAt(0) !== '#') v = '#' + v;
+    if (/^#[0-9a-f]{3}$/i.test(v)) v = '#' + v[1] + v[1] + v[2] + v[2] + v[3] + v[3];
+    return /^#[0-9a-f]{6}$/i.test(v) ? v.toLowerCase() : null;
+  }
+  function luminance(hex) {
+    var ch = [1, 3, 5].map(function (i) {
+      var c = parseInt(hex.slice(i, i + 2), 16) / 255;
+      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2];
+  }
+  function contrastRatio(a, b) {
+    var la = luminance(a), lb = luminance(b);
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  }
+  /* Whole-pixel modules keep edges sharp. Spare pixels become extra background, split evenly. */
+  function layout(size, count, quiet) {
+    var total = count + 2 * quiet;
+    var cell = Math.max(1, Math.floor(size / total));
+    var canvas = Math.max(size, total);
+    var offset = Math.floor((canvas - cell * total) / 2);
+    return { total: total, cell: cell, canvas: canvas, offset: offset, raised: size < total };
+  }
+  function contrastNote(fg, bg) {
+    var r = contrastRatio(fg, bg);
+    var rs = (Math.round(r * 10) / 10).toFixed(1);
+    if (r < 3) return { tone: 'warn', msg: 'Warning: contrast is ' + rs + ':1. Scanners need about 3:1 or more. Increase the difference between the two colors.' };
+    if (luminance(fg) > luminance(bg)) return { tone: 'warn', msg: 'Warning: a light code on a dark background is inverted, and some scanner apps cannot read it.' };
+    return { tone: 'ok', msg: 'Contrast ' + rs + ':1. Good for scanning.' };
+  }
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById('make-' + id); };
+  var form = $('form'), text = $('content');
+  var fg = $('fg'), fgHex = $('fg-hex'), bg = $('bg'), bgHex = $('bg-hex');
+  var size = $('size'), sizeOut = $('size-out');
+  var img = $('qr'), empty = $('empty'), meta = $('meta'), statusEl = $('status');
+  var dl = $('dl'), ecDesc = $('ec-desc');
+  var enc = new TextEncoder();
+
+  var state = { fg: '#14201d', bg: '#ffffff', fgBad: false, bgBad: false, canvas: null };
+  var queued = false;
+
+  if (window.qrcode && window.qrcode.stringToBytesFuncs && window.qrcode.stringToBytesFuncs['UTF-8']) {
+    window.qrcode.stringToBytes = window.qrcode.stringToBytesFuncs['UTF-8'];
+  }
+
+  function setStatus(msg, tone) {
+    if (statusEl.textContent !== msg) statusEl.textContent = msg;
+    statusEl.setAttribute('data-tone', tone);
+  }
+  function showEmpty(msg) {
+    img.hidden = true;
+    img.removeAttribute('src');
+    empty.textContent = msg;
+    empty.hidden = false;
+    meta.textContent = '';
+    state.canvas = null;
+    dl.disabled = true;
+  }
+  function build(value, level) {
+    var q = window.qrcode(0, level);
+    q.addData(value, 'Byte');
+    q.make();
+    return q;
+  }
+  function levelsThatFit(value) {
+    return ['L', 'M', 'Q', 'H'].filter(function (l) {
+      try { build(value, l); return true; } catch (e) { return false; }
+    });
+  }
+  function draw(q, px, fgc, bgc) {
+    var count = q.getModuleCount();
+    var L = layout(px, count, QUIET);
+    var c = document.createElement('canvas');
+    c.width = c.height = L.canvas;
+    var ctx = c.getContext('2d');
+    ctx.fillStyle = bgc;
+    ctx.fillRect(0, 0, L.canvas, L.canvas);
+    ctx.fillStyle = fgc;
+    var x0 = L.offset + QUIET * L.cell;
+    for (var r = 0; r < count; r++) {
+      for (var col = 0; col < count; col++) {
+        if (q.isDark(r, col)) ctx.fillRect(x0 + col * L.cell, x0 + r * L.cell, L.cell, L.cell);
+      }
+    }
+    return { canvas: c, layout: L, count: count };
+  }
+
+  function update() {
+    queued = false;
+    var px = parseInt(size.value, 10);
+    sizeOut.textContent = px + ' × ' + px + ' px';
+    var level = form.elements['ec'].value;
+    ecDesc.textContent = 'Level ' + level + ' restores up to ' + EC[level].pct + '% of a damaged code. ' + EC[level].note;
+
+    if (!window.qrcode) {
+      showEmpty('No code to show.');
+      setStatus('The QR library did not load. Reload the page.', 'err');
+      return;
+    }
+    var value = text.value;
+    if (!value) {
+      showEmpty('Your code appears here.');
+      setStatus('Enter a URL or text to generate a code.', 'info');
+      return;
+    }
+
+    var q;
+    try {
+      q = build(value, level);
+    } catch (e) {
+      var fits = levelsThatFit(value);
+      var msg = 'Too much text for level ' + level + '.';
+      msg += fits.length
+        ? ' Choose ' + (fits.length > 1 ? 'levels ' + fits.join(', ') : 'level ' + fits[0]) + ' or shorten the text.'
+        : ' Shorten the text.';
+      showEmpty('No code to show.');
+      setStatus(msg, 'err');
+      return;
+    }
+
+    var res = draw(q, px, state.fg, state.bg);
+    state.canvas = res.canvas;
+    img.src = res.canvas.toDataURL('image/png');
+    var label = value.length > 80 ? value.slice(0, 80) + '…' : value;
+    img.alt = 'QR code for: ' + label;
+    img.hidden = false;
+    empty.hidden = true;
+    dl.disabled = false;
+
+    var version = (res.count - 17) / 4;
+    var dims = res.layout.canvas + ' px';
+    if (res.layout.raised) dims += ' (raised from ' + px + ' px so each module is 1 px)';
+    meta.textContent = 'Version ' + version + ' · ' + res.count + ' × ' + res.count + ' modules · ' + enc.encode(value).length + ' bytes · ' + dims;
+
+    if (state.fgBad || state.bgBad) {
+      setStatus((state.fgBad ? 'Foreground' : 'Background') + ' must be a hex color such as #14201d. Showing the last valid color.', 'err');
+    } else {
+      var n = contrastNote(state.fg, state.bg);
+      setStatus(n.msg, n.tone);
+    }
+  }
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(update);
+  }
+
+  function bindColor(picker, hexInput, key) {
+    var bad = key + 'Bad';
+    picker.addEventListener('input', function () {
+      state[key] = picker.value.toLowerCase();
+      state[bad] = false;
+      hexInput.value = state[key];
+      hexInput.removeAttribute('aria-invalid');
+      schedule();
+    });
+    hexInput.addEventListener('input', function () {
+      var n = normHex(hexInput.value);
+      if (n) {
+        state[key] = n;
+        state[bad] = false;
+        picker.value = n;
+        hexInput.removeAttribute('aria-invalid');
+      } else {
+        state[bad] = true;
+        hexInput.setAttribute('aria-invalid', 'true');
+      }
+      schedule();
+    });
+    hexInput.addEventListener('blur', function () {
+      var n = normHex(hexInput.value);
+      if (n) hexInput.value = n;
+    });
+  }
+  bindColor(fg, fgHex, 'fg');
+  bindColor(bg, bgHex, 'bg');
+
+  text.addEventListener('input', schedule);
+  size.addEventListener('input', schedule);
+  form.addEventListener('change', schedule);
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+
+  dl.addEventListener('click', function () {
+    var canvas = state.canvas;
+    if (!canvas) return;
+    var name = 'qr-code-' + canvas.width + 'px.png';
+    canvas.toBlob(function (blob) {
+      if (!blob) {
+        setStatus('Could not create the PNG. Try a smaller size.', 'err');
+        return;
+      }
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      setStatus('Saved ' + name + '.', 'ok');
+    }, 'image/png');
+  });
+
+  update();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  var SHORTENERS = ['bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'is.gd', 'cutt.ly', 'rb.gy', 'ow.ly', 'buff.ly', 'tiny.cc', 'shorturl.at', 'qr.io', 'qrco.de', 'l.ead.me', 'bl.ink', 'lnkd.in', 'rebrand.ly', 'v.gd', 'x.co', 'adf.ly'];
+  var TRACKING = /^(utm_[a-z]+|fbclid|gclid|dclid|msclkid|mc_eid|igshid|yclid|_ga|ref|ref_src)$/i;
+  function hostOf(u) { return u.hostname.replace(/^www\./, '').toLowerCase(); }
+  function isIp(h) { return /^\d{1,3}(\.\d{1,3}){3}$/.test(h) || /^\[[0-9a-f:]+\]$/i.test(h); }
+  function parseWifi(text) {
+    var body = text.replace(/^WIFI:/i, ''), out = {}, cur = '', parts = [], esc = false;
+    for (var i = 0; i < body.length; i++) {
+      var ch = body[i];
+      if (esc) { cur += ch; esc = false; }
+      else if (ch === '\\') esc = true;
+      else if (ch === ';') { parts.push(cur); cur = ''; }
+      else cur += ch;
+    }
+    if (cur) parts.push(cur);
+    parts.forEach(function (p) { var k = p.indexOf(':'); if (k > 0) out[p.slice(0, k).toUpperCase()] = p.slice(k + 1); });
+    return out;
+  }
+  /* -> { kind, notes: [{ tone, text }], url: string|null } */
+  function analyze(raw) {
+    var text = String(raw).trim(), notes = [];
+    if (/^WIFI:/i.test(text)) {
+      var w = parseWifi(text);
+      notes.push({ tone: 'info', text: 'Network name: ' + (w.S || '?') + (w.T && w.T.toLowerCase() !== 'nopass' ? ' · security: ' + w.T : ' · no password') });
+      if (w.P) notes.push({ tone: 'info', text: 'Password: ' + w.P });
+      notes.push({ tone: 'warn', text: 'Scanning this on a phone would join the network. Only do it if you trust whoever made the code.' });
+      return { kind: 'Wi-Fi network', notes: notes, url: null };
+    }
+    if (/^BEGIN:VCARD/i.test(text)) return { kind: 'Contact card (vCard)', notes: [{ tone: 'info', text: 'Opening it would add a contact to the address book.' }], url: null };
+    var scheme = /^([a-z][a-z0-9+.-]*):/i.exec(text);
+    if (scheme && !/^https?$/i.test(scheme[1])) {
+      var s = scheme[1].toLowerCase();
+      var names = { mailto: 'Email address', tel: 'Phone number', sms: 'Text message', smsto: 'Text message', geo: 'Map location', matmsg: 'Email', otpauth: 'Two-factor login secret', upi: 'Payment request', bitcoin: 'Bitcoin payment request', ethereum: 'Ethereum payment request' };
+      var kind = names[s] || ('Link using ' + s + ':');
+      if (s === 'otpauth') notes.push({ tone: 'warn', text: 'This contains a secret key for a login code. Never share it.' });
+      else if (/^(upi|bitcoin|ethereum)$/.test(s)) notes.push({ tone: 'warn', text: 'Check the amount and the receiver carefully before paying.' });
+      else if (!names[s]) notes.push({ tone: 'warn', text: 'This is not a normal web link. It may start an app on your phone.' });
+      return { kind: kind, notes: notes, url: null };
+    }
+    var url = null;
+    try { url = new URL(/^https?:\/\//i.test(text) ? text : (/^[^\s/]+\.[a-z]{2,}(\/|$)/i.test(text) ? 'https://' + text : '')); } catch (e) { url = null; }
+    if (!url || /\s/.test(text)) return { kind: 'Plain text', notes: [{ tone: 'info', text: 'No link inside. It is just text.' }], url: null };
+    var host = hostOf(url);
+    if (url.protocol === 'http:') notes.push({ tone: 'warn', text: 'The link does not use https, so what you send there is not encrypted.' });
+    else notes.push({ tone: 'ok', text: 'The link uses https.' });
+    if (SHORTENERS.some(function (d) { return host === d || host.endsWith('.' + d); })) notes.push({ tone: 'warn', text: host + ' is a link shortener. The real destination is hidden until you open it.' });
+    if (/(^|\.)xn--/.test(host)) notes.push({ tone: 'err', text: 'The address uses international look-alike letters (xn--). It may imitate another site.' });
+    if (isIp(host)) notes.push({ tone: 'warn', text: 'The address is a number, not a name. Real services rarely use this.' });
+    if (url.username || url.password) notes.push({ tone: 'err', text: 'The link contains a username part before an @ sign. This trick is used to disguise the real site. The real site is ' + host + '.' });
+    if (host.split('.').length > 4) notes.push({ tone: 'warn', text: 'The address has many parts. Read it from the right: the real site is the last two parts.' });
+    var tr = [];
+    url.searchParams.forEach(function (v, k) { if (TRACKING.test(k)) tr.push(k); });
+    if (tr.length) notes.push({ tone: 'info', text: 'Contains tracking parameters (' + tr.join(', ') + ').' });
+    if (text.length > 200) notes.push({ tone: 'warn', text: 'The link is very long.' });
+    notes.unshift({ tone: 'info', text: 'Website: ' + host });
+    return { kind: 'Web link', notes: notes, url: url.href };
+  }
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById('read-' + id); };
+  var input = $('file'), drop = $('drop'), statusEl = $('status'), out = $('out'), text = $('text'), kind = $('kind'), notesEl = $('notes');
+  var copyBtn = $('copy'), openLink = $('open'), cam = $('cam'), camstop = $('camstop'), camwrap = $('camwrap'), video = $('video');
+  var stream = null, scanning = false;
+
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+
+  function show(raw) {
+    var a = analyze(raw);
+    text.value = raw; kind.textContent = a.kind;
+    notesEl.textContent = '';
+    a.notes.forEach(function (n) {
+      var li = document.createElement('li');
+      li.textContent = n.text;
+      if (n.tone === 'err' || n.tone === 'warn') li.style.color = n.tone === 'err' ? 'var(--err)' : 'var(--warn)';
+      if (n.tone === 'ok') li.style.color = 'var(--ok)';
+      notesEl.appendChild(li);
+    });
+    if (a.url) { openLink.href = a.url; openLink.hidden = false; } else { openLink.removeAttribute('href'); openLink.hidden = true; }
+    out.hidden = false; setStatus('QR code found.', 'ok');
+  }
+
+  function decode(imgData, w, h) {
+    return jsQR(imgData, w, h, { inversionAttempts: 'attemptBoth' });
+  }
+  function scanBitmap(src, sw, sh) {
+    var tries = [1, 0.5, 2, 0.25];
+    for (var i = 0; i < tries.length; i++) {
+      var s = tries[i], w = Math.round(sw * s), h = Math.round(sh * s);
+      if (w < 60 || h < 60 || w > 4000 || h > 4000) continue;
+      var c = document.createElement('canvas'); c.width = w; c.height = h;
+      var ctx = c.getContext('2d', { willReadFrequently: true });
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(src, 0, 0, w, h);
+      var r = decode(ctx.getImageData(0, 0, w, h).data, w, h);
+      if (r && r.data) return r.data;
+    }
+    return null;
+  }
+
+  async function fromFile(file) {
+    stopCamera();
+    out.hidden = true; setStatus('', 'info');
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { setStatus('Only pictures can be read here.', 'err'); return; }
+    try {
+      var bmp = await createImageBitmap(file);
+      var res = scanBitmap(bmp, bmp.width, bmp.height);
+      if (bmp.close) bmp.close();
+      if (res === null) setStatus('No QR code found. Try a sharper picture, with the whole code and a white border visible.', 'err');
+      else show(res);
+    } catch (e) { setStatus('This picture could not be opened.', 'err'); }
+  }
+
+  input.addEventListener('change', function () { fromFile(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) fromFile(e.dataTransfer.files[0]); });
+  document.addEventListener('paste', function (e) {
+    if (!$('drop').offsetParent) return;   /* only while this tab is visible */
+    var items = e.clipboardData && e.clipboardData.files;
+    if (items && items[0]) fromFile(items[0]);
+  });
+
+  copyBtn.addEventListener('click', async function () {
+    try { await navigator.clipboard.writeText(text.value); setStatus('Copied.', 'ok'); }
+    catch (e) { text.select(); setStatus('Press Ctrl+C (or Cmd+C) to copy.', 'info'); }
+  });
+
+  /* Camera */
+  function stopCamera() {
+    scanning = false;
+    if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+    video.srcObject = null; camwrap.hidden = true; camstop.hidden = true; cam.hidden = false;
+  }
+  function loop() {
+    if (!scanning) return;
+    if (video.readyState >= 2 && video.videoWidth) {
+      var w = video.videoWidth, h = video.videoHeight, scale = Math.min(1, 800 / Math.max(w, h));
+      var c = loop.c || (loop.c = document.createElement('canvas'));
+      c.width = Math.round(w * scale); c.height = Math.round(h * scale);
+      var ctx = c.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(video, 0, 0, c.width, c.height);
+      var r = decode(ctx.getImageData(0, 0, c.width, c.height).data, c.width, c.height);
+      if (r && r.data) { stopCamera(); show(r.data); return; }
+    }
+    setTimeout(function () { requestAnimationFrame(loop); }, 120);
+  }
+  cam.addEventListener('click', async function () {
+    out.hidden = true;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { setStatus('The camera needs a secure page (https) and a browser that supports it.', 'err'); return; }
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+      video.srcObject = stream; await video.play();
+      camwrap.hidden = false; camstop.hidden = false; cam.hidden = true; scanning = true;
+      setStatus('Point the camera at a QR code.', 'info');
+      loop();
+    } catch (e) {
+      stopCamera();
+      setStatus(e && e.name === 'NotAllowedError' ? 'Camera permission was refused.' : 'The camera could not be started.', 'err');
+    }
+  });
+  camstop.addEventListener('click', function () { stopCamera(); setStatus('', 'info'); });
+  window.addEventListener('pagehide', stopCamera);
+})();
+</script>
+
+</body>
+</html>

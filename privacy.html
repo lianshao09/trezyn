@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>How Trezyn Works and Why Your Files Stay Private · Trezyn</title>
+<meta name="description" content="Trezyn runs every tool in your browser. See what stays on your device, what does not, and how to check it with the Network tab.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/privacy.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="How Trezyn Works and Why Your Files Stay Private · Trezyn">
+<meta property="og:description" content="Trezyn runs every tool in your browser. See what stays on your device, what does not, and how to check it with the Network tab.">
+<meta property="og:url" content="https://trezyn.site/privacy.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How Trezyn Works and Why Your Files Stay Private · Trezyn">
+<meta name="twitter:description" content="Trezyn runs every tool in your browser. See what stays on your device, what does not, and how to check it with the Network tab.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "How Trezyn Works and Why Your Files Stay Private", "url": "https://trezyn.site/privacy.html", "description": "Trezyn runs every tool in your browser. See what stays on your device, what does not, and how to check it with the Network tab."}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261020a">
+<script src="assets/theme.js?v=20261020a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.webp" alt="" width="444" height="412"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main menu">
+      <a href="qr.html">QR code</a>
+      <a href="compress.html">Compress</a>
+      <a href="convert.html">Convert</a>
+      <a href="remove-metadata.html">Metadata</a>
+      <a href="images-pdf.html">Images & PDF</a>
+      <a href="pdf-tools.html">PDF tools</a>
+      <a href="encrypt.html">Encrypt</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html">Privacy check</a>
+    </nav>
+  </header>
+
+  <main class="article">
+    <h1>How it works</h1>
+    <p class="lede">Every tool on this site runs inside your browser. Your files, text and passwords are processed on your device and are not sent to a server. You do not have to take our word for it, and this page shows how to check.</p>
+    <section class="about">
+      <h2>What stays on your device</h2>
+      <p>Photos, PDFs, Office files, text to encrypt, passwords and QR pictures or camera frames are opened and changed by JavaScript that runs in your own browser. The result is saved as a download from your own memory. The site has no upload form and no server code that could receive a file.</p>
+      <p>The libraries that do the work, such as the PDF and QR code libraries, are stored on this site and load from it, not from another company.</p>
+    </section>
+    <section class="about">
+      <h2>How to check it yourself</h2>
+      <ol class="steps">
+        <li><strong>1.</strong> Open any tool and press F12 (or right-click and choose Inspect), then open the Network tab.</li>
+        <li><strong>2.</strong> Use the tool with a file. You will see no request that carries your file or text. Only the page, its scripts, its styles and its fonts appear, all from this site.</li>
+        <li><strong>3.</strong> Load a tool page, switch your device to airplane mode, and use it again. It keeps working, because nothing needs the internet.</li>
+        <li><strong>4.</strong> The server also tells your browser to block connections to other sites. Look for the Content-Security-Policy header in the first request.</li>
+      </ol>
+    </section>
+    <section class="about">
+      <h2>What does leave your browser</h2>
+      <p>Loading the pages: your browser asks this site for them, so the hosting company, like any host, may keep ordinary server logs with the address, time and page requested. We use no analytics, no cookies and no advertising scripts, and fonts are served from this site, not from Google.</p>
+      <p>The Privacy check page: only when you press its network button, it asks api.ipify.org for your public IP address and uses a public STUN server to test what WebRTC reveals. This is the point of that tool, and nothing happens until you press the button.</p>
+    </section>
+    <section class="about">
+      <h2>What is saved in your browser</h2>
+      <p>Only your theme choice and the last settings of dropdowns, sliders, colors and tick boxes, such as image quality. They are stored in local storage on your device. Text, passwords, files and encryption keys are never saved. Clearing the site data in your browser removes it all.</p>
+    </section>
+    <section class="about">
+      <h2>Limits you should know</h2>
+      <p>A browser extension can read the pages you visit, so use a clean profile for very sensitive work. If you forget an encryption password, the data cannot be recovered. Removing metadata does not remove what a photo or document shows. Redaction should be tested on the result. See the <a href="guides.html">guides</a> for each task.</p>
+    </section>
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+</body>
+</html>

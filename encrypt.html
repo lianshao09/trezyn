@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Encrypt and Decrypt Text and Files with a Password · Trezyn</title>
+<meta name="description" content="Lock text or files with a password using AES-256 encryption, and unlock them again. Free, no sign-up, and everything stays in your browser.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/encrypt.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="Encrypt and Decrypt Text and Files with a Password · Trezyn">
+<meta property="og:description" content="Lock text or files with a password using AES-256 encryption, and unlock them again. Free, no sign-up, and everything stays in your browser.">
+<meta property="og:url" content="https://trezyn.site/encrypt.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Encrypt and Decrypt Text and Files with a Password · Trezyn">
+<meta name="twitter:description" content="Lock text or files with a password using AES-256 encryption, and unlock them again. Free, no sign-up, and everything stays in your browser.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Encrypt and Decrypt Text and Files with a Password", "url": "https://trezyn.site/encrypt.html", "description": "Lock text or files with a password using AES-256 encryption, and unlock them again. Free, no sign-up, and everything stays in your browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261020a">
+<script src="assets/theme.js?v=20261020a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.webp" alt="" width="444" height="412"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main menu">
+      <a href="qr.html">QR code</a>
+      <a href="compress.html">Compress</a>
+      <a href="convert.html">Convert</a>
+      <a href="remove-metadata.html">Metadata</a>
+      <a href="images-pdf.html">Images & PDF</a>
+      <a href="pdf-tools.html">PDF tools</a>
+      <a href="encrypt.html" aria-current="page">Encrypt</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html">Privacy check</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Encrypt and decrypt</h1>
+    <div class="tabs" role="tablist" aria-label="Encrypt and decrypt">
+      <button type="button" role="tab" class="tab" id="tab-text" aria-controls="panel-text" aria-selected="true" tabindex="0">Text</button>
+      <button type="button" role="tab" class="tab" id="tab-file" aria-controls="panel-file" aria-selected="false" tabindex="-1">Files</button>
+    </div>
+    <section role="tabpanel" id="panel-text" aria-labelledby="tab-text">
+    <p class="lede">Lock a note or message with a password, or unlock one you locked before. Everything happens in your browser.</p>
+
+    <div class="controls">
+      <form id="text-form" class="panel" novalidate>
+        <fieldset class="field">
+          <legend>What do you want to do?</legend>
+          <div class="checks">
+            <label class="check"><input type="radio" name="mode" value="enc" checked> Encrypt (lock)</label>
+            <label class="check"><input type="radio" name="mode" value="dec"> Decrypt (unlock)</label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="text-input" id="text-in-label">Text to encrypt</label>
+          <textarea id="text-input" rows="6" spellcheck="false"></textarea>
+        </div>
+        <div class="field">
+          <label for="text-pw">Password</label>
+          <input type="password" id="text-pw" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="field" id="text-f-pw2">
+          <label for="text-pw2">Repeat password</label>
+          <input type="password" id="text-pw2" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="checks"><label class="check"><input type="checkbox" id="text-show"> Show passwords</label></div>
+
+        <div>
+          <button type="submit" class="btn" id="text-go">Encrypt</button>
+        </div>
+        <p class="status" id="text-status" role="status" data-tone="info"></p>
+        <div class="field" id="text-f-out" hidden>
+          <label for="text-output">Result</label>
+          <textarea id="text-output" rows="6" readonly spellcheck="false"></textarea>
+          <div><button type="button" class="btn small" id="text-copy">Copy</button></div>
+        </div>
+        <ul class="notes">
+          <li><strong>No recovery:</strong> if you forget the password, nobody can open the data again, including us.</li>
+          <li><strong>Strength:</strong> a long password or a passphrase of 4 or more random words is much safer than a short one. The Passwords tool can make one.</li>
+          <li><strong>Method:</strong> AES-256-GCM, with the key made from your password by PBKDF2-SHA256 (600,000 rounds) and a new random salt each time. Only this site can open what it locks.</li>
+        </ul>
+
+      </form>
+    </div>
+  </section>
+    <section role="tabpanel" id="panel-file" aria-labelledby="tab-file" hidden>
+    <p class="lede">Lock any file with a password, or unlock one you locked here before. The file never leaves your device.</p>
+
+    <div class="controls">
+      <label class="drop" id="file-drop" for="file-file">
+        <strong>Choose a file or drag it here</strong>
+        <span>Any type, up to 256 MB, one at a time</span>
+        <input type="file" id="file-file">
+      </label>
+      <p class="summary" id="file-fileinfo" aria-live="polite" hidden></p>
+
+      <form id="file-form" class="panel" novalidate>
+        <fieldset class="field">
+          <legend>What do you want to do?</legend>
+          <div class="checks">
+            <label class="check"><input type="radio" name="mode" value="enc" checked> Encrypt (lock)</label>
+            <label class="check"><input type="radio" name="mode" value="dec"> Decrypt (unlock)</label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="file-pw">Password</label>
+          <input type="password" id="file-pw" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="field" id="file-f-pw2">
+          <label for="file-pw2">Repeat password</label>
+          <input type="password" id="file-pw2" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="checks"><label class="check"><input type="checkbox" id="file-show"> Show passwords</label></div>
+
+        <div>
+          <button type="submit" class="btn" id="file-go" disabled>Encrypt file</button>
+        </div>
+        <p class="status" id="file-status" role="status" data-tone="info"></p>
+        <div id="file-result" hidden>
+          <a class="btn" id="file-dl" href="#" download="">Download</a>
+        </div>
+        <ul class="notes">
+          <li><strong>No recovery:</strong> if you forget the password, nobody can open the data again, including us.</li>
+          <li><strong>Strength:</strong> a long password or a passphrase of 4 or more random words is much safer than a short one. The Passwords tool can make one.</li>
+          <li><strong>Method:</strong> AES-256-GCM, with the key made from your password by PBKDF2-SHA256 (600,000 rounds) and a new random salt each time. Only this site can open what it locks. The file name is locked too.</li>
+        </ul>
+
+      </form>
+    </div>
+  </section>
+<!--about-->
+    <section class="about">
+      <h2>About the encryption tool</h2>
+      <p>Type a password and lock a message, or drop in any file. The result can only be opened with the same password. Locked text is a short string you can paste into an email or note. Locked files are saved with the extension .tzenc.</p>
+      <p>The tool uses AES-256-GCM, the standard used by banks and governments, with a key made from your password by PBKDF2-SHA256 and a new random salt every time. If the password is wrong or the data was changed, unlocking fails instead of giving wrong output.</p>
+      <p>There is no password recovery. If you forget it, the data is gone. Use a long password or a passphrase, and keep it in a password manager. Nothing is uploaded: the locking happens in your browser and needs a secure (https) connection.</p>
+      <p class="rel">Guides: <a href="guide-encrypt-a-file-with-a-password.html">How to Encrypt a File with a Password</a>.</p>
+    </section>
+    <!--/about-->
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function show(t, focus) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) t.focus();
+    try { history.replaceState(null, '', '#' + t.id.slice(4)); } catch (e) {}
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(t, false); });
+    t.addEventListener('keydown', function (e) {
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+      if (j < 0) return;
+      e.preventDefault(); show(tabs[(j + tabs.length) % tabs.length], true);
+    });
+  });
+  var want = location.hash.slice(1), hit = tabs.filter(function (t) { return t.id === 'tab-' + want; })[0];
+  if (hit) show(hit, false);
+})();
+</script>
+<script>
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('[id$="fileinfo"]'), function (el) {
+    var drop = el.parentNode.querySelector('.drop');
+    if (!drop) return;
+    var strong = drop.querySelector('strong'), sub = drop.querySelector('span');
+    var o1 = strong.textContent, o2 = sub ? sub.textContent : '';
+    function sync() {
+      var on = !el.hidden && el.textContent;
+      drop.classList.toggle('has-file', !!on);
+      strong.textContent = on ? '\u2713 ' + el.textContent : o1;
+      if (sub) sub.textContent = on ? 'Click to choose a different file' : o2;
+    }
+    new MutationObserver(sync).observe(el, { attributes: true, childList: true, characterData: true, subtree: true });
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  var ITER = 600000;
+  var enc = new TextEncoder(), dec = new TextDecoder('utf-8', { fatal: true });
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  function concat(parts) {
+    var total = 0, i;
+    for (i = 0; i < parts.length; i++) total += parts[i].length;
+    var out = new Uint8Array(total), pos = 0;
+    for (i = 0; i < parts.length; i++) { out.set(parts[i], pos); pos += parts[i].length; }
+    return out;
+  }
+  function b64enc(u8) {
+    var s = '';
+    for (var i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000));
+    return btoa(s);
+  }
+  function b64dec(text) {
+    var s = atob(text), out = new Uint8Array(s.length);
+    for (var i = 0; i < s.length; i++) out[i] = s.charCodeAt(i);
+    return out;
+  }
+  function sameBytes(a, b) { for (var i = 0; i < b.length; i++) if (a[i] !== b[i]) return false; return true; }
+  async function deriveKey(password, salt) {
+    var base = await crypto.subtle.importKey('raw', enc.encode(password.normalize('NFKC')), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: ITER, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+  }
+  /* magic | salt(16) | iv(12) | ciphertext+tag */
+  async function seal(plain, password, magic) {
+    var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+    var key = await deriveKey(password, salt);
+    var ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, plain));
+    return concat([magic, salt, iv, ct]);
+  }
+  async function unseal(data, password, magic) {
+    var m = magic.length;
+    if (data.length < m + 16 + 12 + 16 || !sameBytes(data, magic)) return { error: 'format' };
+    var salt = data.subarray(m, m + 16), iv = data.subarray(m + 16, m + 28), ct = data.subarray(m + 28);
+    var key = await deriveKey(password, salt);
+    try { return { plain: new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct)) }; }
+    catch (e) { return { error: 'password' }; }
+  }
+  function checkPasswords(mode, pw, pw2) {
+    if (pw.length < 8) return 'Use a password of at least 8 characters.';
+    if (mode === 'enc' && pw !== pw2) return 'The two passwords do not match.';
+    return '';
+  }
+  /* </pure> */
+
+  var MAGIC = enc.encode('TZT1');
+  var PREFIX = 'tz1.';
+
+  var $ = function (id) { return document.getElementById('text-' + id); };
+  var form = $('form'), input = $('input'), output = $('output'), pw = $('pw'), pw2 = $('pw2'), go = $('go');
+  var statusEl = $('status'), fOut = $('f-out'), fPw2 = $('f-pw2'), inLabel = $('in-label');
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+  function mode() { return form.elements['mode'].value; }
+
+  if (!window.crypto || !crypto.subtle) {
+    setStatus('Encryption needs a secure connection (https). Open this site with https://.', 'err');
+    go.disabled = true;
+  }
+
+  function sync() {
+    var e = mode() === 'enc';
+    fPw2.hidden = !e;
+    go.textContent = e ? 'Encrypt' : 'Decrypt';
+    inLabel.textContent = e ? 'Text to encrypt' : 'Text to decrypt';
+    fOut.hidden = true; output.value = ''; setStatus('', 'info');
+  }
+  form.addEventListener('change', function (e) { if (e.target.name === 'mode') sync(); });
+  $('show').addEventListener('change', function (e) { pw.type = pw2.type = e.target.checked ? 'text' : 'password'; });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (go.disabled) return;
+    var m = mode(), text = input.value;
+    if (!text.trim()) { setStatus(m === 'enc' ? 'Type the text you want to lock.' : 'Paste the text you want to unlock.', 'err'); input.focus(); return; }
+    var bad = checkPasswords(m, pw.value, pw2.value);
+    if (bad) { setStatus(bad, 'err'); (pw.value.length < 8 ? pw : pw2).focus(); return; }
+    go.disabled = true; fOut.hidden = true; setStatus('Working…', 'info');
+    try {
+      if (m === 'enc') {
+        var sealed = await seal(enc.encode(text), pw.value, MAGIC);
+        output.value = PREFIX + b64enc(sealed);
+        setStatus('Locked. Copy the result and keep your password safe.', 'ok');
+      } else {
+        var raw = text.replace(/\s+/g, '');
+        if (raw.indexOf(PREFIX) !== 0) throw { code: 'format' };
+        var bytes;
+        try { bytes = b64dec(raw.slice(PREFIX.length)); } catch (x) { throw { code: 'format' }; }
+        var r = await unseal(bytes, pw.value, MAGIC);
+        if (r.error) throw { code: r.error };
+        output.value = dec.decode(r.plain);
+        setStatus('Unlocked.', 'ok');
+      }
+      fOut.hidden = false;
+    } catch (err) {
+      if (err && err.code === 'format') setStatus('This does not look like text locked with this tool. Paste all of it, starting with "tz1.".', 'err');
+      else if (err && err.code === 'password') setStatus('Wrong password, or the text was changed.', 'err');
+      else setStatus('Something went wrong. Check the text and try again.', 'err');
+    }
+    go.disabled = false;
+  });
+
+  $('copy').addEventListener('click', async function () {
+    try { await navigator.clipboard.writeText(output.value); setStatus('Copied.', 'ok'); }
+    catch (e) { output.select(); setStatus('Press Ctrl+C (or Cmd+C) to copy.', 'info'); }
+  });
+  sync();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  var ITER = 600000;
+  var enc = new TextEncoder(), dec = new TextDecoder('utf-8', { fatal: true });
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  function concat(parts) {
+    var total = 0, i;
+    for (i = 0; i < parts.length; i++) total += parts[i].length;
+    var out = new Uint8Array(total), pos = 0;
+    for (i = 0; i < parts.length; i++) { out.set(parts[i], pos); pos += parts[i].length; }
+    return out;
+  }
+  function b64enc(u8) {
+    var s = '';
+    for (var i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000));
+    return btoa(s);
+  }
+  function b64dec(text) {
+    var s = atob(text), out = new Uint8Array(s.length);
+    for (var i = 0; i < s.length; i++) out[i] = s.charCodeAt(i);
+    return out;
+  }
+  function sameBytes(a, b) { for (var i = 0; i < b.length; i++) if (a[i] !== b[i]) return false; return true; }
+  async function deriveKey(password, salt) {
+    var base = await crypto.subtle.importKey('raw', enc.encode(password.normalize('NFKC')), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: ITER, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+  }
+  /* magic | salt(16) | iv(12) | ciphertext+tag */
+  async function seal(plain, password, magic) {
+    var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+    var key = await deriveKey(password, salt);
+    var ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, plain));
+    return concat([magic, salt, iv, ct]);
+  }
+  async function unseal(data, password, magic) {
+    var m = magic.length;
+    if (data.length < m + 16 + 12 + 16 || !sameBytes(data, magic)) return { error: 'format' };
+    var salt = data.subarray(m, m + 16), iv = data.subarray(m + 16, m + 28), ct = data.subarray(m + 28);
+    var key = await deriveKey(password, salt);
+    try { return { plain: new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct)) }; }
+    catch (e) { return { error: 'password' }; }
+  }
+  function checkPasswords(mode, pw, pw2) {
+    if (pw.length < 8) return 'Use a password of at least 8 characters.';
+    if (mode === 'enc' && pw !== pw2) return 'The two passwords do not match.';
+    return '';
+  }
+  /* </pure> */
+
+  var MAGIC = enc.encode('TZF1');
+  var EXT = '.tzenc';
+  var LIMIT = 256 * 1024 * 1024;
+
+  var $ = function (id) { return document.getElementById('file-' + id); };
+  var form = $('form'), input = $('file'), drop = $('drop'), info = $('fileinfo'), pw = $('pw'), pw2 = $('pw2'), go = $('go');
+  var statusEl = $('status'), fPw2 = $('f-pw2'), result = $('result'), dl = $('dl');
+  var file = null, dlUrl = null, busy = false;
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+  function mode() { return form.elements['mode'].value; }
+  function clearResult() { result.hidden = true; if (dlUrl) { URL.revokeObjectURL(dlUrl); dlUrl = null; } }
+  function safeName(n) { return n.replace(/[\\/:*?"<>|\u0000-\u001f]/g, '_').trim() || 'file'; }
+
+  if (!window.crypto || !crypto.subtle) {
+    setStatus('Encryption needs a secure connection (https). Open this site with https://.', 'err');
+  }
+  function refresh() {
+    var e = mode() === 'enc';
+    fPw2.hidden = !e;
+    go.textContent = e ? 'Encrypt file' : 'Decrypt file';
+    go.disabled = !file || busy || !(window.crypto && crypto.subtle);
+  }
+
+  async function pick(f) {
+    clearResult(); setStatus('', 'info'); file = null; info.hidden = true;
+    if (!f) { refresh(); return; }
+    if (f.size > LIMIT) { setStatus('This file is larger than 256 MB. Files that big do not fit in browser memory.', 'err'); refresh(); return; }
+    if (f.size === 0) { setStatus('This file is empty.', 'err'); refresh(); return; }
+    file = f;
+    info.textContent = f.name + ' · ' + formatBytes(f.size);
+    info.hidden = false;
+    var head = new Uint8Array(await f.slice(0, 4).arrayBuffer());
+    var looksLocked = sameBytes(head, MAGIC);
+    var radio = form.querySelector('input[name="mode"][value="' + (looksLocked ? 'dec' : 'enc') + '"]');
+    radio.checked = true;
+    if (looksLocked) setStatus('This file was locked with this tool. Enter the password to unlock it.', 'info');
+    refresh();
+  }
+  input.addEventListener('change', function () { pick(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) pick(e.dataTransfer.files[0]); });
+  form.addEventListener('change', function (e) { if (e.target.name === 'mode') { clearResult(); setStatus('', 'info'); } refresh(); });
+  $('show').addEventListener('change', function (e) { pw.type = pw2.type = e.target.checked ? 'text' : 'password'; });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!file || busy) return;
+    var m = mode();
+    var bad = checkPasswords(m, pw.value, pw2.value);
+    if (bad) { setStatus(bad, 'err'); (pw.value.length < 8 ? pw : pw2).focus(); return; }
+    busy = true; clearResult(); refresh(); setStatus('Working… this can take a few seconds.', 'info');
+    try {
+      var data = new Uint8Array(await file.arrayBuffer()), blob, name;
+      if (m === 'enc') {
+        var nm = enc.encode(file.name);
+        if (nm.length > 65535) throw new Error('name');
+        var head = new Uint8Array([nm.length >> 8, nm.length & 255]);
+        var sealed = await seal(concat([head, nm, data]), pw.value, MAGIC);
+        blob = new Blob([sealed], { type: 'application/octet-stream' });
+        name = safeName(file.name) + EXT;
+      } else {
+        var r = await unseal(data, pw.value, MAGIC);
+        if (r.error === 'format') { setStatus('This file was not locked with this tool, so it cannot be unlocked here.', 'err'); busy = false; refresh(); return; }
+        if (r.error) { setStatus('Wrong password, or the file was changed.', 'err'); busy = false; refresh(); return; }
+        var len = (r.plain[0] << 8) | r.plain[1];
+        if (2 + len > r.plain.length) throw new Error('damaged');
+        name = safeName(dec.decode(r.plain.subarray(2, 2 + len)));
+        blob = new Blob([r.plain.subarray(2 + len)], { type: 'application/octet-stream' });
+      }
+      dlUrl = URL.createObjectURL(blob);
+      dl.href = dlUrl; dl.setAttribute('download', name);
+      dl.textContent = 'Download ' + name + ' (' + formatBytes(blob.size) + ')';
+      result.hidden = false;
+      setStatus(m === 'enc' ? 'Locked. Keep your password safe: it cannot be recovered.' : 'Unlocked.', 'ok');
+    } catch (err) {
+      setStatus('Something went wrong. The file may be too large for this device or damaged.', 'err');
+    }
+    busy = false; refresh();
+  });
+  refresh();
+})();
+</script>
+
+</body>
+</html>

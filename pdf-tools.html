@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Merge, Split and Organize PDF Online, Free · Trezyn</title>
+<meta name="description" content="Merge PDF files, split a PDF, rotate, reorder and delete pages, or cover parts with black boxes. Free, no sign-up, and your files never leave your device.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/pdf-tools.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="Merge, Split and Organize PDF Online, Free · Trezyn">
+<meta property="og:description" content="Merge PDF files, split a PDF, rotate, reorder and delete pages, or cover parts with black boxes. Free, no sign-up, and your files never leave your device.">
+<meta property="og:url" content="https://trezyn.site/pdf-tools.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Merge, Split and Organize PDF Online, Free · Trezyn">
+<meta name="twitter:description" content="Merge PDF files, split a PDF, rotate, reorder and delete pages, or cover parts with black boxes. Free, no sign-up, and your files never leave your device.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Merge, Split and Organize PDF Online, Free", "url": "https://trezyn.site/pdf-tools.html", "description": "Merge PDF files, split a PDF, rotate, reorder and delete pages, or cover parts with black boxes. Free, no sign-up, and your files never leave your device.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261020a">
+<script src="assets/theme.js?v=20261020a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.webp" alt="" width="444" height="412"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main menu">
+      <a href="qr.html">QR code</a>
+      <a href="compress.html">Compress</a>
+      <a href="convert.html">Convert</a>
+      <a href="remove-metadata.html">Metadata</a>
+      <a href="images-pdf.html">Images & PDF</a>
+      <a href="pdf-tools.html" aria-current="page">PDF tools</a>
+      <a href="encrypt.html">Encrypt</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html">Privacy check</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>PDF tools</h1>
+    <div class="tabs" role="tablist" aria-label="PDF tools">
+      <button type="button" role="tab" class="tab" id="tab-merge" aria-controls="panel-merge" aria-selected="true" tabindex="0">Merge</button>
+      <button type="button" role="tab" class="tab" id="tab-split" aria-controls="panel-split" aria-selected="false" tabindex="-1">Split</button>
+      <button type="button" role="tab" class="tab" id="tab-organize" aria-controls="panel-organize" aria-selected="false" tabindex="-1">Organize</button>
+      <button type="button" role="tab" class="tab" id="tab-redact" aria-controls="panel-redact" aria-selected="false" tabindex="-1">Redact</button>
+    </div>
+    <section role="tabpanel" id="panel-merge" aria-labelledby="tab-merge">
+    <p class="lede">Add two or more PDF files, put them in order and download one combined file. Your files are never uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="merge-drop" for="merge-files">
+        <strong>Choose PDF files or drag them here</strong>
+        <span>You can add more files at any time</span>
+        <input type="file" id="merge-files" accept="application/pdf,.pdf" multiple>
+      </label>
+
+      <ol class="list" id="merge-list" aria-label="Files to merge"></ol>
+
+      <form id="merge-form" class="panel" aria-label="Merge settings" novalidate>
+        <div class="field">
+          <label for="merge-outname">File name</label>
+          <input type="text" id="merge-outname" class="mono" value="merged.pdf" autocomplete="off" spellcheck="false">
+        </div>
+        <p class="summary" id="merge-summary" aria-live="polite">No files added yet.</p>
+        <div>
+          <button type="submit" class="btn" id="merge-merge" disabled>Merge PDFs</button>
+          <button type="button" class="btn ghost" id="merge-clear" disabled>Clear all</button>
+        </div>
+        <p class="status" id="merge-status" role="status" data-tone="info"></p>
+        <div id="merge-result" hidden>
+          <a class="btn" id="merge-dl" href="#" download="merged.pdf">Download merged PDF</a>
+        </div>
+      </form>
+    </div>
+  </section>
+    <section role="tabpanel" id="panel-split" aria-labelledby="tab-split" hidden>
+    <p class="lede">Pull out the pages you need, or cut a PDF into several files. Your file is never uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="split-drop" for="split-file">
+        <strong>Choose a PDF or drag it here</strong>
+        <span>One file at a time</span>
+        <input type="file" id="split-file" accept="application/pdf,.pdf">
+      </label>
+
+      <p class="summary" id="split-fileinfo" aria-live="polite" hidden></p>
+
+      <form id="split-form" class="panel" aria-label="Split settings" novalidate>
+        <fieldset class="field">
+          <legend>What do you want to do?</legend>
+          <div class="checks">
+            <label class="check"><input type="radio" name="mode" value="extract" checked> Extract pages into one PDF</label>
+            <label class="check"><input type="radio" name="mode" value="each"> Save every page as its own PDF</label>
+            <label class="check"><input type="radio" name="mode" value="every"> Cut into parts of a set number of pages</label>
+          </div>
+        </fieldset>
+
+        <div class="field" id="split-f-pages">
+          <label for="split-pages">Pages to extract</label>
+          <input type="text" id="split-pages" class="mono" value="" placeholder="1-3, 5, 8-10" autocomplete="off" spellcheck="false" aria-describedby="split-pages-hint">
+          <p class="hint" id="split-pages-hint">Use commas between pages and a dash for ranges, like 1-3, 5, 8-10. A range such as 8- goes to the last page.</p>
+        </div>
+
+        <div class="field" id="split-f-every" hidden>
+          <label for="split-every">Pages in each part</label>
+          <input type="text" id="split-every" class="mono" value="2" inputmode="numeric" autocomplete="off" style="max-width:8rem">
+          <p class="hint" id="split-every-hint"></p>
+        </div>
+
+        <div>
+          <button type="submit" class="btn" id="split-go" disabled>Split PDF</button>
+        </div>
+        <p class="status" id="split-status" role="status" data-tone="info"></p>
+        <div id="split-result" hidden>
+          <a class="btn" id="split-dl" href="#" download="">Download</a>
+        </div>
+      </form>
+    </div>
+  </section>
+    <section role="tabpanel" id="panel-organize" aria-labelledby="tab-organize" hidden>
+    <p class="lede">Rotate, reorder or delete pages, then save a new PDF. Your file is never uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="organize-drop" for="organize-file">
+        <strong>Choose a PDF or drag it here</strong>
+        <span>One file at a time</span>
+        <input type="file" id="organize-file" accept="application/pdf,.pdf">
+      </label>
+      <p class="summary" id="organize-fileinfo" aria-live="polite" hidden></p>
+      <p class="status" id="organize-status" role="status" data-tone="info"></p>
+
+      <div class="panel" id="organize-work" hidden>
+        <p class="hint">Use the buttons under each page. Deleted pages are left out of the new PDF.</p>
+        <div class="btnrow">
+          <button type="button" class="btn ghost small" id="organize-rotall">Rotate all right</button>
+          <button type="button" class="btn ghost small" id="organize-reset">Reset</button>
+        </div>
+        <ul class="pgrid" id="organize-grid"></ul>
+        <div>
+          <button type="button" class="btn" id="organize-save">Save PDF</button>
+        </div>
+        <div id="organize-result" hidden>
+          <a class="btn" id="organize-dl" href="#" download="">Download</a>
+        </div>
+      </div>
+    </div>
+  </section>
+    <section role="tabpanel" id="panel-redact" aria-labelledby="tab-redact" hidden>
+    <p class="lede">Cover names, numbers or whole areas with solid black boxes. Covered pages become pictures, so the hidden text cannot be copied out. Your file is never uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="redact-drop" for="redact-file">
+        <strong>Choose a PDF or drag it here</strong>
+        <span>One file at a time</span>
+        <input type="file" id="redact-file" accept="application/pdf,.pdf">
+      </label>
+      <p class="summary" id="redact-fileinfo" aria-live="polite" hidden></p>
+      <p class="status" id="redact-status" role="status" data-tone="info"></p>
+
+      <div class="panel" id="redact-work" hidden>
+        <form id="redact-finder" class="field" novalidate>
+          <label for="redact-term">Find text and cover it</label>
+          <div class="inline">
+            <input type="text" id="redact-term" autocomplete="off" spellcheck="false" placeholder="e.g. a name, an IBAN or a phone number">
+            <button type="submit" class="btn small" id="redact-find">Cover matches</button>
+          </div>
+          <p class="hint" id="redact-findhint">Matches within one line of text. Always check the pages below.</p>
+        </form>
+        <div class="btnrow">
+          <button type="button" class="btn ghost small" id="redact-draw" aria-pressed="true">Draw boxes: on</button>
+          <button type="button" class="btn ghost small" id="redact-undo">Undo last box</button>
+          <button type="button" class="btn ghost small" id="redact-clearall">Clear all boxes</button>
+        </div>
+        <p class="hint">Drag on a page to draw a box. On a phone, switch drawing off to scroll. Click a box to remove it.</p>
+        <div id="redact-pages" class="rpages"></div>
+        <div class="settings">
+          <div class="field">
+            <label for="redact-dpi">Quality of covered pages</label>
+            <select id="redact-dpi">
+              <option value="150" selected>Standard (150 dpi)</option>
+              <option value="200">High (200 dpi)</option>
+              <option value="300">Print (300 dpi, large file)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <button type="button" class="btn" id="redact-save" disabled>Cover and save PDF</button>
+        </div>
+        <div id="redact-result" hidden>
+          <a class="btn" id="redact-dl" href="#" download="">Download</a>
+        </div>
+        <p class="hint">Only pages with boxes are changed. Names can also hide in the document properties, bookmarks, form fields or attachments, so check the Metadata tool too, and open the result to make sure nothing shows through.</p>
+      </div>
+    </div>
+  </section>
+<!--about-->
+    <section class="about">
+      <h2>About the PDF tools</h2>
+      <p>Merge combines several PDF files into one in the order you choose. Split extracts the pages you need, saves every page as its own file, or cuts a PDF into parts of a set size. Organize shows a preview of each page so you can rotate, move or delete pages and save a new PDF. Redact covers names or whole areas with solid black boxes: covered pages are turned into pictures, so the hidden text cannot be copied out.</p>
+      <p>Password-protected PDFs cannot be changed here. Remove the password first.</p>
+      <p>All work happens inside your browser. Your documents are not uploaded to any server.</p>
+      <p class="rel">Guides: <a href="guide-redact-pdf-permanently.html">How to Redact a PDF Permanently</a>, <a href="guide-merge-and-split-pdf-files.html">How to Merge and Split PDF Files</a>.</p>
+    </section>
+    <!--/about-->
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+
+<script src="assets/pdf-lib.min.js"></script>
+<script src="assets/pdf.min.js"></script>
+<script src="assets/jszip.min.js"></script>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function show(t, focus) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) t.focus();
+    try { history.replaceState(null, '', '#' + t.id.slice(4)); } catch (e) {}
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(t, false); });
+    t.addEventListener('keydown', function (e) {
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+      if (j < 0) return;
+      e.preventDefault(); show(tabs[(j + tabs.length) % tabs.length], true);
+    });
+  });
+  var want = location.hash.slice(1), hit = tabs.filter(function (t) { return t.id === 'tab-' + want; })[0];
+  if (hit) show(hit, false);
+})();
+</script>
+<script>
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('[id$="fileinfo"]'), function (el) {
+    var drop = el.parentNode.querySelector('.drop');
+    if (!drop) return;
+    var strong = drop.querySelector('strong'), sub = drop.querySelector('span');
+    var o1 = strong.textContent, o2 = sub ? sub.textContent : '';
+    function sync() {
+      var on = !el.hidden && el.textContent;
+      drop.classList.toggle('has-file', !!on);
+      strong.textContent = on ? '\u2713 ' + el.textContent : o1;
+      if (sub) sub.textContent = on ? 'Click to choose a different file' : o2;
+    }
+    new MutationObserver(sync).observe(el, { attributes: true, childList: true, characterData: true, subtree: true });
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  function move(arr, from, to) {
+    if (to < 0 || to >= arr.length || from === to) return arr;
+    var copy = arr.slice();
+    var item = copy.splice(from, 1)[0];
+    copy.splice(to, 0, item);
+    return copy;
+  }
+  function safeName(v) {
+    var n = String(v).trim().replace(/[\\/:*?"<>|\u0000-\u001f]/g, '').replace(/\s+/g, ' ');
+    if (!n) n = 'merged';
+    return /\.pdf$/i.test(n) ? n : n + '.pdf';
+  }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById('merge-' + id); };
+  var input = $('files'), drop = $('drop'), list = $('list');
+  var mergeBtn = $('merge'), clearBtn = $('clear'), summary = $('summary'), statusEl = $('status');
+  var result = $('result'), dl = $('dl'), outname = $('outname');
+
+  var files = [];        /* { id, file, bytes, pages, error } */
+  var nextId = 1, dlUrl = null, busy = false, focusKey = null;
+
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+  function clearResult() {
+    result.hidden = true;
+    if (dlUrl) { URL.revokeObjectURL(dlUrl); dlUrl = null; }
+  }
+
+  function button(label, aria, key, fn, disabled) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn ghost small';
+    b.textContent = label;
+    b.setAttribute('aria-label', aria);
+    b.disabled = !!disabled || busy;
+    b.setAttribute('data-key', key);
+    b.addEventListener('click', fn);
+    return b;
+  }
+
+  function render() {
+    list.textContent = '';
+    files.forEach(function (f, i) {
+      var li = document.createElement('li');
+      li.className = 'row';
+      if (f.error) li.setAttribute('data-bad', 'true');
+
+      var pos = document.createElement('div');
+      pos.className = 'pos';
+      pos.textContent = String(i + 1);
+      li.appendChild(pos);
+
+      var name = document.createElement('div');
+      name.className = 'name';
+      name.textContent = f.file.name;
+      li.appendChild(name);
+
+      var info = document.createElement('div');
+      info.className = 'sizes';
+      if (f.error) { info.className += ' err'; info.textContent = f.error; }
+      else if (f.pages == null) info.textContent = 'Reading…';
+      else info.textContent = plural(f.pages, 'page', 'pages') + ' · ' + formatBytes(f.file.size);
+      li.appendChild(info);
+
+      var btns = document.createElement('div');
+      btns.className = 'btns';
+      btns.appendChild(button('Up', 'Move ' + f.file.name + ' up', f.id + ':up', function () { shift(f.id, -1, 'up'); }, i === 0));
+      btns.appendChild(button('Down', 'Move ' + f.file.name + ' down', f.id + ':down', function () { shift(f.id, 1, 'down'); }, i === files.length - 1));
+      btns.appendChild(button('Remove', 'Remove ' + f.file.name, f.id + ':rm', function () { remove(f.id); }));
+      li.appendChild(btns);
+      list.appendChild(li);
+    });
+    if (focusKey) {
+      var el = list.querySelector('[data-key="' + focusKey + '"]');
+      if (el && !el.disabled) el.focus();
+      focusKey = null;
+    }
+    updateSummary();
+  }
+
+  function valid() { return files.filter(function (f) { return !f.error && f.pages != null; }); }
+
+  function updateSummary() {
+    var v = valid();
+    var pages = v.reduce(function (a, f) { return a + f.pages; }, 0);
+    clearBtn.disabled = files.length === 0 || busy;
+    mergeBtn.disabled = v.length < 2 || busy || files.some(function (f) { return f.pages == null && !f.error; });
+    if (!files.length) summary.textContent = 'No files added yet.';
+    else if (v.length < 2) summary.textContent = 'Add at least two readable PDFs to merge.';
+    else summary.textContent = plural(v.length, 'file', 'files') + ' · ' + plural(pages, 'page', 'pages') + ' in the merged PDF';
+  }
+
+  function shift(id, d, dir) {
+    var i = files.findIndex(function (f) { return f.id === id; });
+    var j = i + d;
+    files = move(files, i, j);
+    var key = id + ':' + dir;
+    /* If the button is now disabled (moved to an end), keep focus on its opposite. */
+    focusKey = (j === 0 && dir === 'up') ? id + ':down' : (j === files.length - 1 && dir === 'down') ? id + ':up' : key;
+    clearResult();
+    render();
+  }
+  function remove(id) {
+    var i = files.findIndex(function (f) { return f.id === id; });
+    files.splice(i, 1);
+    clearResult();
+    setStatus('', 'info');
+    render();
+    if (!files.length) input.focus();
+  }
+
+  async function addFile(file) {
+    var f = { id: nextId++, file: file, bytes: null, pages: null, error: null };
+    files.push(f);
+    render();
+    try {
+      f.bytes = await file.arrayBuffer();
+      var doc = await PDFLib.PDFDocument.load(f.bytes, { updateMetadata: false });
+      f.pages = doc.getPageCount();
+    } catch (e) {
+      var msg = String(e && e.message || e);
+      f.error = /encrypt/i.test(msg)
+        ? 'This PDF is password-protected. Remove the password first.'
+        : 'This file could not be read as a PDF.';
+      f.bytes = null;
+    }
+    render();
+  }
+
+  async function add(fileList) {
+    clearResult();
+    setStatus('', 'info');
+    var pdfs = Array.prototype.filter.call(fileList, function (f) { return f.type === 'application/pdf' || /\.pdf$/i.test(f.name); });
+    if (fileList.length && !pdfs.length) setStatus('Only PDF files can be added here.', 'err');
+    for (var i = 0; i < pdfs.length; i++) await addFile(pdfs[i]);
+  }
+
+  input.addEventListener('change', function () { add(input.files); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); });
+  });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer) add(e.dataTransfer.files); });
+
+  clearBtn.addEventListener('click', function () {
+    files = [];
+    clearResult();
+    setStatus('', 'info');
+    render();
+  });
+
+  $('form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var v = valid();
+    if (v.length < 2 || busy) return;
+    busy = true;
+    clearResult();
+    setStatus('Merging…', 'info');
+    render();
+    try {
+      var out = await PDFLib.PDFDocument.create();
+      for (var i = 0; i < v.length; i++) {
+        var src = await PDFLib.PDFDocument.load(v[i].bytes, { updateMetadata: false });
+        var pages = await out.copyPages(src, src.getPageIndices());
+        pages.forEach(function (p) { out.addPage(p); });
+      }
+      var bytes = await out.save();
+      var blob = new Blob([bytes], { type: 'application/pdf' });
+      dlUrl = URL.createObjectURL(blob);
+      var name = safeName(outname.value);
+      dl.href = dlUrl;
+      dl.setAttribute('download', name);
+      dl.textContent = 'Download ' + name + ' (' + plural(out.getPageCount(), 'page', 'pages') + ', ' + formatBytes(blob.size) + ')';
+      result.hidden = false;
+      setStatus('Done. Your merged PDF is ready.', 'ok');
+    } catch (err) {
+      setStatus('Merging failed. One of the files may be damaged. Remove it and try again.', 'err');
+    }
+    busy = false;
+    render();
+  });
+  outname.addEventListener('input', clearResultIfStale);
+  function clearResultIfStale() { if (!result.hidden) { dl.setAttribute('download', safeName(outname.value)); } }
+
+  render();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function baseName(name) {
+    var i = name.lastIndexOf('.');
+    return (i > 0 ? name.slice(0, i) : name).replace(/[\\/:*?"<>|\u0000-\u001f]/g, '').trim() || 'document';
+  }
+  /* "1-3, 5, 8-" -> zero-based page indexes, in the order typed. */
+  function parseRanges(text, max) {
+    var parts = String(text).split(/[,;\s]+/).filter(Boolean);
+    if (!parts.length) return { error: 'Enter the pages you want, for example 1-3, 5.' };
+    var out = [];
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      var m = /^(\d+)$/.exec(p);
+      var a, b;
+      if (m) { a = b = parseInt(m[1], 10); }
+      else if ((m = /^(\d+)-(\d*)$/.exec(p))) { a = parseInt(m[1], 10); b = m[2] === '' ? max : parseInt(m[2], 10); }
+      else return { error: '"' + p + '" is not a page or a range. Use numbers and dashes, like 1-3.' };
+      if (a < 1 || b < 1) return { error: 'Pages start at 1.' };
+      if (a > max) return { error: 'Page ' + a + ' does not exist. This PDF has ' + plural(max, 'page', 'pages') + '.' };
+      if (b > max) return { error: 'Page ' + b + ' does not exist. This PDF has ' + plural(max, 'page', 'pages') + '.' };
+      if (b < a) return { error: 'The range ' + a + '-' + b + ' goes backwards. Write it as ' + b + '-' + a + '.' };
+      for (var k = a; k <= b; k++) out.push(k - 1);
+    }
+    return { pages: out };
+  }
+  function chunk(total, size) {
+    var parts = [];
+    for (var s = 0; s < total; s += size) {
+      var part = [];
+      for (var k = s; k < Math.min(total, s + size); k++) part.push(k);
+      parts.push(part);
+    }
+    return parts;
+  }
+  function pad(n, width) { var s = String(n); while (s.length < width) s = '0' + s; return s; }
+  function describe(indexes) {
+    var first = indexes[0] + 1, last = indexes[indexes.length - 1] + 1;
+    var run = indexes.every(function (v, i) { return v === indexes[0] + i; });
+    if (indexes.length === 1) return String(first);
+    if (run) return first + '-' + last;
+    return indexes.length <= 6 ? indexes.map(function (v) { return v + 1; }).join('_') : 'selection';
+  }
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById('split-' + id); };
+  var input = $('file'), drop = $('drop'), info = $('fileinfo'), form = $('form');
+  var pages = $('pages'), every = $('every'), go = $('go'), statusEl = $('status');
+  var result = $('result'), dl = $('dl'), fPages = $('f-pages'), fEvery = $('f-every'), everyHint = $('every-hint');
+
+  var doc = null;       /* { name, bytes, count, size } */
+  var dlUrl = null, busy = false;
+
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+  function clearResult() { result.hidden = true; if (dlUrl) { URL.revokeObjectURL(dlUrl); dlUrl = null; } }
+  function mode() { return form.elements['mode'].value; }
+
+  function refresh() {
+    var m = mode();
+    fPages.hidden = m !== 'extract';
+    fEvery.hidden = m !== 'every';
+    go.disabled = !doc || busy;
+    if (doc) everyHint.textContent = 'This PDF has ' + plural(doc.count, 'page', 'pages') + '.';
+  }
+
+  async function load(file) {
+    clearResult();
+    setStatus('', 'info');
+    doc = null;
+    info.hidden = true;
+    refresh();
+    if (!file) return;
+    if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) { setStatus('Only PDF files can be used here.', 'err'); return; }
+    try {
+      var bytes = await file.arrayBuffer();
+      var src = await PDFLib.PDFDocument.load(bytes, { updateMetadata: false });
+      doc = { name: file.name, bytes: bytes, count: src.getPageCount(), size: file.size };
+      info.textContent = file.name + ' · ' + plural(doc.count, 'page', 'pages') + ' · ' + formatBytes(file.size);
+      info.hidden = false;
+      if (!pages.value) pages.value = doc.count > 1 ? '1-' + Math.min(doc.count, 3) : '1';
+    } catch (e) {
+      var msg = String(e && e.message || e);
+      setStatus(/encrypt/i.test(msg) ? 'This PDF is password-protected. Remove the password first.' : 'This file could not be read as a PDF.', 'err');
+    }
+    refresh();
+  }
+
+  input.addEventListener('change', function () { load(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) load(e.dataTransfer.files[0]); });
+  form.addEventListener('change', function () { clearResult(); setStatus('', 'info'); refresh(); });
+  [pages, every].forEach(function (el) { el.addEventListener('input', function () { clearResult(); setStatus('', 'info'); }); });
+
+  async function build(src, indexes) {
+    var out = await PDFLib.PDFDocument.create();
+    var copied = await out.copyPages(src, indexes);
+    copied.forEach(function (p) { out.addPage(p); });
+    return out.save();
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!doc || busy) return;
+    var m = mode(), parts = [], names = [];
+    var base = baseName(doc.name);
+    if (m === 'extract') {
+      var r = parseRanges(pages.value, doc.count);
+      if (r.error) { setStatus(r.error, 'err'); pages.setAttribute('aria-invalid', 'true'); pages.focus(); return; }
+      pages.removeAttribute('aria-invalid');
+      parts = [r.pages];
+      names = [base + '-pages-' + describe(r.pages) + '.pdf'];
+    } else if (m === 'each') {
+      parts = chunk(doc.count, 1);
+      var w = String(doc.count).length;
+      names = parts.map(function (p) { return base + '-page-' + pad(p[0] + 1, w) + '.pdf'; });
+    } else {
+      var n = parseInt(every.value, 10);
+      if (!(n >= 1)) { setStatus('Enter a whole number of pages, like 2.', 'err'); every.focus(); return; }
+      if (n >= doc.count) { setStatus('Each part would hold the whole PDF. Choose a number below ' + doc.count + '.', 'err'); every.focus(); return; }
+      parts = chunk(doc.count, n);
+      names = parts.map(function (p) { return base + '-pages-' + describe(p) + '.pdf'; });
+    }
+
+    busy = true; clearResult(); refresh();
+    setStatus('Working…', 'info');
+    try {
+      var src = await PDFLib.PDFDocument.load(doc.bytes, { updateMetadata: false });
+      var files = [];
+      for (var i = 0; i < parts.length; i++) files.push(await build(src, parts[i]));
+      var blob, name;
+      if (files.length === 1) {
+        blob = new Blob([files[0]], { type: 'application/pdf' });
+        name = names[0];
+        dl.textContent = 'Download ' + name + ' (' + plural(parts[0].length, 'page', 'pages') + ', ' + formatBytes(blob.size) + ')';
+      } else {
+        var zip = new JSZip();
+        files.forEach(function (bytes, k) { zip.file(names[k], bytes); });
+        blob = await zip.generateAsync({ type: 'blob', compression: 'STORE' });
+        name = base + '-split.zip';
+        dl.textContent = 'Download ' + name + ' (' + plural(files.length, 'PDF', 'PDFs') + ', ' + formatBytes(blob.size) + ')';
+      }
+      dlUrl = URL.createObjectURL(blob);
+      dl.href = dlUrl;
+      dl.setAttribute('download', name);
+      result.hidden = false;
+      setStatus('Done.', 'ok');
+    } catch (err) {
+      setStatus('Splitting failed. The PDF may be damaged.', 'err');
+    }
+    busy = false; refresh();
+  });
+
+  refresh();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function baseName(name) {
+    var i = name.lastIndexOf('.');
+    return (i > 0 ? name.slice(0, i) : name).replace(/[\\/:*?"<>|\u0000-\u001f]/g, '').trim() || 'document';
+  }
+  function swap(list, i, j) {
+    if (j < 0 || j >= list.length) return list;
+    var out = list.slice(), t = out[i]; out[i] = out[j]; out[j] = t; return out;
+  }
+  function turn(angle, delta) { return (((angle + delta) % 360) + 360) % 360; }
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById('organize-' + id); };
+  var input = $('file'), drop = $('drop'), info = $('fileinfo'), statusEl = $('status'), work = $('work');
+  var grid = $('grid'), save = $('save'), result = $('result'), dl = $('dl'), rotall = $('rotall'), reset = $('reset');
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.js';
+
+  var doc = null;       /* { name, bytes, count } */
+  var pages = [];       /* { src, rot, removed } in current order */
+  var thumbs = {};      /* src index -> { canvas, w, h } */
+  var dlUrl = null, token = 0, busy = false;
+
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+  function clearResult() { result.hidden = true; if (dlUrl) { URL.revokeObjectURL(dlUrl); dlUrl = null; } }
+
+  function button(label, aria, key, onClick, disabled) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'btn ghost small'; b.textContent = label;
+    b.setAttribute('aria-label', aria); b.setAttribute('data-key', key);
+    if (disabled) b.disabled = true;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  function render(focusKey) {
+    grid.textContent = '';
+    pages.forEach(function (p, i) {
+      var li = document.createElement('li');
+      li.className = 'pg' + (p.removed ? ' gone' : '');
+      var box = document.createElement('div'); box.className = 'thumb';
+      var t = thumbs[p.src];
+      if (t) { t.canvas.style.transform = 'rotate(' + p.rot + 'deg)'; box.appendChild(t.canvas); }
+      li.appendChild(box);
+      var cap = document.createElement('div'); cap.className = 'cap';
+      cap.textContent = 'Page ' + (p.src + 1) + (p.removed ? ' · deleted' : '');
+      li.appendChild(cap);
+      var btns = document.createElement('div'); btns.className = 'pgbtns';
+      var n = 'page ' + (p.src + 1);
+      btns.appendChild(button('↶', 'Rotate ' + n + ' left', p.src + ':rl', function () { p.rot = turn(p.rot, -90); clearResult(); render(p.src + ':rl'); }));
+      btns.appendChild(button('↷', 'Rotate ' + n + ' right', p.src + ':rr', function () { p.rot = turn(p.rot, 90); clearResult(); render(p.src + ':rr'); }));
+      btns.appendChild(button('←', 'Move ' + n + ' earlier', p.src + ':l', function () { pages = swap(pages, i, i - 1); clearResult(); render(p.src + ':l'); }, i === 0));
+      btns.appendChild(button('→', 'Move ' + n + ' later', p.src + ':r', function () { pages = swap(pages, i, i + 1); clearResult(); render(p.src + ':r'); }, i === pages.length - 1));
+      btns.appendChild(button(p.removed ? 'Restore' : 'Delete', (p.removed ? 'Restore ' : 'Delete ') + n, p.src + ':x', function () { p.removed = !p.removed; clearResult(); render(p.src + ':x'); }));
+      li.appendChild(btns);
+      grid.appendChild(li);
+    });
+    if (focusKey) {
+      var el = grid.querySelector('[data-key="' + focusKey + '"]');
+      if (el && !el.disabled) el.focus();
+    }
+    var kept = pages.filter(function (p) { return !p.removed; }).length;
+    save.disabled = busy || kept === 0;
+    save.textContent = 'Save PDF (' + plural(kept, 'page', 'pages') + ')';
+  }
+
+  async function makeThumbs(my, bytes) {
+    var pdf = await pdfjsLib.getDocument({ data: new Uint8Array(bytes.slice(0)) }).promise;
+    try {
+      for (var i = 0; i < pdf.numPages; i++) {
+        if (my !== token) return;
+        var page = await pdf.getPage(i + 1);
+        var v1 = page.getViewport({ scale: 1 });
+        var k = 180 / Math.max(v1.width, v1.height);
+        var vp = page.getViewport({ scale: k });
+        var c = document.createElement('canvas');
+        c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+        c.style.width = Math.round(c.width * 2 / 3) + 'px'; c.style.height = Math.round(c.height * 2 / 3) + 'px';
+        c.setAttribute('role', 'img'); c.setAttribute('aria-label', 'Preview of page ' + (i + 1));
+        var ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+        await page.render({ canvasContext: ctx, viewport: vp }).promise;
+        page.cleanup();
+        if (my !== token) return;
+        thumbs[i] = { canvas: c };
+        var li = grid.children;
+        for (var j = 0; j < pages.length; j++) {
+          if (pages[j].src === i && li[j]) { var box = li[j].querySelector('.thumb'); c.style.transform = 'rotate(' + pages[j].rot + 'deg)'; box.appendChild(c); }
+        }
+      }
+    } finally { pdf.destroy(); }
+  }
+
+  async function load(file) {
+    token++; var my = token;
+    clearResult(); setStatus('', 'info'); work.hidden = true; info.hidden = true; grid.textContent = '';
+    doc = null; pages = []; thumbs = {};
+    if (!file) return;
+    if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) { setStatus('Only PDF files can be used here.', 'err'); return; }
+    try {
+      var bytes = await file.arrayBuffer();
+      var probe = await pdfjsLib.getDocument({ data: new Uint8Array(bytes.slice(0)) }).promise;
+      doc = { name: file.name, bytes: bytes, count: probe.numPages };
+      probe.destroy();
+      for (var i = 0; i < doc.count; i++) pages.push({ src: i, rot: 0, removed: false });
+      info.textContent = file.name + ' · ' + plural(doc.count, 'page', 'pages') + ' · ' + formatBytes(file.size);
+      info.hidden = false; work.hidden = false;
+      render();
+      setStatus(doc.count > 150 ? 'Large file: previews may take a moment.' : '', 'info');
+      await makeThumbs(my, bytes);
+    } catch (e) {
+      if (my !== token) return;
+      var password = e && e.name === 'PasswordException';
+      setStatus(password ? 'This PDF is password-protected. Remove the password first.' : 'This file could not be read as a PDF.', 'err');
+      work.hidden = true; info.hidden = true; doc = null;
+    }
+  }
+
+  input.addEventListener('change', function () { load(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) load(e.dataTransfer.files[0]); });
+
+  rotall.addEventListener('click', function () { pages.forEach(function (p) { p.rot = turn(p.rot, 90); }); clearResult(); render(); });
+  reset.addEventListener('click', function () {
+    pages = []; for (var i = 0; i < doc.count; i++) pages.push({ src: i, rot: 0, removed: false });
+    clearResult(); render();
+  });
+
+  save.addEventListener('click', async function () {
+    if (!doc || busy) return;
+    var keep = pages.filter(function (p) { return !p.removed; });
+    if (!keep.length) { setStatus('Keep at least one page.', 'err'); return; }
+    busy = true; clearResult(); render(); setStatus('Working…', 'info');
+    try {
+      var src = await PDFLib.PDFDocument.load(doc.bytes, { updateMetadata: false });
+      var out = await PDFLib.PDFDocument.create();
+      var copied = await out.copyPages(src, keep.map(function (p) { return p.src; }));
+      copied.forEach(function (pg, i) {
+        if (keep[i].rot) pg.setRotation(PDFLib.degrees(turn(pg.getRotation().angle, keep[i].rot)));
+        out.addPage(pg);
+      });
+      var blob = new Blob([await out.save()], { type: 'application/pdf' });
+      var name = baseName(doc.name) + '-organized.pdf';
+      dlUrl = URL.createObjectURL(blob);
+      dl.href = dlUrl; dl.setAttribute('download', name);
+      dl.textContent = 'Download ' + name + ' (' + plural(keep.length, 'page', 'pages') + ', ' + formatBytes(blob.size) + ')';
+      result.hidden = false; setStatus('Done.', 'ok');
+    } catch (e) {
+      setStatus('Saving failed. The PDF may be damaged or protected.', 'err');
+    }
+    busy = false; render();
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function baseName(name) {
+    var i = name.lastIndexOf('.');
+    return (i > 0 ? name.slice(0, i) : name).replace(/[\\/:*?"<>|\u0000-\u001f]/g, '').trim() || 'document';
+  }
+  function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+  /* two corner points (0..1) -> box, or null when too small */
+  function makeBox(x1, y1, x2, y2, minSize) {
+    var x = clamp(Math.min(x1, x2), 0, 1), y = clamp(Math.min(y1, y2), 0, 1);
+    var w = clamp(Math.max(x1, x2), 0, 1) - x, h = clamp(Math.max(y1, y2), 0, 1) - y;
+    return (w < minSize || h < minSize) ? null : { x: x, y: y, w: w, h: h };
+  }
+  function fold(s) {
+    var t = s.toLowerCase();
+    try { var n = t.normalize('NFD').replace(/[̀-ͯ]/g, ''); return n.length === s.length ? n : t; } catch (e) { return t; }
+  }
+  /* every start index of term in text, ignoring case and accents */
+  function findAll(text, term) {
+    var a = fold(text), b = fold(term), out = [], i = 0;
+    if (!b) return out;
+    while ((i = a.indexOf(b, i)) >= 0) { out.push(i); i += b.length; }
+    return out;
+  }
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById('redact-' + id); };
+  var input = $('file'), drop = $('drop'), info = $('fileinfo'), statusEl = $('status'), work = $('work');
+  var pagesEl = $('pages'), save = $('save'), result = $('result'), dl = $('dl'), dpi = $('dpi');
+  var finder = $('finder'), term = $('term'), findHint = $('findhint');
+  var drawBtn = $('draw'), undoBtn = $('undo'), clearBtn = $('clearall');
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.js';
+
+  var doc = null;        /* { name, bytes, count } */
+  var pdf = null;        /* pdf.js document */
+  var views = [];        /* per page: { box, wrap, canvas, layer, vp, boxes: [], rendered } */
+  var history = [];      /* order boxes were added: { page, box } */
+  var dlUrl = null, token = 0, busy = false, drawing = true, observer = null;
+
+  function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
+  function clearResult() { result.hidden = true; if (dlUrl) { URL.revokeObjectURL(dlUrl); dlUrl = null; } }
+  function total() { return views.reduce(function (a, v) { return a + v.boxes.length; }, 0); }
+  function refresh() {
+    var n = total();
+    save.disabled = busy || !doc || n === 0;
+    save.textContent = n ? 'Cover and save PDF (' + plural(n, 'box', 'boxes') + ')' : 'Cover and save PDF';
+    undoBtn.disabled = !history.length; clearBtn.disabled = !n;
+  }
+
+  function drawBox(v, b) {
+    var el = document.createElement('button');
+    el.type = 'button'; el.className = 'rbox';
+    el.style.left = b.x * 100 + '%'; el.style.top = b.y * 100 + '%'; el.style.width = b.w * 100 + '%'; el.style.height = b.h * 100 + '%';
+    el.setAttribute('aria-label', 'Remove this box on page ' + (views.indexOf(v) + 1));
+    el.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+    el.addEventListener('click', function (e) {
+      e.stopPropagation();
+      v.boxes = v.boxes.filter(function (x) { return x !== b; });
+      history = history.filter(function (h) { return h.box !== b; });
+      el.remove(); clearResult(); refresh();
+    });
+    v.layer.appendChild(el);
+  }
+  function addBox(pageIndex, b) {
+    var v = views[pageIndex];
+    v.boxes.push(b); history.push({ page: pageIndex, box: b });
+    drawBox(v, b); clearResult(); refresh();
+  }
+
+  function attachDrawing(v) {
+    var start = null, temp = null;
+    v.wrap.addEventListener('pointerdown', function (e) {
+      if (!drawing || e.button > 0) return;
+      var r = v.wrap.getBoundingClientRect();
+      start = { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height };
+      temp = document.createElement('div'); temp.className = 'rbox temp'; v.layer.appendChild(temp);
+      v.wrap.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    v.wrap.addEventListener('pointermove', function (e) {
+      if (!start) return;
+      var r = v.wrap.getBoundingClientRect();
+      var b = makeBox(start.x, start.y, (e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height, 0);
+      if (!b) return;
+      temp.style.left = b.x * 100 + '%'; temp.style.top = b.y * 100 + '%'; temp.style.width = b.w * 100 + '%'; temp.style.height = b.h * 100 + '%';
+    });
+    function end(e) {
+      if (!start) return;
+      var r = v.wrap.getBoundingClientRect();
+      var b = makeBox(start.x, start.y, (e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height, 0.01);
+      temp.remove(); temp = null; start = null;
+      if (b) addBox(views.indexOf(v), b);
+    }
+    v.wrap.addEventListener('pointerup', end);
+    v.wrap.addEventListener('pointercancel', function () { if (temp) temp.remove(); temp = null; start = null; });
+  }
+
+  async function renderView(v, i, my) {
+    if (v.rendered) return;
+    v.rendered = true;
+    var page = await pdf.getPage(i + 1);
+    if (my !== token) return;
+    var cssW = v.wrap.clientWidth || 600;
+    var scale = (cssW * Math.min(2, window.devicePixelRatio || 1)) / v.vp1.width;
+    var vp = page.getViewport({ scale: scale });
+    v.canvas.width = Math.round(vp.width); v.canvas.height = Math.round(vp.height);
+    var ctx = v.canvas.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, v.canvas.width, v.canvas.height);
+    await page.render({ canvasContext: ctx, viewport: vp }).promise;
+    page.cleanup();
+  }
+
+  async function build(my) {
+    pagesEl.textContent = ''; views = []; history = [];
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { var i = Number(en.target.getAttribute('data-i')); observer.unobserve(en.target); renderView(views[i], i, my).catch(function () {}); }
+      });
+    }, { rootMargin: '300px' });
+    for (var i = 0; i < pdf.numPages; i++) {
+      var page = await pdf.getPage(i + 1);
+      if (my !== token) return;
+      var vp1 = page.getViewport({ scale: 1 });
+      page.cleanup();
+      var box = document.createElement('div'); box.className = 'rpage';
+      var cap = document.createElement('div'); cap.className = 'cap'; cap.textContent = 'Page ' + (i + 1);
+      var wrap = document.createElement('div'); wrap.className = 'rwrap'; wrap.setAttribute('data-i', i);
+      wrap.style.aspectRatio = vp1.width + ' / ' + vp1.height;
+      var canvas = document.createElement('canvas');
+      canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', 'Page ' + (i + 1) + ' preview');
+      var layer = document.createElement('div'); layer.className = 'rlayer';
+      wrap.appendChild(canvas); wrap.appendChild(layer); box.appendChild(cap); box.appendChild(wrap); pagesEl.appendChild(box);
+      var v = { box: box, wrap: wrap, canvas: canvas, layer: layer, vp1: vp1, boxes: [], rendered: false };
+      views.push(v); attachDrawing(v); observer.observe(wrap);
+    }
+    refresh();
+  }
+
+  async function load(file) {
+    token++; var my = token;
+    clearResult(); setStatus('', 'info'); work.hidden = true; info.hidden = true;
+    if (pdf) { pdf.destroy(); pdf = null; }
+    doc = null; views = []; history = []; pagesEl.textContent = '';
+    if (!file) return;
+    if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) { setStatus('Only PDF files can be used here.', 'err'); return; }
+    try {
+      var bytes = await file.arrayBuffer();
+      pdf = await pdfjsLib.getDocument({ data: new Uint8Array(bytes.slice(0)) }).promise;
+      doc = { name: file.name, bytes: bytes, count: pdf.numPages };
+      info.textContent = file.name + ' · ' + plural(doc.count, 'page', 'pages') + ' · ' + formatBytes(file.size);
+      info.hidden = false; work.hidden = false;
+      await build(my);
+    } catch (e) {
+      if (my !== token) return;
+      setStatus(e && e.name === 'PasswordException' ? 'This PDF is password-protected. Remove the password first.' : 'This file could not be read as a PDF.', 'err');
+      work.hidden = true; info.hidden = true; doc = null;
+    }
+  }
+
+  input.addEventListener('change', function () { load(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) load(e.dataTransfer.files[0]); });
+
+  drawBtn.addEventListener('click', function () {
+    drawing = !drawing;
+    drawBtn.setAttribute('aria-pressed', String(drawing));
+    drawBtn.textContent = 'Draw boxes: ' + (drawing ? 'on' : 'off');
+    pagesEl.classList.toggle('nodraw', !drawing);
+  });
+  undoBtn.addEventListener('click', function () {
+    var h = history.pop(); if (!h) return;
+    var v = views[h.page];
+    v.boxes = v.boxes.filter(function (x) { return x !== h.box; });
+    var kids = v.layer.querySelectorAll('.rbox:not(.temp)');
+    if (kids.length) kids[kids.length - 1].remove();
+    clearResult(); refresh();
+  });
+  clearBtn.addEventListener('click', function () {
+    views.forEach(function (v) { v.boxes = []; v.layer.textContent = ''; });
+    history = []; clearResult(); refresh();
+  });
+
+  /* Find text and cover it */
+  finder.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var t = term.value.trim();
+    if (!t || !pdf) { findHint.textContent = 'Type the text to look for.'; return; }
+    findHint.textContent = 'Searching…';
+    var added = 0, pagesHit = {}, skipped = 0;
+    try {
+      for (var i = 0; i < pdf.numPages; i++) {
+        var page = await pdf.getPage(i + 1);
+        var vp = page.getViewport({ scale: 1 });
+        var tc = await page.getTextContent();
+        tc.items.forEach(function (it) {
+          if (!it.str) return;
+          var hits = findAll(it.str, t);
+          if (!hits.length) return;
+          var tx = pdfjsLib.Util.transform(vp.transform, it.transform);
+          if (Math.abs(tx[1]) > 0.01 * Math.abs(tx[0]) || tx[0] <= 0) { skipped++; return; }
+          var fh = Math.hypot(tx[2], tx[3]), wpx = it.width * (Math.hypot(tx[0], tx[1]) / Math.hypot(it.transform[0], it.transform[1]));
+          var len = it.str.length;
+          hits.forEach(function (idx) {
+            var x1 = tx[4] + wpx * (idx / len), x2 = tx[4] + wpx * ((idx + t.length) / len);
+            var b = makeBox((x1 - 1.5) / vp.width, (tx[5] - fh * 0.95) / vp.height, (x2 + 1.5) / vp.width, (tx[5] + fh * 0.3) / vp.height, 0.002);
+            if (b) { addBox(i, b); added++; pagesHit[i] = true; }
+          });
+        });
+        page.cleanup();
+      }
+    } catch (err) { findHint.textContent = 'Searching failed.'; return; }
+    var np = Object.keys(pagesHit).length;
+    findHint.textContent = added ? 'Covered ' + plural(added, 'match', 'matches') + ' on ' + plural(np, 'page', 'pages') + '. Check the boxes.' :
+      'Nothing found. Scanned pages have no searchable text, so draw boxes there.';
+    if (skipped) findHint.textContent += ' ' + plural(skipped, 'rotated line was', 'rotated lines were') + ' skipped. Draw those by hand.';
+  });
+
+  function toBlob(canvas, type, q) { return new Promise(function (r) { canvas.toBlob(r, type, q); }); }
+
+  save.addEventListener('click', async function () {
+    if (!doc || busy || !total()) return;
+    busy = true; clearResult(); refresh();
+    var my = token, d = parseInt(dpi.value, 10), flattened = 0;
+    try {
+      var src = await PDFLib.PDFDocument.load(doc.bytes, { updateMetadata: false });
+      var out = await PDFLib.PDFDocument.create({ updateMetadata: false });
+      for (var i = 0; i < views.length; i++) {
+        if (my !== token) { busy = false; refresh(); return; }
+        var v = views[i];
+        if (!v.boxes.length) {
+          var copied = await out.copyPages(src, [i]); out.addPage(copied[0]);
+          continue;
+        }
+        setStatus('Covering page ' + (i + 1) + ' of ' + views.length + '…', 'info');
+        var page = await pdf.getPage(i + 1);
+        var base = page.getViewport({ scale: 1 });
+        var k = d / 72;
+        var scale = Math.min(k, 8000 / Math.max(base.width, base.height));
+        var vp = page.getViewport({ scale: scale });
+        var c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+        var ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+        await page.render({ canvasContext: ctx, viewport: vp }).promise;
+        page.cleanup();
+        ctx.fillStyle = '#000';
+        v.boxes.forEach(function (b) { ctx.fillRect(Math.floor(b.x * c.width), Math.floor(b.y * c.height), Math.ceil(b.w * c.width) + 1, Math.ceil(b.h * c.height) + 1); });
+        var blob = await toBlob(c, 'image/jpeg', 0.9);
+        c.width = c.height = 0;
+        var img = await out.embedJpg(new Uint8Array(await blob.arrayBuffer()));
+        var pg = out.addPage([base.width, base.height]);
+        pg.drawImage(img, { x: 0, y: 0, width: base.width, height: base.height });
+        flattened++;
+      }
+      var res = new Blob([await out.save()], { type: 'application/pdf' });
+      var name = baseName(doc.name) + '-redacted.pdf';
+      dlUrl = URL.createObjectURL(res);
+      dl.href = dlUrl; dl.setAttribute('download', name);
+      dl.textContent = 'Download ' + name + ' (' + formatBytes(res.size) + ')';
+      result.hidden = false;
+      setStatus('Done. ' + plural(flattened, 'page was', 'pages were') + ' turned into pictures with the boxes burned in. The other pages are unchanged.', 'ok');
+    } catch (err) {
+      setStatus('Saving failed. Try a lower quality or fewer covered pages.', 'err');
+    }
+    busy = false; refresh();
+  });
+  refresh();
+})();
+</script>
+
+</body>
+</html>

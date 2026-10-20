@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Free Image Compressor for JPG, PNG and WebP · Trezyn</title>
+<meta name="description" content="Make photos smaller without installing anything. Set the quality and maximum width, compare file sizes, and download the result. Files stay on your device.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/compress.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="Free Image Compressor for JPG, PNG and WebP · Trezyn">
+<meta property="og:description" content="Make photos smaller without installing anything. Set the quality and maximum width, compare file sizes, and download the result. Files stay on your device.">
+<meta property="og:url" content="https://trezyn.site/compress.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Image Compressor for JPG, PNG and WebP · Trezyn">
+<meta name="twitter:description" content="Make photos smaller without installing anything. Set the quality and maximum width, compare file sizes, and download the result. Files stay on your device.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Free Image Compressor for JPG, PNG and WebP", "url": "https://trezyn.site/compress.html", "description": "Make photos smaller without installing anything. Set the quality and maximum width, compare file sizes, and download the result. Files stay on your device.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261020a">
+<script src="assets/theme.js?v=20261020a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.webp" alt="" width="444" height="412"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" aria-label="Main menu">
+      <a href="qr.html">QR code</a>
+      <a href="compress.html" aria-current="page">Compress</a>
+      <a href="convert.html">Convert</a>
+      <a href="remove-metadata.html">Metadata</a>
+      <a href="images-pdf.html">Images & PDF</a>
+      <a href="pdf-tools.html">PDF tools</a>
+      <a href="encrypt.html">Encrypt</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html">Privacy check</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Image compressor</h1>
+    <p class="lede">Processing happens on your device and images are never uploaded. Change a setting and every file is recalculated.</p>
+
+    <div class="controls">
+      <label class="drop" id="drop" for="files">
+        <strong>Choose images or drag them here</strong>
+        <span>JPG, PNG, WebP or AVIF, as many as you like</span>
+        <input type="file" id="files" accept="image/jpeg,image/png,image/webp,image/avif,image/bmp" multiple>
+      </label>
+
+      <form id="settings" class="panel" aria-label="Compression settings" novalidate>
+        <div class="settings">
+          <div class="field">
+            <label for="format">Output format</label>
+            <select id="format">
+              <option value="image/webp" selected>WebP (smallest size)</option>
+              <option value="image/jpeg">JPEG (works everywhere)</option>
+              <option value="same">Same as original</option>
+            </select>
+            <p class="hint" id="format-hint"></p>
+          </div>
+          <div class="field">
+            <label for="maxw">Maximum width</label>
+            <select id="maxw">
+              <option value="0">As original</option>
+              <option value="3840">3840 px</option>
+              <option value="2560">2560 px</option>
+              <option value="1920" selected>1920 px</option>
+              <option value="1280">1280 px</option>
+              <option value="800">800 px</option>
+            </select>
+            <p class="hint">Images are never enlarged, only shrunk.</p>
+          </div>
+          <div class="field">
+            <div class="label-row">
+              <label for="quality">Quality</label>
+              <output id="quality-out" for="quality">80%</output>
+            </div>
+            <input type="range" id="quality" min="30" max="95" step="1" value="80">
+            <p class="hint" id="quality-hint"></p>
+          </div>
+        </div>
+      </form>
+
+      <div class="panel" aria-live="polite">
+        <p class="summary" id="summary">No images selected yet.</p>
+        <div>
+          <button type="button" class="btn ghost small" id="dl-all" disabled>Download all</button>
+          <button type="button" class="btn ghost small" id="clear" disabled>Clear</button>
+        </div>
+        <p class="hint" id="dl-hint" hidden>Your browser may ask whether to allow multiple downloads.</p>
+      </div>
+
+      <ul class="list" id="list"></ul>
+    </div>
+<!--about-->
+    <section class="about">
+      <h2>About the image compressor</h2>
+      <p>Drop in one or many JPG, PNG or WebP files, choose the output format, the quality and an optional maximum width, and see how much each file shrinks. If a result would be larger than the original, the original is kept.</p>
+      <p>WebP usually gives the smallest files at the same visual quality. Lowering the maximum width is often the biggest saving for photos taken with a phone.</p>
+      <p>Compression runs in your browser. Your pictures are not uploaded.</p>
+      <p class="rel">Guides: <a href="guide-compress-images-without-losing-quality.html">How to Compress Images Without Visible Loss</a>.</p>
+    </section>
+    <!--/about-->
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* <pure> */
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+  var EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/avif': 'avif', 'image/bmp': 'bmp' };
+  function baseName(name) {
+    var i = name.lastIndexOf('.');
+    return i > 0 ? name.slice(0, i) : name;
+  }
+  /* "same" keeps JPEG, PNG and WebP. AVIF and BMP cannot be written by a canvas, so they become WebP. */
+  function pickType(choice, srcType) {
+    if (choice !== 'same') return choice;
+    return (srcType === 'image/jpeg' || srcType === 'image/png' || srcType === 'image/webp') ? srcType : 'image/webp';
+  }
+  function targetSize(w, h, maxW) {
+    if (!maxW || w <= maxW) return { w: w, h: h };
+    return { w: maxW, h: Math.max(1, Math.round(h * maxW / w)) };
+  }
+  function outName(name, type) {
+    return baseName(name) + '-min.' + EXT[type];
+  }
+  function savedPct(before, after) {
+    return Math.round((1 - after / before) * 100);
+  }
+  /* </pure> */
+
+  var $ = function (id) { return document.getElementById(id); };
+  var input = $('files'), drop = $('drop'), list = $('list');
+  var fmt = $('format'), maxw = $('maxw'), q = $('quality'), qOut = $('quality-out');
+  var summary = $('summary'), dlAll = $('dl-all'), clear = $('clear'), dlHint = $('dl-hint');
+  var fmtHint = $('format-hint'), qHint = $('quality-hint');
+
+  var items = [];       /* { file, url, node } */
+  var run = 0;          /* bumps on every recompute so stale work is dropped */
+  var timer = null;
+
+  function hints() {
+    qOut.textContent = q.value + '%';
+    fmtHint.textContent = fmt.value === 'same'
+      ? 'PNG files only shrink if you also reduce the width, because PNG is lossless.'
+      : 'Transparent PNGs become JPEG with a white background.';
+    if (fmt.value === 'image/webp') fmtHint.textContent = 'WebP keeps transparency and opens in all modern browsers.';
+    qHint.textContent = fmt.value === 'same' ? 'Applies to JPEG and WebP. PNG is not affected.' : '80% is usually enough with no visible difference.';
+  }
+
+  function decode(file) {
+    if (window.createImageBitmap) {
+      return createImageBitmap(file).catch(function () { return viaImage(file); });
+    }
+    return viaImage(file);
+  }
+  function viaImage(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file);
+      var im = new Image();
+      im.onload = function () { URL.revokeObjectURL(url); resolve(im); };
+      im.onerror = function () { URL.revokeObjectURL(url); reject(new Error('decode')); };
+      im.src = url;
+    });
+  }
+  function dims(src) { return { w: src.naturalWidth || src.width, h: src.naturalHeight || src.height }; }
+
+  function toBlob(canvas, type, quality) {
+    return new Promise(function (resolve) { canvas.toBlob(resolve, type, quality); });
+  }
+
+  async function compressOne(file, choice, maxW, quality) {
+    var src = await decode(file);
+    var d = dims(src);
+    var t = targetSize(d.w, d.h, maxW);
+    var type = pickType(choice, file.type);
+    var c = document.createElement('canvas');
+    c.width = t.w;
+    c.height = t.h;
+    var ctx = c.getContext('2d');
+    if (type === 'image/jpeg') { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, t.w, t.h); }
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(src, 0, 0, t.w, t.h);
+    if (src.close) src.close();
+    var blob = await toBlob(c, type, quality / 100);
+    /* Some browsers cannot encode a type and silently return PNG. */
+    if (blob && blob.type !== type) { type = blob.type; }
+    return { blob: blob, type: type, w: t.w, h: t.h, ow: d.w, oh: d.h };
+  }
+
+  function cell(node, cls, text) {
+    var el = document.createElement('div');
+    el.className = cls;
+    el.textContent = text;
+    node.appendChild(el);
+    return el;
+  }
+
+  function render(it, res, err) {
+    var li = it.node;
+    li.textContent = '';
+    var img = document.createElement('img');
+    img.alt = '';
+    img.src = it.thumb;
+    li.appendChild(img);
+    cell(li, 'name', it.file.name);
+
+    var sizes = document.createElement('div');
+    sizes.className = 'sizes';
+    li.appendChild(sizes);
+
+    var act = document.createElement('div');
+    act.className = 'act';
+    li.appendChild(act);
+
+    if (err) {
+      sizes.textContent = 'Your browser cannot read this image.';
+      it.result = null;
+      return;
+    }
+    var before = it.file.size;
+    var after = res.blob ? res.blob.size : before;
+    var keep = !res.blob || after >= before;
+    var out = keep ? it.file : res.blob;
+    var name = keep ? it.file.name : outName(it.file.name, res.type);
+    it.result = { blob: out, name: name, saved: keep ? 0 : before - after };
+
+    var pct = savedPct(before, after);
+    var line = formatBytes(before) + ' → ' + formatBytes(keep ? before : after) + ' · ' + res.ow + '×' + res.oh + (res.w !== res.ow ? ' → ' + res.w + '×' + res.h : '');
+    sizes.textContent = line + ' · ';
+    var b = document.createElement('span');
+    if (keep) {
+      b.className = 'badge same';
+      b.textContent = 'Not smaller, keeping the original';
+    } else {
+      b.className = 'badge good';
+      b.textContent = '−' + pct + '%';
+    }
+    sizes.appendChild(b);
+
+    if (it.dlUrl) URL.revokeObjectURL(it.dlUrl);
+    it.dlUrl = URL.createObjectURL(out);
+    var a = document.createElement('a');
+    a.className = 'btn small';
+    a.href = it.dlUrl;
+    a.download = name;
+    a.textContent = 'Download';
+    a.setAttribute('aria-label', 'Download ' + name);
+    act.appendChild(a);
+    it.link = a;
+  }
+
+  function updateSummary() {
+    var done = items.filter(function (i) { return i.result; });
+    var n = items.length;
+    clear.disabled = n === 0;
+    dlAll.disabled = done.length < 1;
+    dlHint.hidden = done.length < 2;
+    if (!n) { summary.textContent = 'No images selected yet.'; return; }
+    if (done.length < n) { summary.textContent = 'Processing ' + done.length + ' of ' + n + '…'; return; }
+    var before = 0, saved = 0;
+    done.forEach(function (i) { before += i.file.size; saved += i.result.saved; });
+    summary.textContent = n + (n === 1 ? ' image' : ' images') + ' · ' + formatBytes(before) + ' → ' + formatBytes(before - saved) + ' · saved ' + formatBytes(saved) + (before ? ' (' + savedPct(before, before - saved) + '%)' : '');
+  }
+
+  async function recompute() {
+    var my = ++run;
+    var choice = fmt.value, maxW = parseInt(maxw.value, 10), quality = parseInt(q.value, 10);
+    items.forEach(function (it) { it.result = null; it.link = null; });
+    updateSummary();
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      if (my !== run) return;
+      var res = null, err = false;
+      try { res = await compressOne(it.file, choice, maxW, quality); } catch (e) { err = true; }
+      if (my !== run || items.indexOf(it) < 0) return;
+      render(it, res, err);
+      updateSummary();
+    }
+  }
+  function later() { clearTimeout(timer); timer = setTimeout(recompute, 200); }
+
+  function add(fileList) {
+    var accepted = Array.prototype.filter.call(fileList, function (f) { return /^image\/(jpeg|png|webp|avif|bmp)$/.test(f.type); });
+    accepted.forEach(function (f) {
+      var li = document.createElement('li');
+      li.className = 'item';
+      var it = { file: f, node: li, thumb: URL.createObjectURL(f), result: null, dlUrl: null };
+      items.push(it);
+      list.appendChild(li);
+      li.textContent = f.name + ' …';
+    });
+    if (fileList.length && !accepted.length) summary.textContent = 'This file type is not supported. Choose JPG, PNG, WebP or AVIF.';
+    else if (accepted.length) recompute();
+  }
+
+  input.addEventListener('change', function () { add(input.files); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); });
+  });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer) add(e.dataTransfer.files); });
+
+  [fmt, maxw].forEach(function (el) { el.addEventListener('change', function () { hints(); later(); }); });
+  q.addEventListener('input', function () { hints(); later(); });
+  $('settings').addEventListener('submit', function (e) { e.preventDefault(); });
+
+  clear.addEventListener('click', function () {
+    run++;
+    items.forEach(function (it) { URL.revokeObjectURL(it.thumb); if (it.dlUrl) URL.revokeObjectURL(it.dlUrl); });
+    items = [];
+    list.textContent = '';
+    updateSummary();
+  });
+  dlAll.addEventListener('click', function () {
+    var links = items.filter(function (i) { return i.link; }).map(function (i) { return i.link; });
+    links.forEach(function (a, n) { setTimeout(function () { a.click(); }, n * 350); });
+  });
+
+  hints();
+  updateSummary();
+})();
+</script>
+</body>
+</html>
