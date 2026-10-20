@@ -1,5 +1,10 @@
 # Trezyn
 
+Free, open-source privacy tools that run entirely in your browser.  
+No uploads. No tracking. Your files never leave your device.
+
+**Live:** [https://trezyn.site](https://trezyn.site)
+
 A site with nine tools:
 
 - `qr.html`: two tabs: QR code generator (colors, size, error correction, PNG download) and QR reader (picture, paste or camera, with link safety checks).
