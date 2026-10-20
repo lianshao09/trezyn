@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 288 336">
+<defs><mask id="m"><rect width="288" height="336" fill="#fff"/><rect x="142" y="98" width="4" height="160" fill="#000"/><circle cx="144" cy="168" r="9" fill="#000"/><path d="M139.500 174h9l4.500 34h-18z" fill="#000"/></mask></defs>
+<g fill="#16967a" fill-rule="evenodd">
+<path d="M144 2 286 52V112C286 192 222 272 144 334 66 272 2 192 2 112V52ZM144 40 238 82V120C238 186 192 242 144 298 96 242 50 186 50 120V82Z"/>
+<path mask="url(#m)" d="M70 100H218V142H202C188 142 182 134 178 120V226L144 246 110 226V120C106 134 100 142 86 142H70Z"/>
+</g></svg>
