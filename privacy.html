@@ -24,8 +24,8 @@
 <meta name="twitter:image" content="https://trezyn.site/assets/og.png">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "How Trezyn Works and Why Your Files Stay Private", "url": "https://trezyn.site/privacy.html", "description": "Trezyn runs every tool in your browser. See what stays on your device, what does not, and how to check it with the Network tab."}</script>
 <!--/seo-->
-<link rel="stylesheet" href="assets/style.css?v=20261020f">
-<script src="assets/theme.js?v=20261020f"></script>
+<link rel="stylesheet" href="assets/style.css?v=20261023c">
+<script src="assets/theme.js?v=20261023c"></script>
 </head>
 <body>
 <div class="wrap">
@@ -42,6 +42,8 @@
       <a href="encrypt.html">Encrypt</a>
       <a href="password.html">Passwords</a>
       <a href="privacy-check.html">Privacy check</a>
+      <a href="closed-room.html">Chat</a>
+      <a href="direct-share.html">Share</a>
     </nav>
   </header>
 
@@ -61,6 +63,10 @@
         <li><strong>3.</strong> Load a tool page, switch your device to airplane mode, and use it again. It keeps working, because nothing needs the internet.</li>
         <li><strong>4.</strong> The server also tells your browser to block connections to other sites. Look for the Content-Security-Policy header in the first request.</li>
       </ol>
+    </section>
+    <section class="about">
+      <h2>Closed room and Direct share</h2>
+      <p>These two tools are separate sites, <a href="https://closedroom.site/" rel="noopener">closedroom.site</a> and <a href="https://directshare.site/" rel="noopener">directshare.site</a>, and they work differently from everything above. They connect two browsers directly (WebRTC), so messages and files travel between you and the other person without a server in the middle. To find each other, the browsers contact public relay servers, which only see a hash of the room name and technical connection details. The other person can see your IP address, and on strict networks the connection can fail because there is no relay for the data itself. Nothing is stored.</p>
     </section>
     <section class="about">
       <h2>Open source</h2>

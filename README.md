@@ -19,6 +19,8 @@ If you find it useful, feel free to use it too.
 - **Encrypt** — Password-protect text or files with AES-256 (runs fully in the browser)
 - **Password generator** — Create strong random passwords
 - **Privacy check** — See what information your browser exposes to websites
+- **Closed room** — Private browser-to-browser chat, separate site: [closedroom.site](https://closedroom.site/)
+- **Direct share** — Send files directly from one browser to another, separate site: [directshare.site](https://directshare.site/)
 
 Everything is processed locally in your browser. Nothing is uploaded to any server.
 
