@@ -34,6 +34,10 @@ Everything is processed locally in your browser. Nothing is uploaded to any serv
 
 You can verify this by opening the Network tab in your browser’s developer tools while using any tool.
 
+## Not locked in
+
+Everything Encrypt and Hide produce can be unlocked without this site. The exact formats are in [FORMAT.md](FORMAT.md); `tools/trezyn_tool.py` (Python, needs `cryptography`) and `tools/trezyn-tool.js` (Node.js, no packages) unlock text, `.tzenc` files and hidden PNGs with just the password.
+
 ## Credits
 
 - [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) by Kazuhiko Arase (MIT)
