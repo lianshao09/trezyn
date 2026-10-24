@@ -100,7 +100,7 @@ a { color: var(--accent); }
   text-decoration: none;
   font-weight: 500;
   font-size: 0.9rem;
-  padding: 0.4rem 0.75rem;
+  padding: 0.4rem 0.6rem;
   border-radius: 6px;
 }
 .nav a:hover { color: var(--fg); background: var(--surface); }
@@ -406,3 +406,4 @@ select { appearance: auto; }
   .js .site-head.open .nav { display: flex; }
   .js .site-head .nav a { padding: 0.65rem 0.8rem; }
 }
+.stego-prev { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); }

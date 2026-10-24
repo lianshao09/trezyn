@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico?v=3" sizes="any">
+<link rel="icon" href="assets/icon-192.png?v=3" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
+<title>How to Hide a Message in a Picture · Trezyn</title>
+<meta name="description" content="Hide an encrypted message or file inside a PNG so that the picture looks unchanged. Learn how it works, what ruins it and how safe it is.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/guide-hide-a-message-in-a-picture.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="How to Hide a Message in a Picture · Trezyn">
+<meta property="og:description" content="Hide an encrypted message or file inside a PNG so that the picture looks unchanged. Learn how it works, what ruins it and how safe it is.">
+<meta property="og:url" content="https://trezyn.site/guide-hide-a-message-in-a-picture.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Hide a Message in a Picture · Trezyn">
+<meta name="twitter:description" content="Hide an encrypted message or file inside a PNG so that the picture looks unchanged. Learn how it works, what ruins it and how safe it is.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Hide a Message in a Picture", "description": "Hide an encrypted message or file inside a PNG so that the picture looks unchanged. Learn how it works, what ruins it and how safe it is.", "url": "https://trezyn.site/guide-hide-a-message-in-a-picture.html", "datePublished": "2026-10-19", "dateModified": "2026-10-19", "author": {"@type": "Organization", "name": "Trezyn"}, "publisher": {"@type": "Organization", "name": "Trezyn"}, "image": "https://trezyn.site/assets/og.png", "mainEntityOfPage": "https://trezyn.site/guide-hide-a-message-in-a-picture.html"}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261024d">
+<script src="assets/theme.js?v=20261024d"></script>
+<link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="" width="288" height="336"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main menu">
+      <a href="qr.html">QR code</a>
+      <a href="compress.html">Compress</a>
+      <a href="convert.html">Convert</a>
+      <a href="remove-metadata.html">Metadata</a>
+      <a href="images-pdf.html">Images/PDF</a>
+      <a href="pdf-tools.html">PDF tools</a>
+      <a href="encrypt.html">Encrypt</a>
+      <a href="stego.html">Hide</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html">Privacy</a>
+      <a href="closed-room.html">Chat</a>
+      <a href="direct-share.html">Share</a>
+    </nav>
+  </header>
+
+  <main class="article">
+    <p class="crumb"><a href="guides.html">Guides</a></p>
+    <h1>How to Hide a Message in a Picture</h1>
+    <p class="lede">Steganography means hiding that a message exists at all. A locked message is clearly a secret. A normal-looking picture is not. The tool hides an encrypted message in the least significant bits of a PNG, changes you cannot see.</p>
+    <h2 class="h2">Steps</h2>
+    <ol class="steps">
+      <li><strong>Choose a picture.</strong> Use a PNG photo with lots of detail and noise. A flat graphic or a picture with a plain sky gives a statistical tool more to notice. JPG and WebP are converted to PNG first.</li>
+      <li><strong>Type the message or pick a file.</strong> The tool shows how much the picture can hold. Keep it well under the recommended size.</li>
+      <li><strong>Set a password and press Hide.</strong> The data is locked with AES-256-GCM before it is hidden, then spread over pseudo-random positions in the picture. The tool reads it back to check.</li>
+      <li><strong>Send the PNG as a file.</strong> The other person opens it in the Read tab and enters the password.</li>
+    </ol>
+    <p class="btnrow"><a class="btn" href="stego.html">Open the picture hiding tool</a></p>
+    <section class="about">
+      <h2>Good to know</h2>
+      <p>It only works while the file stays exactly the same. Sending it as a photo in a messenger, taking a screenshot, resizing or saving as JPG destroys the hidden data. Use email attachments, a cloud folder or "send as file".</p>
+      <p>It is not invisible to experts. Statistical tests can sometimes show that a picture was altered, especially when a large share of it is used. Hiding makes a secret less obvious, but the password protection is what keeps the content safe. Never use the same picture twice.</p>
+      <p>If the password is wrong or the picture changed, the tool says only "nothing found", so nobody can tell which it was.</p>
+    </section>
+    <section class="about">
+      <h2>Related guides</h2>
+      <ul class="plain">
+        <li><a href="guide-encrypt-a-file-with-a-password.html">How to Encrypt a File with a Password</a></li>
+        <li><a href="guide-remove-location-from-photo.html">How to Remove the Location from a Photo</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><a href="https://github.com/lianshao09/trezyn" rel="noopener">Source code</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+</body>
+</html>

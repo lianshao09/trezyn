@@ -5,6 +5,11 @@
   function set(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
 
   root.classList.add('js');
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(function () {});
+    });
+  }
   var theme = get('tz:theme');
   if (theme === 'light' || theme === 'dark') root.setAttribute('data-theme', theme);
 

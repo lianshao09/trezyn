@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.ico?v=3" sizes="any">
+<link rel="icon" href="assets/icon-192.png?v=3" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
+<title>Hide a Message in a Picture, Free Steganography Tool · Trezyn</title>
+<meta name="description" content="Hide an encrypted message or file inside a PNG picture and read it back with the password. Free, no sign-up, and everything stays in your browser.">
+<!--seo-->
+<link rel="canonical" href="https://trezyn.site/stego.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f6b54">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trezyn">
+<meta property="og:title" content="Hide a Message in a Picture, Free Steganography Tool · Trezyn">
+<meta property="og:description" content="Hide an encrypted message or file inside a PNG picture and read it back with the password. Free, no sign-up, and everything stays in your browser.">
+<meta property="og:url" content="https://trezyn.site/stego.html">
+<meta property="og:image" content="https://trezyn.site/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hide a Message in a Picture, Free Steganography Tool · Trezyn">
+<meta name="twitter:description" content="Hide an encrypted message or file inside a PNG picture and read it back with the password. Free, no sign-up, and everything stays in your browser.">
+<meta name="twitter:image" content="https://trezyn.site/assets/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Hide a Message in a Picture, Free Steganography Tool", "url": "https://trezyn.site/stego.html", "description": "Hide an encrypted message or file inside a PNG picture and read it back with the password. Free, no sign-up, and everything stays in your browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<!--/seo-->
+<link rel="stylesheet" href="assets/style.css?v=20261024d">
+<script src="assets/theme.js?v=20261024d"></script>
+<link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="" width="288" height="336"><span>Trezyn</span></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span>Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main menu">
+      <a href="qr.html">QR code</a>
+      <a href="compress.html">Compress</a>
+      <a href="convert.html">Convert</a>
+      <a href="remove-metadata.html">Metadata</a>
+      <a href="images-pdf.html">Images/PDF</a>
+      <a href="pdf-tools.html">PDF tools</a>
+      <a href="encrypt.html">Encrypt</a>
+      <a href="stego.html" aria-current="page">Hide</a>
+      <a href="password.html">Passwords</a>
+      <a href="privacy-check.html">Privacy</a>
+      <a href="closed-room.html">Chat</a>
+      <a href="direct-share.html">Share</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Hide a message in a picture</h1>
+    <div class="tabs" role="tablist" aria-label="Hide a message in a picture">
+      <button type="button" role="tab" class="tab" id="tab-hide" aria-controls="panel-hide" aria-selected="true" tabindex="0">Hide</button>
+      <button type="button" role="tab" class="tab" id="tab-reveal" aria-controls="panel-reveal" aria-selected="false" tabindex="-1">Read</button>
+    </div>
+    <section role="tabpanel" id="panel-hide" aria-labelledby="tab-hide">
+    <p class="lede">Lock a message or file with a password and hide it inside a PNG picture. The picture looks the same. Everything happens in your browser.</p>
+
+    <div class="controls">
+      <label class="drop" id="hide-drop" for="hide-file">
+        <strong>Choose a picture or drag it here</strong>
+        <span>PNG works best. JPG and WebP are converted to PNG. Up to 40 megapixels</span>
+        <input type="file" id="hide-file" accept="image/png,image/jpeg,image/webp">
+      </label>
+      <p class="summary" id="hide-fileinfo" aria-live="polite" hidden></p>
+
+      <form id="hide-form" class="panel" novalidate>
+        <p class="hint" id="hide-cap">Choose a picture to see how much it can hold.</p>
+        <fieldset class="field">
+          <legend>What do you want to hide?</legend>
+          <div class="checks">
+            <label class="check"><input type="radio" name="kind" value="text" checked> Text</label>
+            <label class="check"><input type="radio" name="kind" value="file"> A file</label>
+          </div>
+        </fieldset>
+        <div class="field" id="hide-f-text">
+          <label for="hide-msg">Message</label>
+          <textarea id="hide-msg" rows="5" spellcheck="false"></textarea>
+        </div>
+        <div class="field" id="hide-f-file" hidden>
+          <label for="hide-payload">File to hide</label>
+          <input type="file" id="hide-payload">
+        </div>
+        <div class="field">
+          <label for="hide-pw">Password</label>
+          <input type="password" id="hide-pw" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="hide-pw2">Repeat password</label>
+          <input type="password" id="hide-pw2" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="checks"><label class="check"><input type="checkbox" id="hide-show"> Show passwords</label></div>
+        <div>
+          <button type="submit" class="btn" id="hide-go" disabled>Hide in picture</button>
+        </div>
+        <p class="status" id="hide-status" role="status" data-tone="info"></p>
+        <div id="hide-result" hidden>
+          <p><img id="hide-prev" class="stego-prev" alt="The new picture with the hidden data"></p>
+          <p class="btnrow"><a class="btn" id="hide-dl" href="#" download="">Download PNG</a></p>
+        </div>
+        <ul class="notes">
+          <li><strong>Send it as a file.</strong> Messengers, social networks and screenshots re-save pictures, and that destroys the hidden data. Send the PNG as a file or document, by email or from a cloud folder.</li>
+          <li><strong>Not invisible to experts.</strong> The change is tiny and you cannot see it, but statistical tools can sometimes detect that a picture was altered. Use a noisy photo, keep the message short, and never reuse the same picture. The message itself stays locked with AES-256 whatever happens.</li>
+          <li><strong>No recovery:</strong> if you forget the password, nobody can read the message, including us. The picture's metadata (camera, location) is not kept in the new file.</li>
+        </ul>
+      </form>
+    </div>
+  </section>
+    <section role="tabpanel" id="panel-reveal" aria-labelledby="tab-reveal" hidden>
+    <p class="lede">Open a PNG made with the Hide tab and read what is inside. You need the password. Everything happens in your browser.</p>
+
+    <div class="controls">
+      <label class="drop" id="reveal-drop" for="reveal-file">
+        <strong>Choose the PNG or drag it here</strong>
+        <span>It must be the original file, not a screenshot or a re-saved copy</span>
+        <input type="file" id="reveal-file" accept="image/png">
+      </label>
+      <p class="summary" id="reveal-fileinfo" aria-live="polite" hidden></p>
+
+      <form id="reveal-form" class="panel" novalidate>
+        <div class="field">
+          <label for="reveal-pw">Password</label>
+          <input type="password" id="reveal-pw" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="checks"><label class="check"><input type="checkbox" id="reveal-show"> Show password</label></div>
+        <div>
+          <button type="submit" class="btn" id="reveal-go" disabled>Read the picture</button>
+        </div>
+        <p class="status" id="reveal-status" role="status" data-tone="info"></p>
+        <div class="field" id="reveal-f-out" hidden>
+          <label for="reveal-output">Message</label>
+          <textarea id="reveal-output" rows="6" readonly spellcheck="false"></textarea>
+          <div><button type="button" class="btn small" id="reveal-copy">Copy</button></div>
+        </div>
+        <div id="reveal-f-dl" hidden>
+          <a class="btn" id="reveal-dl" href="#" download="">Download</a>
+        </div>
+        <ul class="notes">
+          <li><strong>If nothing is found,</strong> the password may be wrong, or the picture was changed after it was made (sent as a photo, screenshot, resized or converted). The tool gives the same answer in both cases on purpose.</li>
+          <li><strong>Method:</strong> the data is locked with AES-256-GCM (key from your password by PBKDF2-SHA256, 600,000 rounds) and spread over pseudo-random positions in the picture.</li>
+        </ul>
+      </form>
+    </div>
+  </section>
+<!--about-->
+    <section class="about">
+      <h2>About hiding data in pictures</h2>
+      <p>Steganography hides the fact that a message exists. This tool changes the lowest bit of some color values in a PNG, a change too small to see, and stores your message there. The message is first locked with AES-256-GCM using a key made from your password, and it is spread over pseudo-random positions in the picture, so without the password there is nothing readable to find.</p>
+      <p>It works only while the file stays exactly as it is. Messengers, social networks, screenshots, resizing or saving as JPG destroy the hidden data, so send the PNG as a file. Statistical tools can sometimes tell that a picture was changed, especially when a lot of data is hidden, so keep messages short and use a noisy photo.</p>
+      <p>Nothing is uploaded. The picture is read and written by code in your browser, which also removes the picture metadata, such as location and camera.</p>
+      <p class="rel">Guides: <a href="guide-hide-a-message-in-a-picture.html">How to Hide a Message in a Picture</a>, <a href="guide-encrypt-a-file-with-a-password.html">How to Encrypt a File with a Password</a>.</p>
+    </section>
+    <!--/about-->
+  </main>
+
+  <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><a href="https://github.com/lianshao09/trezyn" rel="noopener">Source code</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
+</div>
+
+<script src="assets/stego.js"></script>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function show(t, focus) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) t.focus();
+    try { history.replaceState(null, '', '#' + t.id.slice(4)); } catch (e) {}
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(t, false); });
+    t.addEventListener('keydown', function (e) {
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+      if (j < 0) return;
+      e.preventDefault(); show(tabs[(j + tabs.length) % tabs.length], true);
+    });
+  });
+  var want = location.hash.slice(1), hit = tabs.filter(function (t) { return t.id === 'tab-' + want; })[0];
+  if (hit) show(hit, false);
+})();
+</script>
+<script>
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('[id$="fileinfo"]'), function (el) {
+    var drop = el.parentNode.querySelector('.drop');
+    if (!drop) return;
+    var strong = drop.querySelector('strong'), sub = drop.querySelector('span');
+    var o1 = strong.textContent, o2 = sub ? sub.textContent : '';
+    function sync() {
+      var on = !el.hidden && el.textContent;
+      drop.classList.toggle('has-file', !!on);
+      strong.textContent = on ? '\u2713 ' + el.textContent : o1;
+      if (sub) sub.textContent = on ? 'Click to choose a different file' : o2;
+    }
+    new MutationObserver(sync).observe(el, { attributes: true, childList: true, characterData: true, subtree: true });
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById('hide-' + id); };
+  var form = $('form'), input = $('file'), drop = $('drop'), info = $('fileinfo'), capEl = $('cap'), msg = $('msg'), payload = $('payload');
+  var pw = $('pw'), pw2 = $('pw2'), go = $('go'), statusEl = $('status'), result = $('result'), dl = $('dl'), prev = $('prev');
+  var img = null, baseName = 'picture', maxBytes = 0, busy = false, urls = [];
+  var enc = new TextEncoder();
+  function setStatus(m, t) { statusEl.textContent = m; statusEl.setAttribute('data-tone', t); }
+  function fmt(n) { return n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB' : (n / 1048576).toFixed(2) + ' MB'; }
+  function kind() { return form.elements['kind'].value; }
+  function clearResult() { result.hidden = true; urls.forEach(function (u) { URL.revokeObjectURL(u); }); urls = []; }
+  function size() { return kind() === 'text' ? enc.encode(msg.value).length : (payload.files[0] ? payload.files[0].size : 0); }
+  function ready() { return !!img && !busy && !!(window.crypto && crypto.subtle) && window.TZStego; }
+  function refresh() {
+    $('f-text').hidden = kind() !== 'text'; $('f-file').hidden = kind() !== 'file';
+    if (img) {
+      var c = TZStego.capacity(img), n = size();
+      maxBytes = c.max;
+      capEl.textContent = 'This picture can hold up to ' + fmt(c.max) + '. For a safer result keep it under ' + fmt(c.rec) + '. Now: ' + fmt(n) + '.';
+    }
+    go.disabled = !ready();
+  }
+  async function viaCanvas(f) {
+    var bmp = await createImageBitmap(f);
+    if (bmp.width * bmp.height > 40000000) throw new Error('large');
+    var cv = document.createElement('canvas'); cv.width = bmp.width; cv.height = bmp.height;
+    var ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.drawImage(bmp, 0, 0);
+    var d = ctx.getImageData(0, 0, cv.width, cv.height).data;
+    var px = new Uint8Array(cv.width * cv.height * 3), i, j = 0;
+    for (i = 0; i < d.length; i += 4) { px[j++] = d[i]; px[j++] = d[i + 1]; px[j++] = d[i + 2]; }
+    return { w: cv.width, h: cv.height, ch: 3, px: px };
+  }
+  async function pick(f) {
+    clearResult(); setStatus('', 'info'); img = null; info.hidden = true; capEl.textContent = 'Choose a picture to see how much it can hold.';
+    if (!f) { refresh(); return; }
+    setStatus('Reading the picture…', 'info');
+    try {
+      var converted = false;
+      try { img = await TZStego.parsePNG(new Uint8Array(await f.arrayBuffer())); }
+      catch (e) { img = await viaCanvas(f); converted = true; }
+      baseName = f.name.replace(/\.[^.]+$/, '') || 'picture';
+      info.textContent = f.name + ' · ' + img.w + ' × ' + img.h + ' px';
+      info.hidden = false;
+      setStatus(converted ? 'The picture was converted to a plain PNG.' : '', 'info');
+    } catch (err) {
+      img = null; setStatus('This picture cannot be used. Try a normal PNG, JPG or WebP under 40 megapixels.', 'err');
+    }
+    refresh();
+  }
+  input.addEventListener('change', function () { pick(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) pick(e.dataTransfer.files[0]); });
+  form.addEventListener('input', function () { clearResult(); refresh(); });
+  form.addEventListener('change', function () { refresh(); });
+  $('show').addEventListener('change', function (e) { pw.type = pw2.type = e.target.checked ? 'text' : 'password'; });
+  if (!window.crypto || !crypto.subtle) setStatus('This tool needs a secure connection (https). Open the site with https://.', 'err');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!ready()) return;
+    var k = kind(), data, name = '';
+    if (k === 'text') { data = enc.encode(msg.value); if (!data.length) { setStatus('Type a message first.', 'err'); msg.focus(); return; } }
+    else {
+      var pf = payload.files[0];
+      if (!pf) { setStatus('Choose the file to hide.', 'err'); return; }
+      if (pf.size > maxBytes) { setStatus('This file is too big for this picture. It holds up to ' + fmt(maxBytes) + '.', 'err'); return; }
+      data = new Uint8Array(await pf.arrayBuffer()); name = pf.name;
+    }
+    if (data.length + enc.encode(name).length + 19 > maxBytes) { setStatus('This does not fit. The picture holds up to ' + fmt(maxBytes) + '. Use a bigger picture or less data.', 'err'); return; }
+    if (pw.value.length < 8) { setStatus('Use a password of at least 8 characters.', 'err'); pw.focus(); return; }
+    if (pw.value !== pw2.value) { setStatus('The two passwords do not match.', 'err'); pw2.focus(); return; }
+    busy = true; clearResult(); refresh(); setStatus('Working… this can take a few seconds.', 'info');
+    try {
+      var out = await TZStego.hide(img, k === 'text' ? 0 : 1, name, data, pw.value);
+      var png = await TZStego.encodePNG(out);
+      var check = await TZStego.reveal(await TZStego.parsePNG(png), pw.value);
+      var same = check.data.length === data.length && check.data.every(function (v, i) { return v === data[i]; });
+      if (!same) throw new Error('check');
+      var blob = new Blob([png], { type: 'image/png' }), u = URL.createObjectURL(blob); urls.push(u);
+      prev.src = u; dl.href = u; dl.setAttribute('download', baseName + '-hidden.png');
+      dl.textContent = 'Download ' + baseName + '-hidden.png (' + fmt(blob.size) + ')';
+      result.hidden = false;
+      var pct = (data.length * 8 + 28 * 8 + 32) / (img.w * img.h * 3) * 100;
+      setStatus('Done. Hidden and checked: the message reads back correctly. About ' + pct.toFixed(2) + '% of the picture was touched. Send it as a file, not as a photo.', 'ok');
+    } catch (err) {
+      setStatus('Something went wrong. The picture may be too large for this device.', 'err');
+    }
+    busy = false; refresh();
+  });
+  refresh();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById('reveal-' + id); };
+  var form = $('form'), input = $('file'), drop = $('drop'), info = $('fileinfo'), pw = $('pw'), go = $('go'), statusEl = $('status');
+  var fOut = $('f-out'), out = $('output'), fDl = $('f-dl'), dl = $('dl');
+  var img = null, busy = false, dlUrl = null;
+  function setStatus(m, t) { statusEl.textContent = m; statusEl.setAttribute('data-tone', t); }
+  function fmt(n) { return n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB' : (n / 1048576).toFixed(2) + ' MB'; }
+  function clearResult() { fOut.hidden = true; fDl.hidden = true; out.value = ''; if (dlUrl) { URL.revokeObjectURL(dlUrl); dlUrl = null; } }
+  function refresh() { go.disabled = !img || busy || !(window.crypto && crypto.subtle) || !window.TZStego; }
+  async function pick(f) {
+    clearResult(); setStatus('', 'info'); img = null; info.hidden = true;
+    if (!f) { refresh(); return; }
+    try {
+      img = await TZStego.parsePNG(new Uint8Array(await f.arrayBuffer()));
+      info.textContent = f.name + ' · ' + img.w + ' × ' + img.h + ' px'; info.hidden = false;
+    } catch (e) {
+      setStatus('This is not a PNG this tool can read. Use the original PNG file made by the Hide tab.', 'err');
+    }
+    refresh();
+  }
+  input.addEventListener('change', function () { pick(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) pick(e.dataTransfer.files[0]); });
+  $('show').addEventListener('change', function (e) { pw.type = e.target.checked ? 'text' : 'password'; });
+  $('copy').addEventListener('click', function () {
+    out.select();
+    if (navigator.clipboard) navigator.clipboard.writeText(out.value).then(function () { setStatus('Copied.', 'ok'); }, function () { document.execCommand('copy'); });
+    else document.execCommand('copy');
+  });
+  if (!window.crypto || !crypto.subtle) setStatus('This tool needs a secure connection (https). Open the site with https://.', 'err');
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!img || busy) return;
+    if (!pw.value) { setStatus('Enter the password.', 'err'); pw.focus(); return; }
+    busy = true; clearResult(); refresh(); setStatus('Looking… this can take a few seconds.', 'info');
+    try {
+      var r = await TZStego.reveal(img, pw.value);
+      if (r.kind === 0) {
+        out.value = new TextDecoder().decode(r.data); fOut.hidden = false; setStatus('Found a hidden message.', 'ok');
+      } else {
+        var name = (r.name || 'hidden-file').replace(/[\\/:*?"<>|\u0000-\u001f]/g, '_').trim() || 'hidden-file';
+        var blob = new Blob([r.data], { type: 'application/octet-stream' }); dlUrl = URL.createObjectURL(blob);
+        dl.href = dlUrl; dl.setAttribute('download', name); dl.textContent = 'Download ' + name + ' (' + fmt(blob.size) + ')';
+        fDl.hidden = false; setStatus('Found a hidden file.', 'ok');
+      }
+    } catch (err) {
+      setStatus('Nothing found. The password may be wrong, or the picture was changed after the data was hidden.', 'err');
+    }
+    busy = false; refresh();
+  });
+  refresh();
+})();
+</script>
+
+</body>
+</html>

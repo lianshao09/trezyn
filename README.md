@@ -17,6 +17,7 @@ If you find it useful, feel free to use it too.
 - **Images & PDF** — Convert images to PDF or extract PDF pages as images
 - **PDF tools** — Merge, split, rotate, reorder, delete pages, or permanently redact content
 - **Encrypt** — Password-protect text or files with AES-256 (runs fully in the browser)
+- **Hide data** — Hide an encrypted message or file inside a PNG picture and read it back with the password
 - **Password generator** — Create strong random passwords
 - **Privacy check** — See what information your browser exposes to websites
 - **Closed room** — Private browser-to-browser chat, separate site: [closedroom.site](https://closedroom.site/)

@@ -24,8 +24,9 @@
 <meta name="twitter:image" content="https://trezyn.site/assets/og.png">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "How Trezyn Works and Why Your Files Stay Private", "url": "https://trezyn.site/privacy.html", "description": "Trezyn runs every tool in your browser. See what stays on your device, what does not, and how to check it with the Network tab."}</script>
 <!--/seo-->
-<link rel="stylesheet" href="assets/style.css?v=20261023c">
-<script src="assets/theme.js?v=20261023c"></script>
+<link rel="stylesheet" href="assets/style.css?v=20261024d">
+<script src="assets/theme.js?v=20261024d"></script>
+<link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
 <div class="wrap">
@@ -37,11 +38,12 @@
       <a href="compress.html">Compress</a>
       <a href="convert.html">Convert</a>
       <a href="remove-metadata.html">Metadata</a>
-      <a href="images-pdf.html">Images & PDF</a>
+      <a href="images-pdf.html">Images/PDF</a>
       <a href="pdf-tools.html">PDF tools</a>
       <a href="encrypt.html">Encrypt</a>
+      <a href="stego.html">Hide</a>
       <a href="password.html">Passwords</a>
-      <a href="privacy-check.html">Privacy check</a>
+      <a href="privacy-check.html">Privacy</a>
       <a href="closed-room.html">Chat</a>
       <a href="direct-share.html">Share</a>
     </nav>
@@ -80,6 +82,7 @@
     <section class="about">
       <h2>What is saved in your browser</h2>
       <p>Only your theme choice and the last settings of dropdowns, sliders, colors and tick boxes, such as image quality. They are stored in local storage on your device. Text, passwords, files and encryption keys are never saved. Clearing the site data in your browser removes it all.</p>
+      <p>After your first visit the site also keeps its own pages, scripts and icons in your browser (a service worker) so that it opens without a connection and can be installed like an app. It only handles files from this site, never what you type or open. Pages are fetched fresh when you are online, so updates arrive normally.</p>
     </section>
     <section class="about">
       <h2>Limits you should know</h2>
