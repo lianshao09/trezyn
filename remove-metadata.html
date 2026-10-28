@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon-192.png?v=3" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
 <title>Remove Metadata from Photos, PDF and Word Files · Trezyn</title>
-<meta name="description" content="See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. In your browser.">
+<meta name="description" content="See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. You can also cover faces, plates or text in a picture. In your browser.">
 <!--seo-->
 <link rel="canonical" href="https://trezyn.site/remove-metadata.html">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -16,14 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Trezyn">
 <meta property="og:title" content="Remove Metadata from Photos, PDF and Word Files · Trezyn">
-<meta property="og:description" content="See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. In your browser.">
+<meta property="og:description" content="See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. You can also cover faces, plates or text in a picture. In your browser.">
 <meta property="og:url" content="https://trezyn.site/remove-metadata.html">
 <meta property="og:image" content="https://trezyn.site/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Remove Metadata from Photos, PDF and Word Files · Trezyn">
-<meta name="twitter:description" content="See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. In your browser.">
+<meta name="twitter:description" content="See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. You can also cover faces, plates or text in a picture. In your browser.">
 <meta name="twitter:image" content="https://trezyn.site/assets/og.png">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Remove Metadata from Photos, PDF and Word Files", "url": "https://trezyn.site/remove-metadata.html", "description": "See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. In your browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Remove Metadata from Photos, PDF and Word Files", "url": "https://trezyn.site/remove-metadata.html", "description": "See the hidden data in photos, PDFs and Word, Excel or PowerPoint files, such as GPS location, author names and dates, and choose what to remove. You can also cover faces, plates or text in a picture. In your browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
 <!--/seo-->
 <link rel="stylesheet" href="assets/style.css?v=20261024d">
 <script src="assets/theme.js?v=20261024d"></script>
@@ -56,6 +56,7 @@
       <button type="button" role="tab" class="tab" id="tab-photos" aria-controls="panel-photos" aria-selected="true" tabindex="0">Photos</button>
       <button type="button" role="tab" class="tab" id="tab-pdf" aria-controls="panel-pdf" aria-selected="false" tabindex="-1">PDF</button>
       <button type="button" role="tab" class="tab" id="tab-office" aria-controls="panel-office" aria-selected="false" tabindex="-1">Office</button>
+      <button type="button" role="tab" class="tab" id="tab-cover" aria-controls="panel-cover" aria-selected="false" tabindex="-1">Cover</button>
     </div>
     <section role="tabpanel" id="panel-photos" aria-labelledby="tab-photos">
     <p class="lede">Photos often carry hidden details: where they were taken, which phone took them, and when. See what is inside and choose what to remove. Nothing is uploaded.</p>
@@ -154,12 +155,73 @@
       </div>
     </div>
   </section>
+    <section role="tabpanel" id="panel-cover" aria-labelledby="tab-cover" hidden>
+    <p class="lede">Hide faces, number plates, names or whole areas of a photo or screenshot. The covered pixels are really replaced, and the saved picture carries no location or camera data. Your picture is never uploaded.</p>
+
+    <div class="controls">
+      <label class="drop" id="cover-drop" for="cover-file">
+        <strong>Choose a picture or drag it here</strong>
+        <span>JPG, PNG or WebP, up to 40 megapixels</span>
+        <input type="file" id="cover-file" accept="image/png,image/jpeg,image/webp">
+      </label>
+      <p class="summary" id="cover-fileinfo" aria-live="polite" hidden></p>
+      <p class="status" id="cover-status" role="status" data-tone="info"></p>
+
+      <div class="panel" id="cover-work" hidden>
+        <form id="cover-opts" class="field" novalidate>
+          <fieldset class="field">
+            <legend>How to cover</legend>
+            <div class="checks">
+              <label class="check"><input type="radio" name="cmode" value="black" checked> Black box</label>
+              <label class="check"><input type="radio" name="cmode" value="pixel"> Pixelate</label>
+              <label class="check"><input type="radio" name="cmode" value="blur"> Blur</label>
+            </div>
+          </fieldset>
+          <div class="field" id="cover-strwrap" hidden>
+            <label for="cover-strength">Strength</label>
+            <input type="range" id="cover-strength" min="1" max="10" value="8">
+          </div>
+          <p class="hint" id="cover-modehint">A solid black box is the safest choice.</p>
+        </form>
+        <div class="btnrow">
+          <button type="button" class="btn ghost small" id="cover-draw" aria-pressed="true">Draw: on</button>
+          <button type="button" class="btn ghost small" id="cover-undo" disabled>Undo last</button>
+          <button type="button" class="btn ghost small" id="cover-clearall" disabled>Clear all</button>
+        </div>
+        <p class="hint">Drag on the picture to mark an area. On a phone, switch drawing off to scroll the page.</p>
+        <div class="rpages nodrawless">
+          <div class="rwrap" id="cover-wrap"><canvas id="cover-cv" aria-label="The picture. Drag to mark areas to cover."></canvas></div>
+        </div>
+        <div class="settings">
+          <div class="field">
+            <label for="cover-fmt">Save as</label>
+            <select id="cover-fmt">
+              <option value="png" selected>PNG (no quality loss)</option>
+              <option value="jpeg">JPG (smaller file)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <button type="button" class="btn" id="cover-save" disabled>Cover and save</button>
+        </div>
+        <div id="cover-result" hidden>
+          <a class="btn" id="cover-dl" href="#" download="">Download</a>
+        </div>
+        <ul class="notes">
+          <li><strong>Black or pixelate for anything sensitive.</strong> Light blur on small text or faces can sometimes be partly reversed by software. A black box cannot.</li>
+          <li><strong>Check the result.</strong> Zoom into the saved picture before you share it. Things can also show in reflections, in the background, or in the file name.</li>
+          <li>The original is not changed. Delete or secure it, and check old messages and cloud folders.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 <!--about-->
     <section class="about">
       <h2>About metadata and privacy</h2>
       <p>Photos from phones and cameras often carry hidden metadata called EXIF. It can include the exact GPS location where the photo was taken, the device model, the date and time, and the software used. If you share the original file, others can read it.</p>
       <p>This tool lists what each photo contains and lets you pick what to remove. The picture itself is not re-compressed, so quality does not change. A small rotation flag can be kept so portrait photos are not shown sideways.</p>
       <p>Many social networks remove metadata when you upload, but not all of them, and not when you send a file directly. Removing it yourself is the safe option.</p>
+      <p>The Cover tab hides faces, number plates, names or any area of a picture with a solid black box, pixelation or blur. The covered pixels are replaced for real in the saved file, and the saved picture carries no location or camera data. Use black or pixelate for anything sensitive, because light blur on small text can sometimes be partly reversed.</p>
       <p>The PDF tab shows the title, author, software and dates stored in a PDF. The Office tab does the same for .docx, .xlsx and .pptx files, including the last person who saved the file and the company name. Comments and tracked changes are reported but not removed.</p>
       <p>Your files are processed in your browser and are never uploaded.</p>
       <p class="rel">Guides: <a href="guide-remove-location-from-photo.html">How to Remove the Location from a Photo</a>, <a href="guide-remove-metadata-from-pdf.html">How to Remove Metadata from a PDF</a>, <a href="guide-remove-metadata-from-word-excel-powerpoint.html">How to Remove Metadata from Word, Excel and PowerPoint Files</a>.</p>
@@ -1085,6 +1147,164 @@
       setStatus('Saving failed. The file may be damaged.', 'err');
     }
     busy = false; save.disabled = false;
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById('cover-' + id); };
+  var input = $('file'), drop = $('drop'), info = $('fileinfo'), statusEl = $('status'), work = $('work');
+  var cv = $('cv'), wrap = $('wrap'), opts = $('opts'), strength = $('strength'), strwrap = $('strwrap'), modehint = $('modehint');
+  var drawBtn = $('draw'), undoBtn = $('undo'), clearBtn = $('clearall'), saveBtn = $('save'), fmtSel = $('fmt'), result = $('result'), dl = $('dl');
+  var ctx = cv.getContext('2d', { willReadFrequently: true });
+  var bmp = null, name = 'picture', regions = [], baked = null, drawing = false, start = null, cur = null, drawOn = true, urls = [];
+  var HINTS = {
+    black: 'A solid black box is the safest choice.',
+    pixel: 'Pixelate turns the area into large coloured squares. Strong settings are safe for faces and text.',
+    blur: 'Blur can sometimes be partly reversed on small text or faces. For anything sensitive use black or pixelate.'
+  };
+  function setStatus(m, t) { statusEl.textContent = m; statusEl.setAttribute('data-tone', t || 'info'); }
+  function fmt(n) { return n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB' : (n / 1048576).toFixed(2) + ' MB'; }
+  function mode() { return opts.elements['cmode'].value; }
+  function clearResult() { result.hidden = true; urls.forEach(function (u) { URL.revokeObjectURL(u); }); urls = []; }
+
+  /* ---- effects: they replace the pixels inside the area ---- */
+  function pixelate(c, r, level) {
+    var big = Math.max(bmp.width, bmp.height);
+    var block = Math.max(8, Math.round(big / 200), Math.round(Math.min(r.w, r.h) / (12 - level)));
+    var d = c.getImageData(r.x, r.y, r.w, r.h), px = d.data, x, y, i, j, k, n, rr, gg, bb, w = r.w, h = r.h;
+    for (y = 0; y < h; y += block) {
+      for (x = 0; x < w; x += block) {
+        rr = gg = bb = n = 0;
+        for (j = y; j < Math.min(y + block, h); j++) for (i = x; i < Math.min(x + block, w); i++) { k = (j * w + i) * 4; rr += px[k]; gg += px[k + 1]; bb += px[k + 2]; n++; }
+        rr = Math.round(rr / n); gg = Math.round(gg / n); bb = Math.round(bb / n);
+        for (j = y; j < Math.min(y + block, h); j++) for (i = x; i < Math.min(x + block, w); i++) { k = (j * w + i) * 4; px[k] = rr; px[k + 1] = gg; px[k + 2] = bb; px[k + 3] = 255; }
+      }
+    }
+    c.putImageData(d, r.x, r.y);
+  }
+  function boxPass(src, dst, w, h, rad, horiz) {
+    var len = horiz ? w : h, lines = horiz ? h : w, line, t, ch, sum, cnt, a, b;
+    for (line = 0; line < lines; line++) {
+      for (ch = 0; ch < 3; ch++) {
+        sum = 0; cnt = 0;
+        for (t = 0; t <= rad && t < len; t++) { sum += src[(horiz ? line * w + t : t * w + line) * 4 + ch]; cnt++; }
+        for (t = 0; t < len; t++) {
+          dst[(horiz ? line * w + t : t * w + line) * 4 + ch] = Math.round(sum / cnt);
+          a = t + rad + 1; b = t - rad;
+          if (a < len) { sum += src[(horiz ? line * w + a : a * w + line) * 4 + ch]; cnt++; }
+          if (b >= 0) { sum -= src[(horiz ? line * w + b : b * w + line) * 4 + ch]; cnt--; }
+        }
+      }
+    }
+  }
+  function blur(c, r, level) {
+    var big = Math.max(bmp.width, bmp.height);
+    var rad = Math.max(6, Math.round(big / 120), Math.round(Math.min(r.w, r.h) * level / 40));
+    var d = c.getImageData(r.x, r.y, r.w, r.h), a = d.data, b = new Uint8ClampedArray(a.length), p;
+    b.set(a);
+    for (p = 0; p < 3; p++) { boxPass(a, b, r.w, r.h, rad, true); boxPass(b, a, r.w, r.h, rad, false); }
+    for (p = 3; p < a.length; p += 4) a[p] = 255;
+    c.putImageData(d, r.x, r.y);
+  }
+  function apply(c, r) {
+    if (r.mode === 'black') { c.fillStyle = '#000'; c.fillRect(r.x, r.y, r.w, r.h); }
+    else if (r.mode === 'pixel') pixelate(c, r, r.level);
+    else blur(c, r, r.level);
+  }
+  function rebake() {
+    baked = document.createElement('canvas'); baked.width = bmp.width; baked.height = bmp.height;
+    var c = baked.getContext('2d', { willReadFrequently: true });
+    c.drawImage(bmp, 0, 0);
+    regions.forEach(function (r) { apply(c, r); });
+  }
+  function paint() {
+    ctx.drawImage(baked, 0, 0);
+    if (drawing && start && cur) {
+      var r = rectOf(start, cur);
+      ctx.save(); ctx.lineWidth = Math.max(2, bmp.width / 400); ctx.strokeStyle = '#00d084'; ctx.setLineDash([ctx.lineWidth * 3, ctx.lineWidth * 2]);
+      ctx.strokeRect(r.x, r.y, r.w, r.h); ctx.restore();
+    }
+    undoBtn.disabled = clearBtn.disabled = !regions.length;
+    saveBtn.disabled = !regions.length;
+  }
+  function rectOf(a, b) {
+    var x0 = Math.max(0, Math.min(a.x, b.x)), y0 = Math.max(0, Math.min(a.y, b.y));
+    var x1 = Math.min(bmp.width, Math.max(a.x, b.x)), y1 = Math.min(bmp.height, Math.max(a.y, b.y));
+    return { x: Math.round(x0), y: Math.round(y0), w: Math.round(x1 - x0), h: Math.round(y1 - y0) };
+  }
+  function pos(e) {
+    var b = cv.getBoundingClientRect();
+    return { x: (e.clientX - b.left) * bmp.width / b.width, y: (e.clientY - b.top) * bmp.height / b.height };
+  }
+
+  /* ---- loading ---- */
+  async function pick(f) {
+    clearResult(); regions = []; bmp = null; work.hidden = true; info.hidden = true; setStatus('', 'info');
+    if (!f) return;
+    setStatus('Reading the picture…', 'info');
+    try {
+      var b = await createImageBitmap(f, { imageOrientation: 'from-image' });
+      if (b.width * b.height > 40000000) { setStatus('This picture is too large (over 40 megapixels).', 'err'); return; }
+      bmp = b; name = f.name.replace(/\.[^.]+$/, '') || 'picture';
+      cv.width = b.width; cv.height = b.height;
+      cv.style.aspectRatio = b.width + ' / ' + b.height;
+      wrap.style.aspectRatio = b.width + ' / ' + b.height;
+      info.textContent = f.name + ' · ' + b.width + ' × ' + b.height + ' px';
+      info.hidden = false; setStatus('', 'info'); work.hidden = false;
+      rebake(); paint();
+    } catch (err) {
+      bmp = null; setStatus('This picture cannot be used. Try a normal PNG, JPG or WebP.', 'err');
+    }
+  }
+  input.addEventListener('change', function () { pick(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) pick(e.dataTransfer.files[0]); });
+
+  /* ---- drawing ---- */
+  cv.addEventListener('pointerdown', function (e) {
+    if (!bmp || !drawOn) return;
+    e.preventDefault(); cv.setPointerCapture(e.pointerId);
+    drawing = true; start = cur = pos(e); paint();
+  });
+  cv.addEventListener('pointermove', function (e) { if (!drawing) return; cur = pos(e); paint(); });
+  function finish(e) {
+    if (!drawing) return;
+    drawing = false; cur = pos(e);
+    var r = rectOf(start, cur); start = cur = null;
+    if (r.w >= 4 && r.h >= 4) {
+      r.mode = mode(); r.level = +strength.value; regions.push(r); clearResult();
+      var c = baked.getContext('2d', { willReadFrequently: true }); apply(c, r);
+    }
+    paint();
+  }
+  cv.addEventListener('pointerup', finish);
+  cv.addEventListener('pointercancel', function () { drawing = false; start = cur = null; if (bmp) paint(); });
+  drawBtn.addEventListener('click', function () {
+    drawOn = !drawOn; drawBtn.setAttribute('aria-pressed', drawOn ? 'true' : 'false'); drawBtn.textContent = 'Draw: ' + (drawOn ? 'on' : 'off');
+    wrap.style.touchAction = drawOn ? 'none' : 'auto'; wrap.style.cursor = drawOn ? 'crosshair' : 'default';
+  });
+  undoBtn.addEventListener('click', function () { regions.pop(); clearResult(); rebake(); paint(); });
+  clearBtn.addEventListener('click', function () { regions = []; clearResult(); rebake(); paint(); });
+  opts.addEventListener('submit', function (e) { e.preventDefault(); });
+  opts.addEventListener('change', function () { strwrap.hidden = mode() === 'black'; modehint.textContent = HINTS[mode()]; });
+
+  /* ---- saving ---- */
+  saveBtn.addEventListener('click', function () {
+    if (!bmp || !regions.length) return;
+    clearResult(); var type = fmtSel.value === 'jpeg' ? 'image/jpeg' : 'image/png';
+    cv.toBlob(function (blob) {
+      /* Export from the finished canvas without the dashed outline. */
+      if (!blob) { setStatus('Saving failed. The picture may be too large for this browser.', 'err'); return; }
+      var u = URL.createObjectURL(blob); urls.push(u);
+      var ext = type === 'image/jpeg' ? 'jpg' : 'png';
+      dl.href = u; dl.setAttribute('download', name + '-covered.' + ext);
+      dl.textContent = 'Download ' + name + '-covered.' + ext + ' (' + fmt(blob.size) + ')';
+      result.hidden = false;
+      setStatus('Done. ' + regions.length + (regions.length === 1 ? ' area' : ' areas') + ' covered. Zoom into the result to check it before you share it.', 'ok');
+    }, type, 0.92);
   });
 })();
 </script>
