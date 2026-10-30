@@ -127,7 +127,11 @@ h1 { font-weight: 700; font-size: 2rem; line-height: 1.15; letter-spacing: -0.01
   min-width: 0;
 }
 .tool:hover { border-color: var(--accent); }
-.tool h2 { margin: 0; font-size: 1.15rem; }
+.tool h2, .tool h3 { margin: 0; font-size: 1.15rem; }
+.group { margin-top: 2rem; }
+.group:first-of-type { margin-top: 0; }
+.gh { margin: 0 0 0.75rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.trust { display: inline-block; margin: 0.9rem 0 0; padding: 0.3rem 0.8rem; border: 1px solid var(--line); border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 0.85rem; font-weight: 600; }
 .tool p { margin: 0; color: var(--muted); font-size: 0.95rem; }
 .tool .go { color: var(--accent); font-weight: 600; font-size: 0.95rem; }
 

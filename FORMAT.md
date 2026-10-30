@@ -14,6 +14,7 @@ Nothing Trezyn locks depends on Trezyn. With the password and this document, any
 ## 2. Encrypt: files (`.tzenc`)
 `"TZF1" | salt[16] | iv[12] | ciphertext+tag`
 - key as above. Plaintext = `nameLen` (uint16 big-endian) | name (UTF-8) | file bytes.
+- When several files or a folder were locked, the website first packs them into a normal .zip and locks that, so the name inside is `something.zip` and the unlocked file is an ordinary zip archive.
 
 ## 3. Hide in image (PNG)
 Carrier: PNG, 8-bit RGB (type 2) or RGBA (type 6), not interlaced. Output has only IHDR, IDAT, IEND (filter 0). Alpha is never touched.

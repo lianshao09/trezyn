@@ -106,9 +106,10 @@
     <div class="controls">
       <label class="drop" id="file-drop" for="file-file">
         <strong>Choose a file or drag it here</strong>
-        <span>Any type, up to 256 MB, one at a time</span>
-        <input type="file" id="file-file">
+        <span>Any type, up to 256 MB. Several files or a folder are packed into one .zip first</span>
+        <input type="file" id="file-file" multiple>
       </label>
+      <p class="btnrow"><label class="btn ghost small" for="file-folder">Choose a folder</label><input type="file" id="file-folder" webkitdirectory style="position:absolute;width:1px;height:1px;opacity:0" aria-label="Choose a folder"></p>
       <p class="summary" id="file-fileinfo" aria-live="polite" hidden></p>
 
       <form id="file-form" class="panel" novalidate>
@@ -130,7 +131,7 @@
         <div class="checks"><label class="check"><input type="checkbox" id="file-show"> Show passwords</label></div>
 
         <div>
-          <button type="submit" class="btn" id="file-go" disabled>Encrypt file</button>
+          <button type="submit" class="btn" id="file-go" disabled>Encrypt</button>
         </div>
         <p class="status" id="file-status" role="status" data-tone="info"></p>
         <div id="file-result" hidden>
@@ -138,6 +139,7 @@
         </div>
         <ul class="notes">
           <li><strong>No recovery:</strong> if you forget the password, nobody can open the data again, including us.</li>
+          <li><strong>Several files or a folder:</strong> they are packed into one .zip first and the .zip is locked. After unlocking, open the .zip as usual.</li>
           <li><strong>Strength:</strong> a long password or a passphrase of 4 or more random words is much safer than a short one. The Passwords tool can make one.</li>
           <li><strong>Method:</strong> AES-256-GCM, with the key made from your password by PBKDF2-SHA256 (600,000 rounds) and a new random salt each time. Only this site can open what it locks. The file name is locked too.</li>
         </ul>
@@ -159,6 +161,7 @@
   <footer class="site-foot"><span>Trezyn</span><a href="privacy.html">How it works</a><a href="guides.html">Guides</a><a href="https://github.com/lianshao09/trezyn" rel="noopener">Source code</a><button type="button" class="theme-btn" data-theme-toggle aria-label="Change color theme">Theme: Auto</button></footer>
 </div>
 
+<script src="assets/jszip.min.js"></script>
 <script>
 (function () {
   var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
@@ -383,7 +386,7 @@
   var $ = function (id) { return document.getElementById('file-' + id); };
   var form = $('form'), input = $('file'), drop = $('drop'), info = $('fileinfo'), pw = $('pw'), pw2 = $('pw2'), go = $('go');
   var statusEl = $('status'), fPw2 = $('f-pw2'), result = $('result'), dl = $('dl');
-  var file = null, dlUrl = null, busy = false;
+  var file = null, entries = [], dlUrl = null, busy = false;
   function setStatus(msg, tone) { statusEl.textContent = msg; statusEl.setAttribute('data-tone', tone); }
   function mode() { return form.elements['mode'].value; }
   function clearResult() { result.hidden = true; if (dlUrl) { URL.revokeObjectURL(dlUrl); dlUrl = null; } }
@@ -395,29 +398,70 @@
   function refresh() {
     var e = mode() === 'enc';
     fPw2.hidden = !e;
-    go.textContent = e ? 'Encrypt file' : 'Decrypt file';
+    go.textContent = e ? 'Encrypt' : 'Decrypt';
     go.disabled = !file || busy || !(window.crypto && crypto.subtle);
   }
 
-  async function pick(f) {
-    clearResult(); setStatus('', 'info'); file = null; info.hidden = true;
-    if (!f) { refresh(); return; }
-    if (f.size > LIMIT) { setStatus('This file is larger than 256 MB. Files that big do not fit in browser memory.', 'err'); refresh(); return; }
-    if (f.size === 0) { setStatus('This file is empty.', 'err'); refresh(); return; }
-    file = f;
-    info.textContent = f.name + ' · ' + formatBytes(f.size);
-    info.hidden = false;
-    var head = new Uint8Array(await f.slice(0, 4).arrayBuffer());
-    var looksLocked = sameBytes(head, MAGIC);
-    var radio = form.querySelector('input[name="mode"][value="' + (looksLocked ? 'dec' : 'enc') + '"]');
-    radio.checked = true;
-    if (looksLocked) setStatus('This file was locked with this tool. Enter the password to unlock it.', 'info');
+  async function pick(list, folderName) {
+    clearResult(); setStatus('', 'info'); file = null; entries = []; info.hidden = true;
+    if (!list.length) { refresh(); return; }
+    var total = list.reduce(function (n, x) { return n + x.f.size; }, 0);
+    if (total > LIMIT) { setStatus('This is larger than 256 MB. Files that big do not fit in browser memory.', 'err'); refresh(); return; }
+    if (total === 0) { setStatus(list.length === 1 ? 'This file is empty.' : 'These files are empty.', 'err'); refresh(); return; }
+    if (list.length === 1 && !folderName) {
+      file = list[0].f;
+      info.textContent = file.name + ' · ' + formatBytes(file.size);
+      info.hidden = false;
+      var head = new Uint8Array(await file.slice(0, 4).arrayBuffer());
+      var looksLocked = sameBytes(head, MAGIC);
+      form.querySelector('input[name="mode"][value="' + (looksLocked ? 'dec' : 'enc') + '"]').checked = true;
+      if (looksLocked) setStatus('This file was locked with this tool. Enter the password to unlock it.', 'info');
+    } else {
+      if (!window.JSZip) { setStatus('The zip library did not load. Reload the page.', 'err'); refresh(); return; }
+      entries = list;
+      file = { name: safeName(folderName || 'trezyn-files') + '.zip', size: total, multi: true };
+      info.textContent = list.length + ' files · ' + formatBytes(total) + ' · will be packed as ' + file.name;
+      info.hidden = false;
+      form.querySelector('input[name="mode"][value="enc"]').checked = true;
+    }
     refresh();
   }
-  input.addEventListener('change', function () { pick(input.files[0]); input.value = ''; });
+  async function buildZip() {
+    var z = new JSZip();
+    entries.forEach(function (x) { z.file(x.path.replace(/^\/+/, ''), x.f); });
+    return z.generateAsync({ type: 'uint8array', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+  }
+  function plain(list) { return Array.prototype.map.call(list, function (f) { return { f: f, path: f.name }; }); }
+  input.addEventListener('change', function () { pick(plain(input.files)); input.value = ''; });
+  $('folder').addEventListener('change', function (e) {
+    var fl = Array.prototype.slice.call(e.target.files);
+    var root = fl.length && fl[0].webkitRelativePath ? fl[0].webkitRelativePath.split('/')[0] : '';
+    pick(fl.map(function (f) { return { f: f, path: f.webkitRelativePath || f.name }; }), root || 'folder'); e.target.value = '';
+  });
   ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
   ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
-  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) pick(e.dataTransfer.files[0]); });
+  function readAll(reader) {
+    return new Promise(function (ok) {
+      var all = [];
+      (function next() { reader.readEntries(function (b) { if (!b.length) ok(all); else { all = all.concat(Array.prototype.slice.call(b)); next(); } }, function () { ok(all); }); })();
+    });
+  }
+  async function walk(en, prefix, out) {
+    if (en.isFile) { await new Promise(function (ok) { en.file(function (f) { out.push({ f: f, path: prefix + en.name }); ok(); }, ok); }); }
+    else if (en.isDirectory) { var kids = await readAll(en.createReader()); for (var i = 0; i < kids.length; i++) await walk(kids[i], prefix + en.name + '/', out); }
+  }
+  drop.addEventListener('drop', async function (e) {
+    var dt = e.dataTransfer; if (!dt) return;
+    var ents = [];
+    if (dt.items && dt.items.length && dt.items[0].webkitGetAsEntry) {
+      for (var i = 0; i < dt.items.length; i++) { var en = dt.items[i].webkitGetAsEntry(); if (en) ents.push(en); }
+    }
+    if (ents.some(function (x) { return x.isDirectory; })) {
+      var out = []; for (var j = 0; j < ents.length; j++) await walk(ents[j], '', out);
+      var dirs = ents.filter(function (x) { return x.isDirectory; });
+      pick(out, dirs.length === 1 && ents.length === 1 ? dirs[0].name : 'folder');
+    } else if (dt.files.length) pick(plain(dt.files));
+  });
   form.addEventListener('change', function (e) { if (e.target.name === 'mode') { clearResult(); setStatus('', 'info'); } refresh(); });
   $('show').addEventListener('change', function (e) { pw.type = pw2.type = e.target.checked ? 'text' : 'password'; });
 
@@ -429,7 +473,7 @@
     if (bad) { setStatus(bad, 'err'); (pw.value.length < 8 ? pw : pw2).focus(); return; }
     busy = true; clearResult(); refresh(); setStatus('Working… this can take a few seconds.', 'info');
     try {
-      var data = new Uint8Array(await file.arrayBuffer()), blob, name;
+      var data = file.multi ? await buildZip() : new Uint8Array(await file.arrayBuffer()), blob, name;
       if (m === 'enc') {
         var nm = enc.encode(file.name);
         if (nm.length > 65535) throw new Error('name');
